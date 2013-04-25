@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <include layout="@layout/toolbar"
+             android:layout_weight="0"/>
+    <TextView
+            android:id="@+id/showInfoLabel"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Show"
+            />
+    <TextView
+            android:id="@+id/showInfoName"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:text="Show Name"
+            />
+    <LinearLayout android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+                android:id="@+id/showInfoChannel"
+                android:layout_width="86dp"
+                android:layout_height="wrap_content"
+                android:text="Channel"
+                />
+        <TextView
+                android:id="@+id/showInfoTime"
+                android:layout_width="86dp"
+                android:layout_height="wrap_content"
+                android:text="Time"
+                />
+        <TextView
+                android:id="@+id/showInfoDate"
+                android:layout_width="86dp"
+                android:layout_height="wrap_content"
+                android:text="Date"
+                />
+    </LinearLayout>
+    <ImageView
+            android:id="@+id/showInfoImage"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_launcher"
+            android:contentDescription="Show's thumbnail"
+            />
+    <TextView
+            android:id="@+id/showInfoDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="5"
+            android:scrollbars="vertical"
+            android:text="This is the place to write the show's description"
+            />
+    <LinearLayout android:orientation="horizontal"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginLeft="35dp">
+        <Button
+                android:id="@+id/showInfoRecordButton"
+                android:layout_width="125dp"
+                android:layout_height="wrap_content"
+                android:text="Preview"/>
+        <Button
+                android:id="@+id/showInfoPreviewButton"
+                android:layout_width="125dp"
+                android:layout_height="50dp"
+                android:text="Record"
+                android:drawableLeft="@drawable/record_button"/>
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginLeft="35dp">
+        <Button
+                android:id="@+id/showInfoWatchNowButton"
+                android:layout_width="125dp"
+                android:layout_height="wrap_content"
+                android:text="Watch now"/>
+        <Button
+                android:id="@+id/showInfoUpcomingButton"
+                android:layout_width="125dp"
+                android:layout_height="wrap_content"
+                android:text="Upcoming"/>
+    </LinearLayout>
+</LinearLayout>
