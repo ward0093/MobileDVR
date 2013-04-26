@@ -7,84 +7,117 @@
               android:background="@drawable/item_background">
     <include layout="@layout/toolbar"
              android:layout_weight="0"/>
+    <LinearLayout android:orientation="vertical"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  style="@style/ShowInfoDetail">
     <TextView
-            android:id="@+id/showInfoLabel"
+            android:id="@+id/showInfoShowLabel"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Show"
+            android:layout_height="match_parent"
+            android:text="Show:"
             />
     <TextView
-            android:id="@+id/showInfoName"
+            android:id="@+id/showInfoShowData"
             android:layout_width="fill_parent"
-            android:layout_height="50dp"
+            android:layout_height="30dp"
+            android:paddingLeft="5dp"
             android:text="Show Name"
             />
+    </LinearLayout>
     <LinearLayout android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-        <TextView
-                android:id="@+id/showInfoChannel"
-                android:layout_width="86dp"
-                android:layout_height="wrap_content"
-                android:text="Channel"
-                />
-        <TextView
-                android:id="@+id/showInfoTime"
-                android:layout_width="86dp"
-                android:layout_height="wrap_content"
-                android:text="Time"
-                />
-        <TextView
-                android:id="@+id/showInfoDate"
-                android:layout_width="86dp"
-                android:layout_height="wrap_content"
-                android:text="Date"
-                />
+        <LinearLayout android:orientation="vertical"
+                      android:layout_width="99dp"
+                      android:layout_height="wrap_content"
+                      style="@style/ShowInfoDetail">
+            <TextView
+                    android:id="@+id/showInfoChannelLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Channel:"/>
+            <TextView
+                    android:id="@+id/showInfoChannelData"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="5dp"
+                    android:text="###"/>
+        </LinearLayout>
+        <LinearLayout android:orientation="vertical"
+                      android:layout_width="110dp"
+                      android:layout_height="wrap_content"
+                      style="@style/ShowInfoDetail">
+            <TextView
+                    android:id="@+id/showInfoTimeLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Time:"/>
+            <TextView
+                    android:id="@+id/showInfoTimeData"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="5dp"
+                    android:text="1X:XX *M"/>
+        </LinearLayout>
+        <LinearLayout android:orientation="vertical"
+                      android:layout_width="110dp"
+                      android:layout_height="wrap_content"
+                      style="@style/ShowInfoDetail">
+            <TextView
+                    android:id="@+id/showInfoDateLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Date:"/>
+            <TextView
+                    android:id="@+id/showInfoDateData"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="5dp"
+                    android:text="DDD mm/dd"/>
+        </LinearLayout>
     </LinearLayout>
     <ImageView
             android:id="@+id/showInfoImage"
-            android:layout_width="50dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="5dp"
             android:src="@drawable/ic_launcher"
             android:contentDescription="Show's thumbnail"
             />
     <TextView
             android:id="@+id/showInfoDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxLines="5"
-            android:scrollbars="vertical"
+            style="@style/ShowInfoDescription"
             android:text="This is the place to write the show's description"
             />
     <LinearLayout android:orientation="horizontal"
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
-                  android:layout_marginLeft="35dp">
+                  android:layout_marginLeft="30dp">
         <Button
                 android:id="@+id/showInfoRecordButton"
-                android:layout_width="125dp"
-                android:layout_height="wrap_content"
-                android:text="Preview"/>
+                android:text="Preview"
+                style="@style/ShowInfoButton"/>
         <Button
                 android:id="@+id/showInfoPreviewButton"
-                android:layout_width="125dp"
-                android:layout_height="50dp"
                 android:text="Record"
-                android:drawableLeft="@drawable/record_button"/>
+                android:drawableLeft="@drawable/record_button"
+                android:drawablePadding="-15dp"
+                style="@style/ShowInfoButton"/>
     </LinearLayout>
     <LinearLayout android:orientation="horizontal"
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
-                  android:layout_marginLeft="35dp">
+                  android:layout_marginLeft="30dp">
         <Button
                 android:id="@+id/showInfoWatchNowButton"
-                android:layout_width="125dp"
                 android:layout_height="wrap_content"
-                android:text="Watch now"/>
+                android:text="Watch now"
+                style="@style/ShowInfoButton"/>
         <Button
                 android:id="@+id/showInfoUpcomingButton"
-                android:layout_width="125dp"
                 android:layout_height="wrap_content"
-                android:text="Upcoming"/>
+                android:text="Upcoming"
+                style="@style/ShowInfoButton"/>
     </LinearLayout>
 </LinearLayout>
