@@ -10,5 +10,6 @@ public interface ListingSource
 	public Channel getChannel(String name);
 	
 	public ShowTimeSlot[] getTimeSlots(Date begin, Date end);
+	public ShowInfo[] getShows(Date begin, Date end);
 	
 }
