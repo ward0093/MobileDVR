@@ -94,6 +94,8 @@ public class DummyListingSource implements ListingSource
 
 	private void makeUpTimeSlots(ArrayList<ShowTimeSlot> timeSlots)
 	{
+		// This is 24 hours for channel 2
+		//
 		addShow(timeSlots, "Austin City Limits", 2, minute(0, 0), minute(1, 0));
 		addShow("Antiques Roadshow", 60);
 		addShow("Suspicion (1941), NR", 120);
@@ -102,21 +104,52 @@ public class DummyListingSource implements ListingSource
 		addShow("Sesame Street", 60);
 		addShow("Curious George Swings/Spring", 60);
 		addShow("Super Why!", 30);
-		addShow("Dinosaur Train", 30, minute(9, 0));
+		addShow("Dinosaur Train", 30);
 		addShow("Washington Week w/Glen Ifill", 30);
 		addShow("Almanac", 60);
 		addShow("The McLuaghlin Group", 30);
+		addShow("To the Contrary/Bonnie Erbe", 30);
+		addShow("Religion & Ethics News Weekly", 30);
+		addShow("Moyers & Company", 60);
+		addShow("Spanning Time: Covered Bridges", 60);
+		addShow("Tribute to Bacharach and David", 60);
+		addShow("Live From Lincoln Center", 2*60+30);
+		addShow("Great Romances of 20th Century", 30);
+		addShow("mn original", 30);
+		addShow("Rudy Maxa's World", 30);
+		addShow("Call the midwife", 60);
+		addShow("Masterpiece Classic", 60);
+		addShow("The Bletchley Circle", 60);
+		addShow("mn original", 30);
+		addShow("Independent Lens", 90);
+		assert lastEndMinute == minute(24, 0);
+		
+		// This is 24 hours for channel 3
+		addShow(timeSlots, "Anderson Cooper Special Report", 3, minute(1, 0), minute(2, 0));
+		addShow("WH Correspondents' Dinner", 120);
+		addShow("Anderson Cooper Special Report", 60);
+		addShow("Weekend Early Start", 90);
+		addShow("Sunday Morning", 30);
+		addShow("Sunday Morning", 60);
+		addShow("State of the Union/Crowley", 60);
+		addShow("Fareed Zakaria GPS", 60);
+		addShow("Reliable Sources", 60);
+		addShow("State of the Union/Crowley", 60);
+		addShow("Fareed Zakaria GPS", 60);
+		addShow("CNN Newsroom", 60);
+		addShow("CNN Newsroom", 60);
+		addShow("CNN Newsroom", 120);
+		addShow("CNN Newsroom", 120);
+		addShow("Anthony Bourdain Parts Unknown", 60);
+		addShow("Anderson Cooper Special Report", 60);
+		addShow("Anthony Bourdain Parts Unknown", 60);
+		addShow("Anthony Bourdain Parts Unknown", 60);
+		assert lastEndMinute == minute(24, 0);
 	}
 
 	private void addShow(String title, int durationMinutes)
 	{
 		addShow(lastTimeSlots, title, lastChannel, lastEndMinute, lastEndMinute + durationMinutes);
-	}
-
-	private void addShow(String title, int durationMinutes, int expectedEndMinute)
-	{
-		addShow(title, durationMinutes);
-		assert lastEndMinute == expectedEndMinute;
 	}
 
 	private void addShow(ArrayList<ShowTimeSlot> timeSlots, String title, int channelNum, int startMinute, int endMinute)
