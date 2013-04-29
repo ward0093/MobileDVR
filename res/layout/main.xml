@@ -15,5 +15,12 @@
             android:layout_height="wrap_content"
             android:text="Only Option">
     </Button>
+
+    <Button
+        android:id="@+id/guide_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Guide" />
+
 </LinearLayout>
 

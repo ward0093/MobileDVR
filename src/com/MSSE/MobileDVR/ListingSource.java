@@ -6,10 +6,16 @@ public interface ListingSource
 {
 
 	public Channel[] getChannels();
-	public Channel getChannel(int number);
-	public Channel getChannel(String name);
 	
-	public ShowTimeSlot[] getTimeSlots(Date begin, Date end);
-	public ShowInfo[] getShows(Date begin, Date end);
+	public Channel lookupChannel(int number);
+	public Channel lookupChannel(String name);
+	
+	public Date latest(); // can retrieve info from now through latest()
+	
+	public ShowInfo[] getShows();
+	
+	public ShowTimeSlot[] getTimeSlotsForShow(ShowInfo theShow);
+	
+	public ShowTimeSlot lookupTimeSlot(Channel channel, Date time);
 	
 }

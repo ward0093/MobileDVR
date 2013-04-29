@@ -3,107 +3,30 @@ package com.MSSE.MobileDVR;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Set;
 
 public class DummyListingSource implements ListingSource
 {
-	private Channel[] channels = null;
-	private ShowTimeSlot[] timeSlots = null;
-	private ShowInfo[] shows = null;
-	private ArrayList<ShowTimeSlot> lastTimeSlots = null;
-	private int lastChannel = 0;
-	private int lastEndMinute = 0;
+	private HashMap<Channel,ArrayList<ShowTimeSlot>> channelMap = new HashMap<Channel,ArrayList<ShowTimeSlot>>();
+	private Channel currentChannel = null;
+	private int currentMinute = 0;
+	private int maxEndMinute = 0;
+	private Calendar midnightThisMorning = null;
 	
 	public DummyListingSource()
 	{
+		midnightThisMorning = Calendar.getInstance();
+		midnightThisMorning.set(Calendar.HOUR_OF_DAY, 0);
+		midnightThisMorning.set(Calendar.MINUTE, 0);
+		midnightThisMorning.set(Calendar.SECOND, 0);
 		
-	}
-
-	@Override
-	public Channel[] getChannels()
-	{
-		if (channels == null)
-		{
-			ArrayList<Channel> theChannels = new ArrayList<Channel>();
-
-			makeUpChannels(theChannels);
-
-			channels = new Channel[theChannels.size()];
-			theChannels.toArray(channels);
-		}
-
-		return channels;
-	}
-
-	@Override
-	public Channel getChannel(int number)
-	{
-		Channel result = null;
-
-		getChannels();
-		for (int i = 0; result == null && i < channels.length; ++i)
-		{
-			Channel theChannel = channels[i];
-			if (theChannel.getNumber() == number)
-				result = theChannel;
-		}
-
-		return result;
-	}
-
-	@Override
-	public Channel getChannel(String name)
-	{
-		Channel result = null;
-
-		getChannels();
-		for (int i = 0; result == null && i < channels.length; ++i)
-		{
-			Channel theChannel = channels[i];
-			if (theChannel.getName().equals(name))
-				result = theChannel;
-		}
-
-		return result;
-	}
-
-	@Override
-	public ShowTimeSlot[] getTimeSlots(Date begin, Date end)
-	{
-		ArrayList<ShowTimeSlot> timeSlots = new ArrayList<ShowTimeSlot>();
-
-		makeUpTimeSlots(timeSlots);
-
-		ShowTimeSlot[] result = new ShowTimeSlot[timeSlots.size()];
-		timeSlots.toArray(result);
-
-		return result;
-	}
-
-	private void makeUpChannels(ArrayList<Channel> channels)
-	{
-		channels.add(new Channel(2, "PBS"));
-		channels.add(new Channel(3, "CNN"));
-		channels.add(new Channel(4, "CBS"));
-		channels.add(new Channel(5, "ABC"));
-		channels.add(new Channel(6, "MCN"));
-		channels.add(new Channel(7, "TBS"));
-		channels.add(new Channel(8, "CW"));
-		channels.add(new Channel(9, "FOX"));
-		channels.add(new Channel(10, "myTV"));
-		channels.add(new Channel(11, "NBC"));
-	}
-	
-	private static int minute(int hour, int minute)
-	{
-		return hour*60 + minute;
-	}
-
-	private void makeUpTimeSlots(ArrayList<ShowTimeSlot> timeSlots)
-	{
 		// This is 24 hours for channel 2
 		//
-		addShow(timeSlots, "Austin City Limits", 2, minute(0, 0), minute(1, 0));
+		currentChannel = newChannel(2, "PBS");
+		currentMinute = 0;
+		addShow("Austin City Limits", 60);
 		addShow("Antiques Roadshow", 60);
 		addShow("Suspicion (1941), NR", 120);
 		addShow("Masterpiece Mystery!", 90);
@@ -129,10 +52,12 @@ public class DummyListingSource implements ListingSource
 		addShow("The Bletchley Circle", 60);
 		addShow("mn original", 30);
 		addShow("Independent Lens", 90);
-		assert lastEndMinute == minute(24, 0);
+		assert currentMinute == minute(24, 0);
 		
 		// This is 24 hours for channel 3
-		addShow(timeSlots, "Anderson Cooper Special Report", 3, minute(1, 0), minute(2, 0));
+		currentChannel = newChannel(3, "CNN");
+		currentMinute = minute(1, 0);
+		addShow("Anderson Cooper Special Report", 60);
 		addShow("WH Correspondents' Dinner", 120);
 		addShow("Anderson Cooper Special Report", 60);
 		addShow("Weekend Early Start", 90);
@@ -151,24 +76,28 @@ public class DummyListingSource implements ListingSource
 		addShow("Anderson Cooper Special Report", 60);
 		addShow("Anthony Bourdain Parts Unknown", 60);
 		addShow("Anthony Bourdain Parts Unknown", 60);
-		assert lastEndMinute == minute(24, 0);
+		assert currentMinute == minute(24, 0);
 		
 		// This is for channel 4
-		addShow(timeSlots, "Criminal Minds", 4, minute(0, 5), minute(1, 5));
+		currentChannel = newChannel(4, "CBS");
+		currentMinute = minute(0, 5);
+		addShow("Criminal Minds", 60);
 		addShow("Leverage", 60);
 		addShow("WCCO 4 News at 10", 35);
 		addShow("WCCO 4 News at 10:30", 30);
 		addShow("Paid Programming", 30);
-		addShow("Up to the Minute", minute(4, 0) - lastEndMinute);
+		addShow("Up to the Minute", minute(4, 0) - currentMinute);
 		addShow("CBS Morning News", 30);
 		addShow("4 News This Morning at 4:30 AM", 30);
 		addShow("4 News This Morning 5AM", 60);
 		addShow("4 News This Morning 6AM", 60);
 		addShow("CBS This Morning", 120);
-		assert lastEndMinute == minute(9, 0);
+		assert currentMinute == minute(9, 0);
 		
 		// Channel 5
-		addShow(timeSlots, "Coach", 5, minute(0, 0), minute(0, 30));
+		currentChannel = newChannel(5, "ABC");
+		currentMinute = 0;
+		addShow("Coach", 30);
 		addShow("Da Vinci's Inquest", 60);
 		addShow("My Family Recipe Rocks!", 30);
 		addShow("Motion", 30);
@@ -181,10 +110,12 @@ public class DummyListingSource implements ListingSource
 		addShow("Live! With Kelly and Michael", 60);
 		addShow("The View", 60);
 		addShow("5 Eyewitness News Midday", 60);
-		assert lastEndMinute == minute(12, 0);
+		assert currentMinute == minute(12, 0);
 		
 		// Channel 6
-		addShow(timeSlots, "MCN Presents", 6, 0, 30);
+		currentChannel = newChannel(6, "MCN");
+		currentMinute = 0;
+		addShow("MCN Presents", 30);
 		addShow("MCN Presents", 30);
 		addShow("Talk of the Twin Cities", 30);
 		addShow("MCN Presents", 30);
@@ -206,10 +137,12 @@ public class DummyListingSource implements ListingSource
 		addShow("It's a Woman's World", 30);
 		addShow("St. Olaf's Mass", 90);
 		addShow("Active Aging Presents Active Seniors", 30);
-		assert lastEndMinute == minute(12, 0);
+		assert currentMinute == minute(12, 0);
 		
 		// Channel 7
-		addShow(timeSlots, "Evan Almighty", 7, minute(1, 0), minute(3, 0));
+		currentChannel = newChannel(7, "TBS");
+		currentMinute = minute(1, 0);
+		addShow("Evan Almighty", 120);
 		addShow("Married...With Children", 30);
 		addShow("Married...With Children", 30);
 		addShow("Married...With Children", 30);
@@ -228,10 +161,12 @@ public class DummyListingSource implements ListingSource
 		addShow("Rules of Engagement", 30);
 		addShow("According to Jim", 30);
 		addShow("Everybody Loves Raymond", 30);
-		assert lastEndMinute == minute(12, 0);
+		assert currentMinute == minute(12, 0);
 		
 		// Channel 8
-		addShow(timeSlots, "Minnesota Marketplace", 8, 0, 30);
+		currentChannel = newChannel(8, "CW");
+		currentMinute = 0;
+		addShow("Minnesota Marketplace", 30);
 		addShow("Minnesota Marketplace", 30);
 		addShow("Ring of Honor Wrestling", 60);
 		addShow("Hollyscoop", 30);
@@ -251,10 +186,12 @@ public class DummyListingSource implements ListingSource
 		addShow("Jerry Springer", 60);
 		addShow("Maury", 60);
 		addShow("Judge Mathis", 60);
-		assert lastEndMinute == minute(13, 0);
+		assert currentMinute == minute(13, 0);
 		
 		// Channel 9
-		addShow(timeSlots, "TMZ", 9, 5, 65);
+		currentChannel = newChannel(9, "FOX");
+		currentMinute = 5;
+		addShow("TMZ", 60);
 		addShow("Paid Programming", 30);
 		addShow("Paid Programming", 30);
 		addShow("Fox ad 9", 60);
@@ -269,10 +206,12 @@ public class DummyListingSource implements ListingSource
 		addShow("Fox News: Morning Buzz", 60);
 		addShow("Anderson Live", 60);
 		addShow("The Wendy Williams Show", 60);
-		assert lastEndMinute == minute(12, 0);
+		assert currentMinute == minute(12, 0);
 		
 		// Channel 10
-		addShow(timeSlots, "Whacked Out Sports", 10, 0, 30);
+		currentChannel = newChannel(10, "myTV");
+		currentMinute = 0;
+		addShow("Whacked Out Sports", 30);
 		addShow("Whacked Out Sports", 30);
 		addShow("Paid Programming", 30);
 		addShow("Original Sprinkle Diet", 30);
@@ -298,7 +237,9 @@ public class DummyListingSource implements ListingSource
 		addShow("Judge Joe Brown", 30);
 		
 		// Channel 11
-		addShow(timeSlots, "Paid Programming", 11, 5, 65);
+		currentChannel = newChannel(11, "NBC");
+		currentMinute = 5;
+		addShow("Paid Programming", 60);
 		addShow("Paid Programming", 30);
 		addShow("KARE 11 News at 10", 30);
 		addShow("Dateline NBC", 60);
@@ -312,59 +253,141 @@ public class DummyListingSource implements ListingSource
 		addShow("Today", 60);
 		addShow("KARE 11 News at 11", 30);
 		addShow("Jeopardy!", 30);
-		assert lastEndMinute == minute(12, 0);
+		assert currentMinute == minute(12, 0);
+	}
+
+	@Override
+	public Channel[] getChannels()
+	{
+		Set<Channel> channels = channelMap.keySet();
+		Channel[] result = new Channel[channels.size()];
+		channels.toArray(result);
+		return result;
+	}
+
+	@Override
+	public Channel lookupChannel(int number)
+	{
+		for (Channel channel : channelMap.keySet())
+		{
+			if (channel.getNumber() == number)
+				return channel;
+		}
+
+		return null;
+	}
+
+	@Override
+	public Channel lookupChannel(String name)
+	{
+		for (Channel channel : channelMap.keySet())
+		{
+			if (channel.getName().equals(name))
+				return channel;
+		}
+
+		return null;
+	}
+	
+	@Override
+	public Date latest()
+	{
+		Calendar theLatest = (Calendar)midnightThisMorning.clone();
+		theLatest.add(Calendar.MINUTE, maxEndMinute);
+		Date result = theLatest.getTime();
+		return result;
+	}
+	
+	@Override
+	public ShowInfo[] getShows()
+	{
+		HashSet<ShowInfo> shows = new HashSet<ShowInfo>();
+		for (HashMap.Entry<Channel,ArrayList<ShowTimeSlot>> entry : channelMap.entrySet())
+		{
+			for (ShowTimeSlot timeSlot : entry.getValue())
+			{
+				shows.add(timeSlot.getShowInfo());
+			}
+		}
+		
+		ShowInfo[] result = new ShowInfo[shows.size()];
+		shows.toArray(result);
+		return result;
+	}
+	
+	@Override
+	public ShowTimeSlot[] getTimeSlotsForShow(ShowInfo theShow)
+	{
+		ArrayList<ShowTimeSlot> timeSlots = new ArrayList<ShowTimeSlot>();
+		
+		for (HashMap.Entry<Channel,ArrayList<ShowTimeSlot>> entry : channelMap.entrySet())
+		{
+			for (ShowTimeSlot timeSlot : entry.getValue())
+			{
+				ShowInfo aShow = timeSlot.getShowInfo();
+				if (aShow.equals(theShow))
+					timeSlots.add(timeSlot);
+			}
+		}
+		
+		ShowTimeSlot[] result = new ShowTimeSlot[timeSlots.size()];
+		timeSlots.toArray(result);
+		return result;
+	}
+	
+	@Override
+	public ShowTimeSlot lookupTimeSlot(Channel channel, Date time)
+	{
+		for (ShowTimeSlot timeSlot : channelMap.get(channel))
+		{
+			long start = timeSlot.getStartTime().getTime();
+			long ms = time.getTime();
+			long end = timeSlot.getEndTime().getTime();
+			if (start <= ms && ms < end)
+				return timeSlot;
+		}
+		
+		return null;
 	}
 
 	private void addShow(String title, int durationMinutes)
 	{
-		addShow(lastTimeSlots, title, lastChannel, lastEndMinute, lastEndMinute + durationMinutes);
-	}
-
-	private void addShow(ArrayList<ShowTimeSlot> timeSlots, String title, int channelNum, int startMinute, int endMinute)
-	{
-		Channel channel = getChannel(channelNum);
-		assert channel != null;
-		lastChannel = channelNum;
-		
 		ShowInfo showInfo = new ShowInfo(title);
-		Calendar cal = makeCalendar(startMinute);
-		int durationMinutes = endMinute - startMinute;
-		lastEndMinute = endMinute;
-		
-		ShowTimeSlot timeSlot = new ShowTimeSlot(showInfo, channel, cal.getTime(), durationMinutes);
+		Calendar start = makeCalendar(currentMinute);
+		ShowTimeSlot timeSlot = new ShowTimeSlot(showInfo, currentChannel, start.getTime(), durationMinutes);
+		ArrayList<ShowTimeSlot> timeSlots = channelMap.get(currentChannel);
 		timeSlots.add(timeSlot);
+		
+		currentMinute += durationMinutes;
+		if (maxEndMinute < currentMinute)
+			maxEndMinute = currentMinute;
 	}
 	
 	private Calendar makeCalendar(int minuteOfDay)
 	{
-		Calendar cal = Calendar.getInstance();
+		Calendar result = (Calendar)midnightThisMorning.clone();
 		
 		int hour = minuteOfDay / 60;
 		int minute = minuteOfDay - hour * 60;
-		cal.set(Calendar.HOUR_OF_DAY, hour);
-		cal.set(Calendar.MINUTE, minute);
+		result.set(Calendar.HOUR_OF_DAY, hour);
+		result.set(Calendar.MINUTE, minute);
 		
-		return cal;
+		return result;
+	}
+	
+	private static int minute(int hour, int minute)
+	{
+		return hour*60 + minute;
+	}
+	
+	private Channel newChannel(int number, String name)
+	{
+		Channel result = new Channel(number, name);
+		
+		ArrayList<ShowTimeSlot> timeSlots = new ArrayList<ShowTimeSlot>();
+		channelMap.put(result, timeSlots);
+		
+		return result;
 	}
 
-	@Override
-	public ShowInfo[] getShows(Date begin, Date end)
-	{
-		if (shows == null)
-		{
-			getTimeSlots(begin, end);
-			
-			HashSet<ShowInfo> theShows = new HashSet<ShowInfo>();
-			for (int i = 0; i < timeSlots.length; ++i)
-			{
-				ShowTimeSlot ts = timeSlots[i];
-				theShows.add(ts.getShowInfo());
-			}
-			
-			shows = new ShowInfo[theShows.size()];
-			theShows.toArray(shows);
-		}
-		
-		return shows;
-	}
 }
