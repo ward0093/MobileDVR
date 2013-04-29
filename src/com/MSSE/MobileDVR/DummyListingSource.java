@@ -1,7 +1,9 @@
 package com.MSSE.MobileDVR;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -262,6 +264,16 @@ public class DummyListingSource implements ListingSource
 		Set<Channel> channels = channelMap.keySet();
 		Channel[] result = new Channel[channels.size()];
 		channels.toArray(result);
+		Arrays.sort(result, new Comparator<Channel>() {
+
+			@Override
+			public int compare(Channel lhs, Channel rhs)
+			{
+				int result = lhs.getNumber() - rhs.getNumber();
+				return result;
+			}
+			
+		});
 		return result;
 	}
 
@@ -312,6 +324,16 @@ public class DummyListingSource implements ListingSource
 		
 		ShowInfo[] result = new ShowInfo[shows.size()];
 		shows.toArray(result);
+		Arrays.sort(result, new Comparator<ShowInfo>() {
+
+			@Override
+			public int compare(ShowInfo lhs, ShowInfo rhs)
+			{
+				int result = lhs.getTitle().compareTo(rhs.getTitle());
+				return result;
+			}
+			
+		});
 		return result;
 	}
 	
@@ -332,6 +354,17 @@ public class DummyListingSource implements ListingSource
 		
 		ShowTimeSlot[] result = new ShowTimeSlot[timeSlots.size()];
 		timeSlots.toArray(result);
+		Arrays.sort(result, new Comparator<ShowTimeSlot>() {
+
+			@Override
+			public int compare(ShowTimeSlot lhs, ShowTimeSlot rhs)
+			{
+				long l = lhs.getStartTime().getTime();
+				long r = rhs.getStartTime().getTime();
+				return l < r ? -1 : (l > r ? 1 : 0);
+			}
+			
+		});
 		return result;
 	}
 	
