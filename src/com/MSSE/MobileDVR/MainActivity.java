@@ -6,11 +6,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import java.util.HashMap;
-
 public class MainActivity extends Activity {
+	private static final int GUIDE = 1;
     public static final String SHOW_INFO_ID = "showInfoID";
-    public static HashMap<Integer, ShowInfo> showRepo = new HashMap<Integer, ShowInfo>();
+
     /**
      * Called when the activity is first created.
      */
@@ -18,8 +17,20 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        
+        Button guideButton = (Button)findViewById(R.id.guide_button);
+        guideButton.setOnClickListener(new View.OnClickListener() {
+        	@Override
+			public void onClick(View v) {
+				//Toast.makeText(this, "Edit Button clicked!", Toast.LENGTH_LONG).show();
+				Intent intent = new Intent(MainActivity.this, ChannelGuide.class);
+				//intent.putExtra(CONTACT_ID, storage.newContact().getID());
+				//intent.putExtra("contact", storage.newContact());
+				//intent.putExtra(REPOSITORY, storage);
+				startActivityForResult(intent, GUIDE);
+			}
+        });
         ShowInfo testShow = new ShowInfo("Mythbusters", "Greatest show on Earth");
-        showRepo.put(new Integer(1), testShow);
 
         Button onlyButton = (Button)findViewById(R.id.show_button);
         onlyButton.setOnClickListener(new View.OnClickListener() {
