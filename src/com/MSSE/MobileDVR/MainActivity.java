@@ -41,5 +41,18 @@ public class MainActivity extends Activity {
                 MainActivity.this.startActivity(intent);
             }
         });
+
+        Button recordedShows = (Button)findViewById(R.id.recorded_shows_button);
+        recordedShows.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(this, "Edit Button clicked!", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(MainActivity.this, RecordedShowsActivity.class);
+                //intent.putExtra(CONTACT_ID, storage.newContact().getID());
+                //intent.putExtra("contact", storage.newContact());
+                //intent.putExtra(REPOSITORY, storage);
+                MainActivity.this.startActivity(intent);
+            }
+        });
     }
 }
