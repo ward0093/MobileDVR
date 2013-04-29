@@ -8,6 +8,8 @@ import android.widget.Button;
 
 public class MainActivity extends Activity {
 	private static final int GUIDE = 1;
+    public static final String SHOW_INFO_ID = "showInfoID";
+
     /**
      * Called when the activity is first created.
      */
@@ -27,6 +29,17 @@ public class MainActivity extends Activity {
 				//intent.putExtra(REPOSITORY, storage);
 				startActivityForResult(intent, GUIDE);
 			}
+        });
+        ShowInfo testShow = new ShowInfo("Mythbusters", "Greatest show on Earth");
+
+        Button onlyButton = (Button)findViewById(R.id.show_button);
+        onlyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ShowInfoActivity.class);
+                intent.putExtra(SHOW_INFO_ID, 1);
+                MainActivity.this.startActivity(intent);
+            }
         });
     }
 }
