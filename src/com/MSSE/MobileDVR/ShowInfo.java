@@ -1,7 +1,5 @@
 package com.MSSE.MobileDVR;
 
-import java.util.ArrayList;
-
 import android.graphics.drawable.Drawable;
 
 public class ShowInfo

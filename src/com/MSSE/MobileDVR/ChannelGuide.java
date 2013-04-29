@@ -29,15 +29,6 @@ public class ChannelGuide extends Activity
 	{
 		LinearLayout result = (LinearLayout) findViewById(R.layout.activity_channel_guide);
 		
-		result.removeAllViews();
-		
-		ListingSource source = getListingSource();
-		
-		Channel[] channels = source.getChannels();
-		Date now = new Date();
-		int minutes = 24*60;
-		ShowTimeSlot[] timeSlots = source.getTimeSlots(now, minutes);
-		
 		return result;
 	}
 	
