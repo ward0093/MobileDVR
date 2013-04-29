@@ -25,7 +25,8 @@ public class ShowInfoActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.show_details);
         showInfoID = getIntent().getIntExtra(MainActivity.SHOW_INFO_ID, -1);
-        showInfo = MainActivity.showRepo.get(showInfoID);
+        //showInfo = MainActivity.showRepo.get(showInfoID);
+        showInfo = new ShowInfo("Mythbusters", "The greatest show on Earth");
 
         showNameData = (TextView)findViewById(R.id.showInfoShowData);
         showDescriptionData = (TextView)findViewById(R.id.showInfoDescription);
