@@ -14,7 +14,7 @@ public class ChannelGuide extends Activity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(getContentView());
+		setContentView(R.layout.activity_channel_guide);
 	}
 
 	@Override
@@ -25,7 +25,7 @@ public class ChannelGuide extends Activity
 		return true;
 	}
 	
-	android.view.View getContentView()
+	android.view.View newContentView()
 	{
 		LinearLayout result = (LinearLayout) findViewById(R.layout.activity_channel_guide);
 		
