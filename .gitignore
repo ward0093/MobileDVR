@@ -242,6 +242,6 @@ proguard/
 *.iml
 *.ipr
 *.iws
-.idea
+.idea/
 
 ContactViewer/gen/edu/umn/contactviewer/R.java
