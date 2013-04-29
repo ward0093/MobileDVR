@@ -9,6 +9,7 @@ import android.widget.Button;
 public class MainActivity extends Activity {
 	private static final int GUIDE = 1;
     public static final String SHOW_INFO_ID = "showInfoID";
+    public static final ListingSource listingSource = new DummyListingSource();
 
     /**
      * Called when the activity is first created.

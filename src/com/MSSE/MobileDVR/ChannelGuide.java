@@ -52,7 +52,7 @@ public class ChannelGuide extends Activity
 	
 	private ListingSource getListingSource()
 	{
-		return new DummyListingSource();
+		return MainActivity.listingSource;
 	}
 
 }
