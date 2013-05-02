@@ -11,6 +11,7 @@ public class MainActivity extends Activity {
     public static final String CHANNEL_ID = "channelNumber";
     public static final String TIME_SLOT_DATE = "timeSlotDate";
     public static final ListingSource listingSource = new DummyListingSource();
+   // public static final ScheduledRecordingSource scheduledRecordings = new ScheduledRecordingFile();
 
     /**
      * Called when the activity is first created.

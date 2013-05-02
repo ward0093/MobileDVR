@@ -1,7 +1,12 @@
 package com.MSSE.MobileDVR;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.Date;
@@ -27,5 +32,26 @@ public class RecordOptionsActivity extends Activity {
         showTimeSlot = MainActivity.listingSource.lookupTimeSlot(MainActivity.listingSource.lookupChannel(channelNum), showDate);
         showData = new ShowDataConfig(this);
         showData.setAllShowData(showTimeSlot);
+
+        Button okButton = (Button)findViewById(R.id.recordOptionsOkButton);
+        okButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CheckBox recurring = (CheckBox)findViewById(R.id.recurringShowCheckBox);
+                EditText showsToKeep = (EditText)findViewById(R.id.numberShowsRetainData);
+                EditText daysToKeep = (EditText)findViewById(R.id.numberDaysRetainData);
+                EditText minBefore = (EditText)findViewById(R.id.minutesBeforeRecordData);
+                EditText minAfter = (EditText)findViewById(R.id.minutesAfterRecordData);
+                ScheduledRecording scheduledRec = new ScheduledRecording();
+                scheduledRec.setRecurring(recurring.isChecked());
+                scheduledRec.setShowsToKeep(Integer.parseInt(showsToKeep.getText().toString()));
+                scheduledRec.setKeepUntil(showTimeSlot.getStartTime(), Integer.parseInt(daysToKeep.getText().toString()));
+                scheduledRec.setMinutesBefore(Integer.parseInt(minBefore.getText().toString()));
+                scheduledRec.setMinutesAfter(Integer.parseInt(minAfter.getText().toString()));
+                scheduledRec.setOriginalAirtime(showTimeSlot);
+                scheduledRec.setShowInfo(showTimeSlot.getShowInfo());
+                //MainActivity.scheduledRecordings.add(scheduledRec);
+            }
+        });
     }
 }
