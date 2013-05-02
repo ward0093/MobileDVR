@@ -8,8 +8,10 @@ import android.widget.Button;
 
 public class MainActivity extends Activity {
 	private static final int GUIDE = 1;
-    public static final String SHOW_INFO_ID = "showInfoID";
+    public static final String CHANNEL_ID = "channelNumber";
+    public static final String TIME_SLOT_DATE = "timeSlotDate";
     public static final ListingSource listingSource = new DummyListingSource();
+   // public static final ScheduledRecordingSource scheduledRecordings = new ScheduledRecordingFile();
 
     /**
      * Called when the activity is first created.
@@ -38,7 +40,10 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ShowInfoActivity.class);
-                intent.putExtra(SHOW_INFO_ID, 1);
+                ShowInfo showInfos[] = listingSource.getShows();
+                ShowTimeSlot showTimeSlot[] = listingSource.getTimeSlotsForShow(showInfos[0]);
+                intent.putExtra(CHANNEL_ID, showTimeSlot[0].getChannel().getNumber());
+                intent.putExtra(TIME_SLOT_DATE, showTimeSlot[0].getStartTime());
                 MainActivity.this.startActivity(intent);
             }
         });

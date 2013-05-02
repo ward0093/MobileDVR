@@ -7,76 +7,8 @@
               android:background="@drawable/item_background">
     <include layout="@layout/toolbar"
              android:layout_weight="0"/>
-    <LinearLayout android:orientation="vertical"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  style="@style/ShowInfoDetail">
-    <TextView
-            android:id="@+id/showInfoShowLabel"
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:text="Show:"
-            />
-    <TextView
-            android:id="@+id/showInfoShowData"
-            android:layout_width="fill_parent"
-            android:layout_height="30dp"
-            android:paddingLeft="5dp"
-            android:text="Show Name"
-            />
-    </LinearLayout>
-    <LinearLayout android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        <LinearLayout android:orientation="vertical"
-                      android:layout_width="99dp"
-                      android:layout_height="wrap_content"
-                      style="@style/ShowInfoDetail">
-            <TextView
-                    android:id="@+id/showInfoChannelLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Channel:"/>
-            <TextView
-                    android:id="@+id/showInfoChannelData"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="5dp"
-                    android:text="###"/>
-        </LinearLayout>
-        <LinearLayout android:orientation="vertical"
-                      android:layout_width="110dp"
-                      android:layout_height="wrap_content"
-                      style="@style/ShowInfoDetail">
-            <TextView
-                    android:id="@+id/showInfoTimeLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Time:"/>
-            <TextView
-                    android:id="@+id/showInfoTimeData"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="5dp"
-                    android:text="1X:XX *M"/>
-        </LinearLayout>
-        <LinearLayout android:orientation="vertical"
-                      android:layout_width="110dp"
-                      android:layout_height="wrap_content"
-                      style="@style/ShowInfoDetail">
-            <TextView
-                    android:id="@+id/showInfoDateLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Date:"/>
-            <TextView
-                    android:id="@+id/showInfoDateData"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="5dp"
-                    android:text="DDD mm/dd"/>
-        </LinearLayout>
-    </LinearLayout>
+    <include layout="@layout/show_data"
+             android:layout_weight="0"/>
     <ImageView
             android:id="@+id/showInfoImage"
             android:layout_width="wrap_content"
@@ -87,6 +19,8 @@
             />
     <TextView
             android:id="@+id/showInfoDescription"
+            android:layout_width="match_parent"
+            android_layout_height="wrap_content"
             style="@style/ShowInfoDescription"
             android:text="This is the place to write the show's description"
             />
@@ -95,11 +29,11 @@
                   android:layout_height="wrap_content"
                   android:layout_marginLeft="30dp">
         <Button
-                android:id="@+id/showInfoRecordButton"
+                android:id="@+id/showInfoPreviewButton"
                 android:text="Preview"
                 style="@style/ShowInfoButton"/>
         <Button
-                android:id="@+id/showInfoPreviewButton"
+                android:id="@+id/showInfoRecordButton"
                 android:text="Record"
                 android:drawableLeft="@drawable/record_button"
                 android:drawablePadding="-15dp"

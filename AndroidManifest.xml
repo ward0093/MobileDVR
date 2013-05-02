@@ -23,6 +23,9 @@
             android:label="@string/title_activity_channel_guide" >
         </activity>
         <activity android:name=".ShowInfoActivity"/>
+        <activity
+                android:name=".RecordOptionsActivity"
+                android:label="Record Options Activity"/>
     </application>
 
 </manifest>

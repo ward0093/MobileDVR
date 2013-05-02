@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:id="@+id/show_data">
+    <LinearLayout android:orientation="vertical"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  style="@style/ShowInfoDetail">
+        <TextView
+                android:id="@+id/showInfoShowNameLabel"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:text="Show:"/>
+        <TextView
+                android:id="@+id/showInfoShowNameData"
+                android:layout_width="fill_parent"
+                android:layout_height="30dp"
+                android:paddingLeft="5dp"
+                android:text="Show Name"/>
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content">
+        <LinearLayout android:orientation="vertical"
+                      android:layout_width="99dp"
+                      android:layout_height="wrap_content"
+                      style="@style/ShowInfoDetail">
+            <TextView
+                    android:id="@+id/showInfoChannelLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Channel:"/>
+            <TextView
+                    android:id="@+id/showInfoChannelData"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="5dp"
+                    android:text="###"/>
+        </LinearLayout>
+        <LinearLayout android:orientation="vertical"
+                      android:layout_width="110dp"
+                      android:layout_height="wrap_content"
+                      style="@style/ShowInfoDetail">
+            <TextView
+                    android:id="@+id/showInfoTimeLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Time:"/>
+            <TextView
+                    android:id="@+id/showInfoTimeData"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="5dp"
+                    android:text="1X:XX *M"/>
+        </LinearLayout>
+        <LinearLayout android:orientation="vertical"
+                      android:layout_width="110dp"
+                      android:layout_height="wrap_content"
+                      style="@style/ShowInfoDetail">
+            <TextView
+                    android:id="@+id/showInfoDateLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Date:"/>
+            <TextView
+                    android:id="@+id/showInfoDateData"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="5dp"
+                    android:text="DDD mm/dd"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
