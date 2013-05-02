@@ -9,6 +9,7 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 public class ChannelGuideView extends LinearLayout
@@ -17,6 +18,7 @@ public class ChannelGuideView extends LinearLayout
 
 	private final int CHANNEL_TEXT_UNITS = TypedValue.COMPLEX_UNIT_SP;
 	private final float CHANNEL_TEXT_SIZE = 18.0f;
+	private final float SHOW_INFO_TEXT_SIZE = 12.0f;
 	private final int CHANNEL_ROW_HEIGHT;
 	private final int CHANNEL_NUMBER_WIDTH;
 	private final int CHANNEL_NAME_WIDTH;
@@ -26,6 +28,9 @@ public class ChannelGuideView extends LinearLayout
 	private final int CHANNEL_PADDING_BOTTOM;
 	private final Date START_TIME;
 	private final int DISPLAY_WIDTH;
+	private final int SEARCH_WIDTH;
+	private final int SHOW_INFO_WIDTH;
+	private final int TIME_WIDTH;
 	
 	/**
 	 * The name, DP, is short to read better. It will take a certain number
@@ -56,11 +61,16 @@ public class ChannelGuideView extends LinearLayout
 		CHANNEL_PADDING_RIGHT = CHANNEL_PADDING_LEFT;
 		CHANNEL_PADDING_TOP = CHANNEL_PADDING_LEFT;
 		CHANNEL_PADDING_BOTTOM = CHANNEL_PADDING_TOP;
+		SEARCH_WIDTH = CHANNEL_NUMBER_WIDTH + CHANNEL_NAME_WIDTH;
+		TIME_WIDTH = DISPLAY_WIDTH - SEARCH_WIDTH;
+		SHOW_INFO_WIDTH = TIME_WIDTH;
 		
 		Calendar now = Calendar.getInstance();
+		now.set(Calendar.MILLISECOND, 0);
 		now.set(Calendar.SECOND, 0);
 		int minute = now.get(Calendar.MINUTE);
-		now.set(Calendar.MINUTE, (minute / 30) * 30);
+		minute -= minute % 30;
+		now.set(Calendar.MINUTE, minute);
 		START_TIME = now.getTime();
 		
 		build();
@@ -96,6 +106,12 @@ public class ChannelGuideView extends LinearLayout
 		android.view.View header = makeHeader();
 		this.addView(header);
 		
+		ScrollView scrollView = new ScrollView(getContext());
+		
+		LinearLayout rowsView = new LinearLayout(getContext());		
+		rowsView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+		rowsView.setOrientation(LinearLayout.VERTICAL);
+		
 		ListingSource listings = getListingSource();
 		Channel[] channels = listings.getChannels();
 		
@@ -105,8 +121,11 @@ public class ChannelGuideView extends LinearLayout
 			
 			RowResult row = makeRow(theChannel);
 			
-			this.addView(row.getChannelInfo());
+			rowsView.addView(row.getChannelInfo());
 		}
+		
+		scrollView.addView(rowsView);
+		this.addView(scrollView);
 	}
 	
 	private android.view.View makeHeader()
@@ -116,13 +135,12 @@ public class ChannelGuideView extends LinearLayout
 		header.setOrientation(LinearLayout.HORIZONTAL);
 		
 		Button search = new Button(getContext());
-		int searchWidth = CHANNEL_NUMBER_WIDTH + CHANNEL_NAME_WIDTH;
-		search.setLayoutParams(new LayoutParams(searchWidth, LayoutParams.WRAP_CONTENT));
+		search.setLayoutParams(new LayoutParams(SEARCH_WIDTH, LayoutParams.WRAP_CONTENT));
 		search.setText("Search");
 		header.addView(search);
 		
 		TextView timeView = new TextView(getContext());
-		timeView.setLayoutParams(new LayoutParams(DISPLAY_WIDTH - searchWidth, LayoutParams.WRAP_CONTENT));
+		timeView.setLayoutParams(new LayoutParams(TIME_WIDTH, LayoutParams.WRAP_CONTENT));
 		timeView.setText(hhmm(START_TIME));
 		timeView.setTextSize(CHANNEL_TEXT_UNITS, CHANNEL_TEXT_SIZE);
 		timeView.setGravity(Gravity.CENTER);
@@ -168,11 +186,45 @@ public class ChannelGuideView extends LinearLayout
 		channelNumberView.setPadding(CHANNEL_PADDING_LEFT, CHANNEL_PADDING_TOP, CHANNEL_PADDING_RIGHT, CHANNEL_PADDING_BOTTOM);
 		channelInfo.addView(channelNameView);
 
-		LinearLayout showInfo = new LinearLayout(getContext());
-		showInfo.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-		showInfo.setOrientation(LinearLayout.VERTICAL);
+		LinearLayout showInfoView = new LinearLayout(getContext());
+		showInfoView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+		showInfoView.setOrientation(LinearLayout.VERTICAL);
 		
-		RowResult result = new RowResult(channelInfo, showInfo);
+		Date theTime = (Date)START_TIME.clone();
+		Date lastTime = MainActivity.listingSource.latest();
+		String s;
+		while (theTime.compareTo(lastTime) <= 0)
+		{
+			s = hhmm(theTime);
+			ShowTimeSlot showTimeSlot = MainActivity.listingSource.lookupTimeSlot(theChannel, theTime);
+			if (showTimeSlot != null)
+			{
+				s = hhmm(showTimeSlot.getStartTime());
+				s = hhmm(showTimeSlot.getEndTime());
+				ShowInfo showInfo = showTimeSlot.getShowInfo();
+				TextView titleView = new TextView(getContext());
+				LayoutParams titleLayout = new LayoutParams(SHOW_INFO_WIDTH, LayoutParams.WRAP_CONTENT);
+				titleView.setLayoutParams(titleLayout);
+				titleView.setText(showInfo.getTitle());
+				titleView.setTextSize(CHANNEL_TEXT_UNITS, SHOW_INFO_TEXT_SIZE);
+				showInfoView.addView(titleView);
+				
+				TextView descrView = new TextView(getContext());
+				LayoutParams descrLayout = new LayoutParams(SHOW_INFO_WIDTH, LayoutParams.WRAP_CONTENT);
+				descrView.setLayoutParams(descrLayout);
+				descrView.setText(showInfo.getDescription());
+				descrView.setTextSize(CHANNEL_TEXT_UNITS, SHOW_INFO_TEXT_SIZE);
+				showInfoView.addView(descrView);
+			}
+			
+			long ms = theTime.getTime();
+			ms += 30 * 60L * 1000L;
+			theTime.setTime(ms);
+		}
+		
+		channelInfo.addView(showInfoView);
+		
+		RowResult result = new RowResult(channelInfo, showInfoView);
 		return result;
 	}
 }
