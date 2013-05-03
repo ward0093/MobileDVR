@@ -42,7 +42,7 @@ public class RecordOptionsActivity extends Activity {
                 EditText daysToKeep = (EditText)findViewById(R.id.numberDaysRetainData);
                 EditText minBefore = (EditText)findViewById(R.id.minutesBeforeRecordData);
                 EditText minAfter = (EditText)findViewById(R.id.minutesAfterRecordData);
-                ScheduledRecording scheduledRec = new ScheduledRecording();
+                ScheduledRecording scheduledRec = MainActivity.scheduledRecordings.newScheduledRecording();
                 scheduledRec.setRecurring(recurring.isChecked());
                 scheduledRec.setShowsToKeep(Integer.parseInt(showsToKeep.getText().toString()));
                 scheduledRec.setKeepUntil(showTimeSlot.getStartTime(), Integer.parseInt(daysToKeep.getText().toString()));
@@ -50,7 +50,6 @@ public class RecordOptionsActivity extends Activity {
                 scheduledRec.setMinutesAfter(Integer.parseInt(minAfter.getText().toString()));
                 scheduledRec.setOriginalAirtime(showTimeSlot);
                 scheduledRec.setShowInfo(showTimeSlot.getShowInfo());
-                //MainActivity.scheduledRecordings.add(scheduledRec);
             }
         });
     }

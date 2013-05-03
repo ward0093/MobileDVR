@@ -12,6 +12,15 @@ public class ScheduledRecording
 	private Date keepUntil;
 	private ShowInfo showInfo;
 	private ShowTimeSlot originalAirtime;
+    private int id;
+
+    public ScheduledRecording(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return this.id;
+    }
 
     public int getMinutesBefore() {
         return minutesBefore;

@@ -16,6 +16,7 @@ public class MainActivity extends Activity {
     {
     	return listingSource;
     }
+    public static final ScheduledRecordingSource scheduledRecordings = new ScheduledRecordingFile();
    // public static final ScheduledRecordingSource scheduledRecordings = new ScheduledRecordingFile();
 
     /**
