@@ -32,7 +32,7 @@ public class ShowInfoActivity extends Activity {
         setContentView(R.layout.show_details);
         channelNum = getIntent().getIntExtra(MainActivity.CHANNEL_ID, -1);
         showDate = (Date) getIntent().getSerializableExtra(MainActivity.TIME_SLOT_DATE);
-        showTimeSlot = MainActivity.listingSource.lookupTimeSlot(MainActivity.listingSource.lookupChannel(channelNum), showDate);
+        showTimeSlot = MainActivity.getListingSource().lookupTimeSlot(MainActivity.getListingSource().lookupChannel(channelNum), showDate);
         showData = new ShowDataConfig(this);
         showData.setAllShowData(showTimeSlot);
 

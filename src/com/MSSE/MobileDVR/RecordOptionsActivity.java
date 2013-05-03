@@ -29,7 +29,7 @@ public class RecordOptionsActivity extends Activity {
         setContentView(R.layout.record_options);
         channelNum = getIntent().getIntExtra(MainActivity.CHANNEL_ID, -1);
         showDate = (Date) getIntent().getSerializableExtra(MainActivity.TIME_SLOT_DATE);
-        showTimeSlot = MainActivity.listingSource.lookupTimeSlot(MainActivity.listingSource.lookupChannel(channelNum), showDate);
+        showTimeSlot = MainActivity.getListingSource().lookupTimeSlot(MainActivity.getListingSource().lookupChannel(channelNum), showDate);
         showData = new ShowDataConfig(this);
         showData.setAllShowData(showTimeSlot);
 

@@ -10,7 +10,12 @@ public class MainActivity extends Activity {
 	private static final int GUIDE = 1;
     public static final String CHANNEL_ID = "channelNumber";
     public static final String TIME_SLOT_DATE = "timeSlotDate";
-    public static final ListingSource listingSource = new DummyListingSource();
+    
+    private static ListingSource listingSource = new DummyListingSource();
+    public static ListingSource getListingSource()
+    {
+    	return listingSource;
+    }
    // public static final ScheduledRecordingSource scheduledRecordings = new ScheduledRecordingFile();
 
     /**
