@@ -31,6 +31,13 @@ public class ChannelGuideView extends LinearLayout
 	private final int DISPLAY_WIDTH;
 	private final int SEARCH_WIDTH;
 	private final int SHOW_INFO_WIDTH;
+	private final int SHOW_TITLE_HEIGHT;
+	private final int SHOW_PAD_VIEW_HEIGHT;
+	private final int SHOW_DESCRIPTION_HEIGHT;
+	private final int SHOW_PADDING_LEFT;
+	private final int SHOW_PADDING_TOP;
+	private final int SHOW_PADDING_RIGHT;
+	private final int SHOW_PADDING_BOTTOM;
 	private final int TIME_WIDTH;
 	
 	/**
@@ -65,6 +72,13 @@ public class ChannelGuideView extends LinearLayout
 		SEARCH_WIDTH = CHANNEL_NUMBER_WIDTH + CHANNEL_NAME_WIDTH;
 		TIME_WIDTH = DISPLAY_WIDTH - SEARCH_WIDTH;
 		SHOW_INFO_WIDTH = TIME_WIDTH;
+		SHOW_TITLE_HEIGHT = (int)(CHANNEL_ROW_HEIGHT * (1.0f/3.0f));
+		SHOW_DESCRIPTION_HEIGHT = SHOW_TITLE_HEIGHT;
+		SHOW_PAD_VIEW_HEIGHT = CHANNEL_ROW_HEIGHT - SHOW_TITLE_HEIGHT - SHOW_DESCRIPTION_HEIGHT;
+		SHOW_PADDING_LEFT = DP(2);
+		SHOW_PADDING_RIGHT = SHOW_PADDING_LEFT;
+		SHOW_PADDING_TOP = SHOW_PADDING_LEFT;
+		SHOW_PADDING_BOTTOM = SHOW_PADDING_TOP;
 		
 		Calendar theTime = Calendar.getInstance();
 		theTime.set(Calendar.MILLISECOND, 0);
@@ -157,20 +171,18 @@ public class ChannelGuideView extends LinearLayout
 		channelView.setOrientation(LinearLayout.HORIZONTAL);
 		
 		TextView channelNumberView = new TextView(getContext());
-		LayoutParams numberLayout = new LayoutParams(CHANNEL_NUMBER_WIDTH, CHANNEL_ROW_HEIGHT);
-		channelNumberView.setLayoutParams(numberLayout);
+		channelNumberView.setLayoutParams(new LayoutParams(CHANNEL_NUMBER_WIDTH, CHANNEL_ROW_HEIGHT));
 		channelNumberView.setText("" + theChannel.getNumber());
 		channelNumberView.setTextSize(CHANNEL_TEXT_UNITS, CHANNEL_TEXT_SIZE);
 		channelNumberView.setGravity(Gravity.CENTER);
-		channelNumberView.setPadding(CHANNEL_PADDING_LEFT, CHANNEL_PADDING_TOP, CHANNEL_PADDING_RIGHT, CHANNEL_PADDING_BOTTOM);
+		//channelNumberView.setPadding(CHANNEL_PADDING_LEFT, CHANNEL_PADDING_TOP, CHANNEL_PADDING_RIGHT, CHANNEL_PADDING_BOTTOM);
 		channelView.addView(channelNumberView);
 		
 		TextView channelNameView = new TextView(getContext());
-		LayoutParams nameLayout = new LayoutParams(CHANNEL_NAME_WIDTH, CHANNEL_ROW_HEIGHT);
-		channelNameView.setLayoutParams(nameLayout);
+		channelNameView.setLayoutParams(new LayoutParams(CHANNEL_NAME_WIDTH, CHANNEL_ROW_HEIGHT));
 		channelNameView.setText(theChannel.getName());
 		channelNameView.setTextSize(CHANNEL_TEXT_UNITS, CHANNEL_TEXT_SIZE);
-		channelNumberView.setPadding(CHANNEL_PADDING_LEFT, CHANNEL_PADDING_TOP, CHANNEL_PADDING_RIGHT, CHANNEL_PADDING_BOTTOM);
+		//channelNumberView.setPadding(CHANNEL_PADDING_LEFT, CHANNEL_PADDING_TOP, CHANNEL_PADDING_RIGHT, CHANNEL_PADDING_BOTTOM);
 		channelView.addView(channelNameView);
 
 		
@@ -226,6 +238,9 @@ public class ChannelGuideView extends LinearLayout
 		String debugStr;
 		for (int i = 0; i < channels.length; ++i)
 		{
+			String title = "";
+			String description = "";
+
 			Channel theChannel = channels[i];
 			ShowTimeSlot showTimeSlot = MainActivity.getListingSource().lookupTimeSlot(theChannel, theTime);
 			if (showTimeSlot != null)
@@ -233,20 +248,32 @@ public class ChannelGuideView extends LinearLayout
 				debugStr = hhmm(showTimeSlot.getStartTime());
 				debugStr = hhmm(showTimeSlot.getEndTime());
 				ShowInfo showInfo = showTimeSlot.getShowInfo();
-				TextView titleView = new TextView(getContext());
-				LayoutParams titleLayout = new LayoutParams(SHOW_INFO_WIDTH, LayoutParams.WRAP_CONTENT);
-				titleView.setLayoutParams(titleLayout);
-				titleView.setText(showInfo.getTitle());
-				titleView.setTextSize(CHANNEL_TEXT_UNITS, SHOW_INFO_TEXT_SIZE);
-				verticalLayout.addView(titleView);
-				
-				TextView descrView = new TextView(getContext());
-				LayoutParams descrLayout = new LayoutParams(SHOW_INFO_WIDTH, LayoutParams.WRAP_CONTENT);
-				descrView.setLayoutParams(descrLayout);
-				descrView.setText(showInfo.getDescription());
-				descrView.setTextSize(CHANNEL_TEXT_UNITS, SHOW_INFO_TEXT_SIZE);
-				verticalLayout.addView(descrView);
+				if (showInfo != null)
+				{
+					title = showInfo.getTitle();
+					description = showInfo.getDescription();
+				}
 			}
+			
+			TextView blankView = new TextView(getContext());
+			blankView.setLayoutParams(new LayoutParams(SHOW_INFO_WIDTH, this.SHOW_PAD_VIEW_HEIGHT));
+			blankView.setText("");
+			blankView.setTextSize(CHANNEL_TEXT_UNITS, SHOW_INFO_TEXT_SIZE);
+			verticalLayout.addView(blankView);
+
+			TextView titleView = new TextView(getContext());
+			titleView.setLayoutParams(new LayoutParams(SHOW_INFO_WIDTH, SHOW_TITLE_HEIGHT));
+			titleView.setText(title);
+			titleView.setTextSize(CHANNEL_TEXT_UNITS, SHOW_INFO_TEXT_SIZE);
+			titleView.setPadding(SHOW_PADDING_LEFT, SHOW_PADDING_TOP, SHOW_PADDING_RIGHT, SHOW_PADDING_BOTTOM);
+			verticalLayout.addView(titleView);
+			
+			TextView descrView = new TextView(getContext());
+			descrView.setLayoutParams(new LayoutParams(SHOW_INFO_WIDTH, SHOW_DESCRIPTION_HEIGHT));
+			descrView.setText(description);
+			descrView.setTextSize(CHANNEL_TEXT_UNITS, SHOW_INFO_TEXT_SIZE);
+			descrView.setPadding(SHOW_PADDING_LEFT, SHOW_PADDING_TOP, SHOW_PADDING_RIGHT, SHOW_PADDING_BOTTOM);
+			verticalLayout.addView(descrView);
 		}
 		
 		return verticalLayout;
