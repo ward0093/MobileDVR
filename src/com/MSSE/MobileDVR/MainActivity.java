@@ -1,5 +1,8 @@
 package com.MSSE.MobileDVR;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,10 +15,10 @@ public class MainActivity extends Activity {
     public static final String TIME_SLOT_DATE = "timeSlotDate";
     
     private static ListingSource listingSource = new DummyListingSource();
-    public static ListingSource getListingSource()
-    {
+    public static ListingSource getListingSource() {
     	return listingSource;
     }
+    
     public static final ScheduledRecordingSource scheduledRecordings = new ScheduledRecordingFile();
    // public static final ScheduledRecordingSource scheduledRecordings = new ScheduledRecordingFile();
 
