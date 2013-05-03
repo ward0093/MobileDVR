@@ -392,7 +392,7 @@ public class DummyListingSource implements ListingSource
 
 	private void addShow(String title, int durationMinutes)
 	{
-		ShowInfo showInfo = new ShowInfo(title);
+		ShowInfo showInfo = new ShowInfo(title, "No description for " + title);
 		Calendar start = makeCalendar(currentMinute);
 		ShowTimeSlot timeSlot = new ShowTimeSlot(showInfo, currentChannel, start.getTime(), durationMinutes);
 		ArrayList<ShowTimeSlot> timeSlots = channelMap.get(currentChannel);

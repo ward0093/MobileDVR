@@ -8,6 +8,7 @@ import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.Button;
+import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -30,6 +31,13 @@ public class ChannelGuideView extends LinearLayout
 	private final int DISPLAY_WIDTH;
 	private final int SEARCH_WIDTH;
 	private final int SHOW_INFO_WIDTH;
+	private final int SHOW_TITLE_HEIGHT;
+	private final int SHOW_PAD_VIEW_HEIGHT;
+	private final int SHOW_DESCRIPTION_HEIGHT;
+	private final int SHOW_PADDING_LEFT;
+	private final int SHOW_PADDING_TOP;
+	private final int SHOW_PADDING_RIGHT;
+	private final int SHOW_PADDING_BOTTOM;
 	private final int TIME_WIDTH;
 	
 	/**
@@ -64,38 +72,22 @@ public class ChannelGuideView extends LinearLayout
 		SEARCH_WIDTH = CHANNEL_NUMBER_WIDTH + CHANNEL_NAME_WIDTH;
 		TIME_WIDTH = DISPLAY_WIDTH - SEARCH_WIDTH;
 		SHOW_INFO_WIDTH = TIME_WIDTH;
+		SHOW_TITLE_HEIGHT = (int)(CHANNEL_ROW_HEIGHT * (1.0f/3.0f));
+		SHOW_DESCRIPTION_HEIGHT = SHOW_TITLE_HEIGHT;
+		SHOW_PAD_VIEW_HEIGHT = CHANNEL_ROW_HEIGHT - SHOW_TITLE_HEIGHT - SHOW_DESCRIPTION_HEIGHT;
+		SHOW_PADDING_LEFT = DP(2);
+		SHOW_PADDING_RIGHT = SHOW_PADDING_LEFT;
+		SHOW_PADDING_TOP = SHOW_PADDING_LEFT;
+		SHOW_PADDING_BOTTOM = SHOW_PADDING_TOP;
 		
-		Calendar now = Calendar.getInstance();
-		now.set(Calendar.MILLISECOND, 0);
-		now.set(Calendar.SECOND, 0);
-		int minute = now.get(Calendar.MINUTE);
-		minute -= minute % 30;
-		now.set(Calendar.MINUTE, minute);
-		START_TIME = now.getTime();
+		Calendar theTime = Calendar.getInstance();
+		theTime.set(Calendar.MILLISECOND, 0);
+		theTime.set(Calendar.SECOND, 0);
+		theTime.set(Calendar.MINUTE, 0);
+		theTime.set(Calendar.HOUR_OF_DAY, 0);
+		START_TIME = theTime.getTime();
 		
 		build();
-	}
-	
-	private class RowResult
-	{
-		private LinearLayout channelInfo;
-		private LinearLayout showInfo;
-		
-		public RowResult(LinearLayout channelInfo, LinearLayout showInfo)
-		{
-			this.channelInfo = channelInfo;
-			this.showInfo = showInfo;
-		}
-		
-		public android.view.View getChannelInfo()
-		{
-			return channelInfo;
-		}
-		
-		public android.view.View getShowInfo()
-		{
-			return showInfo;
-		}
 	}
 	
 	private void build()
@@ -103,29 +95,8 @@ public class ChannelGuideView extends LinearLayout
 		this.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 		this.setOrientation(LinearLayout.VERTICAL);
 		
-		android.view.View header = makeHeader();
-		this.addView(header);
-		
-		ScrollView scrollView = new ScrollView(getContext());
-		
-		LinearLayout rowsView = new LinearLayout(getContext());		
-		rowsView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-		rowsView.setOrientation(LinearLayout.VERTICAL);
-		
-		ListingSource listings = getListingSource();
-		Channel[] channels = listings.getChannels();
-		
-		for (int i = 0; i < channels.length; ++i)
-		{
-			Channel theChannel = channels[i];
-			
-			RowResult row = makeRow(theChannel);
-			
-			rowsView.addView(row.getChannelInfo());
-		}
-		
-		scrollView.addView(rowsView);
-		this.addView(scrollView);
+		this.addView(makeHeader());
+		this.addView(makeChannelsAndInfoScroller());
 	}
 	
 	private android.view.View makeHeader()
@@ -158,73 +129,153 @@ public class ChannelGuideView extends LinearLayout
 		return result;
 	}
 	
-	private ListingSource getListingSource()
+	private android.view.View makeChannelsAndInfoScroller()
 	{
-		return MainActivity.listingSource;
+		ScrollView verticalScroller = new ScrollView(getContext());
+		verticalScroller.addView(makeChannelsAndInfo());
+		return verticalScroller;
 	}
 	
-	private RowResult makeRow(Channel theChannel)
+	private android.view.View makeChannelsAndInfo()
 	{
-		LinearLayout channelInfo = new LinearLayout(getContext());
-		channelInfo.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-		channelInfo.setOrientation(LinearLayout.HORIZONTAL);
+		LinearLayout channelsAndInfo = new LinearLayout(getContext());
+		channelsAndInfo.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+		channelsAndInfo.setOrientation(LinearLayout.HORIZONTAL);
+		
+		channelsAndInfo.addView(makeChannels());
+		channelsAndInfo.addView(makeShowInfoScroller());
+		
+		return channelsAndInfo;
+	}
+	
+	private android.view.View makeChannels()
+	{
+		LinearLayout channelsView = new LinearLayout(getContext());
+		channelsView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+		channelsView.setOrientation(LinearLayout.VERTICAL);
+		
+		Channel[] channels = MainActivity.getListingSource().getChannels();
+		
+		for (int i = 0; i < channels.length; ++i)
+		{
+			channelsView.addView(makeChannel(channels[i]));
+		}
+		
+		return channelsView;
+	}
+	
+	private android.view.View makeChannel(Channel theChannel)
+	{
+		LinearLayout channelView = new LinearLayout(getContext());
+		channelView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+		channelView.setOrientation(LinearLayout.HORIZONTAL);
 		
 		TextView channelNumberView = new TextView(getContext());
-		LayoutParams numberLayout = new LayoutParams(CHANNEL_NUMBER_WIDTH, CHANNEL_ROW_HEIGHT);
-		channelNumberView.setLayoutParams(numberLayout);
+		channelNumberView.setLayoutParams(new LayoutParams(CHANNEL_NUMBER_WIDTH, CHANNEL_ROW_HEIGHT));
 		channelNumberView.setText("" + theChannel.getNumber());
 		channelNumberView.setTextSize(CHANNEL_TEXT_UNITS, CHANNEL_TEXT_SIZE);
 		channelNumberView.setGravity(Gravity.CENTER);
-		channelNumberView.setPadding(CHANNEL_PADDING_LEFT, CHANNEL_PADDING_TOP, CHANNEL_PADDING_RIGHT, CHANNEL_PADDING_BOTTOM);
-		channelInfo.addView(channelNumberView);
+		//channelNumberView.setPadding(CHANNEL_PADDING_LEFT, CHANNEL_PADDING_TOP, CHANNEL_PADDING_RIGHT, CHANNEL_PADDING_BOTTOM);
+		channelView.addView(channelNumberView);
 		
 		TextView channelNameView = new TextView(getContext());
-		LayoutParams nameLayout = new LayoutParams(CHANNEL_NAME_WIDTH, CHANNEL_ROW_HEIGHT);
-		channelNameView.setLayoutParams(nameLayout);
+		channelNameView.setLayoutParams(new LayoutParams(CHANNEL_NAME_WIDTH, CHANNEL_ROW_HEIGHT));
 		channelNameView.setText(theChannel.getName());
 		channelNameView.setTextSize(CHANNEL_TEXT_UNITS, CHANNEL_TEXT_SIZE);
-		channelNumberView.setPadding(CHANNEL_PADDING_LEFT, CHANNEL_PADDING_TOP, CHANNEL_PADDING_RIGHT, CHANNEL_PADDING_BOTTOM);
-		channelInfo.addView(channelNameView);
+		//channelNumberView.setPadding(CHANNEL_PADDING_LEFT, CHANNEL_PADDING_TOP, CHANNEL_PADDING_RIGHT, CHANNEL_PADDING_BOTTOM);
+		channelView.addView(channelNameView);
 
-		LinearLayout showInfoView = new LinearLayout(getContext());
-		showInfoView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-		showInfoView.setOrientation(LinearLayout.VERTICAL);
+		
+		return channelView;
+	}
+	
+	/**
+	 * To decide what goes into the horizontal scroller, we imagine that the data
+	 * may grow arbitrarily large in the horizontal direction, and we likely will
+	 * need to devise a way to add views as the user scrolls horizontally. However,
+	 * while the data in the vertical direction is enough to require scrolling, the
+	 * amount is bounded by the number of channels. Therefore we will place into the
+	 * horizontal scroller a horizontal linear layout of vertical linear layouts.
+	 * @return
+	 */
+	private android.view.View makeShowInfoScroller()
+	{
+		HorizontalScrollView horizontalScroller = new HorizontalScrollView(getContext());
+		horizontalScroller.addView(makeShowInfoHorizontalLayout());
+		return horizontalScroller;
+	}
+	
+	private android.view.View makeShowInfoHorizontalLayout()
+	{
+		LinearLayout horizontalLayout = new LinearLayout(getContext());
+		horizontalLayout.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+		horizontalLayout.setOrientation(LinearLayout.HORIZONTAL);
 		
 		Date theTime = (Date)START_TIME.clone();
-		Date lastTime = MainActivity.listingSource.latest();
-		String s;
+		Date lastTime = MainActivity.getListingSource().latest();
+		String debugStr;
 		while (theTime.compareTo(lastTime) <= 0)
 		{
-			s = hhmm(theTime);
-			ShowTimeSlot showTimeSlot = MainActivity.listingSource.lookupTimeSlot(theChannel, theTime);
-			if (showTimeSlot != null)
-			{
-				s = hhmm(showTimeSlot.getStartTime());
-				s = hhmm(showTimeSlot.getEndTime());
-				ShowInfo showInfo = showTimeSlot.getShowInfo();
-				TextView titleView = new TextView(getContext());
-				LayoutParams titleLayout = new LayoutParams(SHOW_INFO_WIDTH, LayoutParams.WRAP_CONTENT);
-				titleView.setLayoutParams(titleLayout);
-				titleView.setText(showInfo.getTitle());
-				titleView.setTextSize(CHANNEL_TEXT_UNITS, SHOW_INFO_TEXT_SIZE);
-				showInfoView.addView(titleView);
-				
-				TextView descrView = new TextView(getContext());
-				LayoutParams descrLayout = new LayoutParams(SHOW_INFO_WIDTH, LayoutParams.WRAP_CONTENT);
-				descrView.setLayoutParams(descrLayout);
-				descrView.setText(showInfo.getDescription());
-				descrView.setTextSize(CHANNEL_TEXT_UNITS, SHOW_INFO_TEXT_SIZE);
-				showInfoView.addView(descrView);
-			}
+			debugStr = hhmm(theTime);
+			horizontalLayout.addView(makeShowInfoForTime(theTime));
 			
 			long ms = theTime.getTime();
 			ms += 30 * 60L * 1000L;
 			theTime.setTime(ms);
 		}
 		
-		channelInfo.addView(showInfoView);
+		return horizontalLayout;
+	}
+	
+	private android.view.View makeShowInfoForTime(Date theTime)
+	{
+		LinearLayout verticalLayout = new LinearLayout(getContext());
+		verticalLayout.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+		verticalLayout.setOrientation(LinearLayout.VERTICAL);
 		
-		RowResult result = new RowResult(channelInfo, showInfoView);
-		return result;
+		Channel[] channels = MainActivity.getListingSource().getChannels();
+		
+		String debugStr;
+		for (int i = 0; i < channels.length; ++i)
+		{
+			String title = "";
+			String description = "";
+
+			Channel theChannel = channels[i];
+			ShowTimeSlot showTimeSlot = MainActivity.getListingSource().lookupTimeSlot(theChannel, theTime);
+			if (showTimeSlot != null)
+			{
+				debugStr = hhmm(showTimeSlot.getStartTime());
+				debugStr = hhmm(showTimeSlot.getEndTime());
+				ShowInfo showInfo = showTimeSlot.getShowInfo();
+				if (showInfo != null)
+				{
+					title = showInfo.getTitle();
+					description = showInfo.getDescription();
+				}
+			}
+			
+			TextView blankView = new TextView(getContext());
+			blankView.setLayoutParams(new LayoutParams(SHOW_INFO_WIDTH, this.SHOW_PAD_VIEW_HEIGHT));
+			blankView.setText("");
+			blankView.setTextSize(CHANNEL_TEXT_UNITS, SHOW_INFO_TEXT_SIZE);
+			verticalLayout.addView(blankView);
+
+			TextView titleView = new TextView(getContext());
+			titleView.setLayoutParams(new LayoutParams(SHOW_INFO_WIDTH, SHOW_TITLE_HEIGHT));
+			titleView.setText(title);
+			titleView.setTextSize(CHANNEL_TEXT_UNITS, SHOW_INFO_TEXT_SIZE);
+			titleView.setPadding(SHOW_PADDING_LEFT, SHOW_PADDING_TOP, SHOW_PADDING_RIGHT, SHOW_PADDING_BOTTOM);
+			verticalLayout.addView(titleView);
+			
+			TextView descrView = new TextView(getContext());
+			descrView.setLayoutParams(new LayoutParams(SHOW_INFO_WIDTH, SHOW_DESCRIPTION_HEIGHT));
+			descrView.setText(description);
+			descrView.setTextSize(CHANNEL_TEXT_UNITS, SHOW_INFO_TEXT_SIZE);
+			descrView.setPadding(SHOW_PADDING_LEFT, SHOW_PADDING_TOP, SHOW_PADDING_RIGHT, SHOW_PADDING_BOTTOM);
+			verticalLayout.addView(descrView);
+		}
+		
+		return verticalLayout;
 	}
 }
