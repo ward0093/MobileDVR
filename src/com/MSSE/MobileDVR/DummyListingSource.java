@@ -390,24 +390,6 @@ public class DummyListingSource implements ListingSource
 		return result;
 	}
 
-    @Override
-    public RecordedShow[] getRecordedShows() {
-        HashSet<RecordedShow> recordings = new HashSet<RecordedShow>();
-        ShowInfo[] result = new ShowInfo[shows.size()];
-        shows.toArray(result);
-        Arrays.sort(result, new Comparator<ShowInfo>() {
-
-            @Override
-            public int compare(ShowInfo lhs, ShowInfo rhs)
-            {
-                int result = lhs.getTitle().compareTo(rhs.getTitle());
-                return result;
-            }
-
-        });
-        return result;
-    }
-
     private void addShow(String title, int durationMinutes)
 	{
 		ShowInfo showInfo = new ShowInfo(title, "No description for " + title);
