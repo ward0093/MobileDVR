@@ -3,6 +3,7 @@ package com.MSSE.MobileDVR;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,7 +63,15 @@ public class RecordOptionsActivity extends Activity {
         //        layout.setBackgroundResource(60);
                 toast.setView(layout);
                 toast.setDuration(Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.FILL, 0, 0);
                 toast.show();
+            }
+        });
+        Button cancelButton = (Button)findViewById(R.id.recordOptionsCancelButton);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }

@@ -35,8 +35,16 @@ public class ShowInfoActivity extends Activity {
         showTimeSlot = MainActivity.getListingSource().lookupTimeSlot(MainActivity.getListingSource().lookupChannel(channelNum), showDate);
         showData = new ShowDataConfig(this);
         showData.setAllShowData(showTimeSlot);
-
         showDescriptionData = (TextView)findViewById(R.id.showInfoDescription);
+        ToolbarConfig toolbar = new ToolbarConfig(this, "Show Info");
+        Button leftButton = toolbar.getToolbarLeftButton();
+        leftButton.setText("Back");
+        leftButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         if (showTimeSlot.getShowInfo().getDescription().equals("")) {
             showDescriptionData.setText("No description for show...");
@@ -54,5 +62,16 @@ public class ShowInfoActivity extends Activity {
                 ShowInfoActivity.this.startActivity(intent);
             }
         });
+
+//        Button upcomingButton = (Button)findViewById(R.id.showInfoUpcomingButton);
+//        upcomingButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(ShowInfoActivity.this, UpcomingActivity.class);
+//                intent.putExtra(MainActivity.CHANNEL_ID, channelNum);
+//                intent.putExtra(MainActivity.TIME_SLOT_DATE, showDate);
+//                ShowInfoActivity.this.startActivity(intent);
+//            }
+//        });
     }
 }
