@@ -52,8 +52,9 @@ public class MainActivity extends Activity {
         recordedShows.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(this, "Edit Button clicked!", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(MainActivity.this, RecordedShowsActivity.class);
+                RecordedShow myRecordings[] = listingSource.getRecordedShows();
+
                 //intent.putExtra(CONTACT_ID, storage.newContact().getID());
                 //intent.putExtra("contact", storage.newContact());
                 //intent.putExtra(REPOSITORY, storage);

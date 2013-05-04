@@ -17,5 +17,7 @@ public interface ListingSource
 	public ShowTimeSlot[] getTimeSlotsForShow(ShowInfo theShow);
 	
 	public ShowTimeSlot lookupTimeSlot(Channel channel, Date time);
+
+    public RecordedShow[] getRecordedShows();
 	
 }
