@@ -6,16 +6,19 @@ import java.util.Date;
 
 import android.content.Context;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-public class ChannelGuideView extends LinearLayout implements ScrollListener
+public class ChannelGuideView extends LinearLayout implements ScrollListener, OnTouchListener
 {
 	private final float DENSITY;
 
@@ -43,8 +46,12 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener
 	private final int TIME_WIDTH;
 	private ObservableHorizontalScrollView timeView = null;
 	private ObservableHorizontalScrollView showsView = null;
-	
-	private static final int backgroundRowColor[] = { 0x55cccccc, 0x55444444 };
+	private int scrollDeltaX = 0;
+
+	private static final int backgroundRowColor[] =
+	{
+			0x55999999, 0x55444444
+	};
 
 	/**
 	 * The name, DP, is short to read better. It will take a certain number
@@ -79,12 +86,12 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener
 		SEARCH_WIDTH = CHANNEL_NUMBER_WIDTH + CHANNEL_NAME_WIDTH;
 		TIME_WIDTH = DISPLAY_WIDTH - SEARCH_WIDTH;
 		SHOW_INFO_WIDTH = TIME_WIDTH;
-		SHOW_TITLE_HEIGHT = (int) (CHANNEL_ROW_HEIGHT * (1.0f / 3.0f));
-		SHOW_DESCRIPTION_HEIGHT = SHOW_TITLE_HEIGHT;
+		SHOW_TITLE_HEIGHT = (int) (CHANNEL_ROW_HEIGHT * 0.4);
+		SHOW_DESCRIPTION_HEIGHT = CHANNEL_ROW_HEIGHT - SHOW_TITLE_HEIGHT;
 		SHOW_PAD_VIEW_HEIGHT = CHANNEL_ROW_HEIGHT - SHOW_TITLE_HEIGHT - SHOW_DESCRIPTION_HEIGHT;
-		SHOW_PADDING_LEFT = DP(2);
-		SHOW_PADDING_RIGHT = SHOW_PADDING_LEFT;
-		SHOW_PADDING_TOP = SHOW_PADDING_LEFT;
+		SHOW_PADDING_LEFT = DP(10);
+		SHOW_PADDING_RIGHT = DP(4);
+		SHOW_PADDING_TOP = DP(4);
 		SHOW_PADDING_BOTTOM = SHOW_PADDING_TOP;
 
 		Calendar theTime = Calendar.getInstance();
@@ -117,42 +124,43 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener
 		search.setLayoutParams(new LayoutParams(SEARCH_WIDTH, LayoutParams.WRAP_CONTENT));
 		search.setText("Search");
 		searchAndTime.addView(search);
-		
+
 		searchAndTime.addView(makeTimeView());
 
 		return searchAndTime;
 	}
-	
+
 	private android.view.View makeTimeView()
 	{
 		timeView = new ObservableHorizontalScrollView(getContext());
 		timeView.addListener(this);
-		
+		timeView.setOnTouchListener(this);
+
 		LinearLayout timeLayoutView = new LinearLayout(getContext());
 		timeLayoutView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
 				LayoutParams.WRAP_CONTENT));
 		timeLayoutView.setOrientation(LinearLayout.HORIZONTAL);
 
-		Date theTime = (Date)START_TIME.clone();
+		Date theTime = (Date) START_TIME.clone();
 		Date lastTime = endTime();
 		long halfHour = 30L * 60L * 1000L;
-		while(theTime.compareTo(lastTime) < 0)
+		while (theTime.compareTo(lastTime) < 0)
 		{
 			TextView timeTextView = new TextView(getContext());
 			timeTextView.setLayoutParams(new LayoutParams(TIME_WIDTH, LayoutParams.WRAP_CONTENT));
 			timeTextView.setText(getTimeString(theTime));
 			timeTextView.setTextSize(CHANNEL_TEXT_UNITS, CHANNEL_TEXT_SIZE);
 			timeTextView.setGravity(Gravity.CENTER);
-			timeTextView.setPadding(CHANNEL_PADDING_LEFT, CHANNEL_PADDING_TOP, CHANNEL_PADDING_RIGHT,
-					CHANNEL_PADDING_BOTTOM);
-			
+			timeTextView.setPadding(CHANNEL_PADDING_LEFT, CHANNEL_PADDING_TOP,
+					CHANNEL_PADDING_RIGHT, CHANNEL_PADDING_BOTTOM);
+
 			timeLayoutView.addView(timeTextView);
-			
+
 			theTime.setTime(theTime.getTime() + halfHour);
 		}
-		
+
 		timeView.addView(timeLayoutView);
-	
+
 		return timeView;
 	}
 
@@ -249,7 +257,8 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener
 	{
 		showsView = new ObservableHorizontalScrollView(getContext());
 		showsView.addListener(this);
-		
+		showsView.setOnTouchListener(this);
+
 		showsView.addView(makeShowInfoHorizontalLayout());
 		return showsView;
 	}
@@ -264,9 +273,9 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener
 		Date theTime = (Date) START_TIME.clone();
 		Date lastTime = endTime();
 		String debugStr;
-		while (theTime.compareTo(lastTime) <= 0)
+		while (theTime.compareTo(lastTime) < 0)
 		{
-			debugStr = getTimeString(theTime);
+			Log.d("ChannelGuideView", "makeShowInfoHorizontalLayout at " + getTimeString(theTime));
 			horizontalLayout.addView(makeShowInfoForTime(theTime));
 
 			long ms = theTime.getTime();
@@ -276,7 +285,7 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener
 
 		return horizontalLayout;
 	}
-	
+
 	private Date endTime()
 	{
 		Date result = MainActivity.getListingSource().latest();
@@ -300,7 +309,7 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener
 			infoHolder.setOrientation(LinearLayout.VERTICAL);
 			infoHolder.setGravity(Gravity.CENTER);
 			infoHolder.setBackgroundColor(backgroundRowColor[i & 1]);
-			
+
 			String title = "";
 			String description = "";
 
@@ -318,13 +327,7 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener
 					description = showInfo.getDescription();
 				}
 			}
-/*
-			TextView blankView = new TextView(getContext());
-			blankView.setLayoutParams(new LayoutParams(SHOW_INFO_WIDTH, this.SHOW_PAD_VIEW_HEIGHT));
-			blankView.setText("");
-			blankView.setTextSize(CHANNEL_TEXT_UNITS, SHOW_INFO_TEXT_SIZE);
-			verticalLayout.addView(blankView);
-*/
+
 			TextView titleView = new TextView(getContext());
 			titleView.setLayoutParams(new LayoutParams(SHOW_INFO_WIDTH, SHOW_TITLE_HEIGHT));
 			titleView.setText(title);
@@ -340,7 +343,7 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener
 			descrView.setPadding(SHOW_PADDING_LEFT, SHOW_PADDING_TOP, SHOW_PADDING_RIGHT,
 					SHOW_PADDING_BOTTOM);
 			infoHolder.addView(descrView);
-			
+
 			verticalLayout.addView(infoHolder);
 		}
 
@@ -350,9 +353,45 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener
 	@Override
 	public void onScrollChanged(View scrollView, int x, int y, int oldx, int oldy)
 	{
+		scrollDeltaX = x - oldx;
+		
 		if (scrollView == timeView)
-			showsView.scrollTo(x,  y);
+			showsView.scrollTo(x, y);
 		else if (scrollView == showsView)
 			timeView.scrollTo(x, y);
+	}
+
+	@Override
+	public boolean onTouch(View v, MotionEvent event)
+	{
+		int action = event.getAction();
+		Log.d("onTouch", "a=" + action + ", scrollDeltaX=" + scrollDeltaX);
+		boolean handled = false;
+		int x = 0;
+		if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL)
+		{
+			handled = true;
+			x = timeView.getScrollX();
+			int threshhold = 25;
+			if (scrollDeltaX < -threshhold)
+				x -= TIME_WIDTH - 1;
+			else if (scrollDeltaX > threshhold)
+				x += TIME_WIDTH - 1;
+			else
+			{
+				x += TIME_WIDTH / 2;
+				Log.d("onTouch", "slow");
+			}
+			x = (x / TIME_WIDTH) * TIME_WIDTH;
+		}
+		
+		if (handled)
+		{
+			Log.d("onTouch", "smooth to " + x);
+			timeView.smoothScrollTo(x, timeView.getScrollY());
+			showsView.smoothScrollTo(x, showsView.getScrollY());
+		}
+
+		return handled;
 	}
 }
