@@ -23,6 +23,7 @@ public class DummyListingSource implements ListingSource
 		midnightThisMorning.set(Calendar.HOUR_OF_DAY, 0);
 		midnightThisMorning.set(Calendar.MINUTE, 0);
 		midnightThisMorning.set(Calendar.SECOND, 0);
+		midnightThisMorning.set(Calendar.MILLISECOND, 0);
 		
 		// This is 24 hours for channel 2
 		//
@@ -371,16 +372,22 @@ public class DummyListingSource implements ListingSource
 	@Override
 	public ShowTimeSlot lookupTimeSlot(Channel channel, Date time)
 	{
-		for (ShowTimeSlot timeSlot : channelMap.get(channel))
+		ShowTimeSlot result = null;
+		
+		ArrayList<ShowTimeSlot> timeSlots = channelMap.get(channel);
+		for (ShowTimeSlot timeSlot : timeSlots)
 		{
 			long start = timeSlot.getStartTime().getTime();
 			long ms = time.getTime();
 			long end = timeSlot.getEndTime().getTime();
 			if (start <= ms && ms < end)
-				return timeSlot;
+			{
+				result = timeSlot;
+				break;
+			}
 		}
 		
-		return null;
+		return result;
 	}
 
     @Override
@@ -403,7 +410,7 @@ public class DummyListingSource implements ListingSource
 
     private void addShow(String title, int durationMinutes)
 	{
-		ShowInfo showInfo = new ShowInfo(title);
+		ShowInfo showInfo = new ShowInfo(title, "No description for " + title);
 		Calendar start = makeCalendar(currentMinute);
 		ShowTimeSlot timeSlot = new ShowTimeSlot(showInfo, currentChannel, start.getTime(), durationMinutes);
 		ArrayList<ShowTimeSlot> timeSlots = channelMap.get(currentChannel);

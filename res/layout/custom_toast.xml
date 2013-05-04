@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/custom_toast_root"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/toast_background_color"
+              android:layout_gravity="fill_vertical">
+
+    <TextView android:id="@+id/title"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center"
+              android:textStyle="bold"
+              android:textSize="20sp"
+              android:textColor="@color/toast_text_color"
+              android:text="Title Text"/>
+    <TextView android:id="@+id/your_show"
+              android:layout_marginTop="45dp"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center"
+              android:textColor="@color/toast_text_color"
+              android:text="Your show:"/>
+    <TextView android:id="@+id/show_name"
+              android:layout_marginTop="20dp"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center"
+              android:textColor="@color/toast_text_color"
+              android:text="Show name"/>
+    <TextView android:id="@+id/action_result"
+              android:layout_marginTop="20dp"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center"
+              android:textColor="@color/toast_text_color"
+              android:text="Result"/>
+</LinearLayout>
