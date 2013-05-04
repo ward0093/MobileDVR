@@ -15,15 +15,18 @@ public class DummyListingSource implements ListingSource
 	private Channel currentChannel = null;
 	private int currentMinute = 0;
 	private int maxEndMinute = 0;
-	private Calendar midnightThisMorning = null;
+	private Calendar dawnOfMan = null;
 	
 	public DummyListingSource()
 	{
-		midnightThisMorning = Calendar.getInstance();
-		midnightThisMorning.set(Calendar.HOUR_OF_DAY, 0);
-		midnightThisMorning.set(Calendar.MINUTE, 0);
-		midnightThisMorning.set(Calendar.SECOND, 0);
-		midnightThisMorning.set(Calendar.MILLISECOND, 0);
+		dawnOfMan = Calendar.getInstance();
+		dawnOfMan.set(Calendar.YEAR, 2013);
+		dawnOfMan.set(Calendar.MONTH, 5);
+		dawnOfMan.set(Calendar.DAY_OF_MONTH, 1);
+		dawnOfMan.set(Calendar.HOUR_OF_DAY, 0);
+		dawnOfMan.set(Calendar.MINUTE, 0);
+		dawnOfMan.set(Calendar.SECOND, 0);
+		dawnOfMan.set(Calendar.MILLISECOND, 0);
 		
 		// This is 24 hours for channel 2
 		//
@@ -305,7 +308,7 @@ public class DummyListingSource implements ListingSource
 	@Override
 	public Date latest()
 	{
-		Calendar theLatest = (Calendar)midnightThisMorning.clone();
+		Calendar theLatest = (Calendar)dawnOfMan.clone();
 		theLatest.add(Calendar.MINUTE, maxEndMinute);
 		Date result = theLatest.getTime();
 		return result;
@@ -390,7 +393,7 @@ public class DummyListingSource implements ListingSource
 		return result;
 	}
 
-	private void addShow(String title, int durationMinutes)
+    private void addShow(String title, int durationMinutes)
 	{
 		ShowInfo showInfo = new ShowInfo(title, "No description for " + title);
 		Calendar start = makeCalendar(currentMinute);
@@ -402,10 +405,15 @@ public class DummyListingSource implements ListingSource
 		if (maxEndMinute < currentMinute)
 			maxEndMinute = currentMinute;
 	}
-	
+
+    private void addRecording()
+    {
+
+    }
+
 	private Calendar makeCalendar(int minuteOfDay)
 	{
-		Calendar result = (Calendar)midnightThisMorning.clone();
+		Calendar result = (Calendar)dawnOfMan.clone();
 		
 		int hour = minuteOfDay / 60;
 		int minute = minuteOfDay - hour * 60;

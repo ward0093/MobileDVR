@@ -22,6 +22,8 @@ public class MainActivity extends Activity {
     public static final ScheduledRecordingSource scheduledRecordings = new ScheduledRecordingFile();
    // public static final ScheduledRecordingSource scheduledRecordings = new ScheduledRecordingFile();
 
+    public static final RecordedShowSource myRecordedShows = new RecordedShowFile();
+
     /**
      * Called when the activity is first created.
      */
@@ -61,8 +63,9 @@ public class MainActivity extends Activity {
         recordedShows.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(this, "Edit Button clicked!", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(MainActivity.this, RecordedShowsActivity.class);
+                RecordedShow myRecordings[] = myRecordedShows.getRecordedShows();
+
                 //intent.putExtra(CONTACT_ID, storage.newContact().getID());
                 //intent.putExtra("contact", storage.newContact());
                 //intent.putExtra(REPOSITORY, storage);
