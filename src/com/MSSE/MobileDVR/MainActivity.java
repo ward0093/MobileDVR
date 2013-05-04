@@ -22,6 +22,8 @@ public class MainActivity extends Activity {
     public static final ScheduledRecordingSource scheduledRecordings = new ScheduledRecordingFile();
    // public static final ScheduledRecordingSource scheduledRecordings = new ScheduledRecordingFile();
 
+    public static final RecordedShowSource myRecordedShows = new RecordedShowFile();
+
     /**
      * Called when the activity is first created.
      */
@@ -62,7 +64,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, RecordedShowsActivity.class);
-                RecordedShow myRecordings[] = listingSource.getRecordedShows();
+                RecordedShow myRecordings[] = myRecordedShows.getRecordedShows();
 
                 //intent.putExtra(CONTACT_ID, storage.newContact().getID());
                 //intent.putExtra("contact", storage.newContact());
