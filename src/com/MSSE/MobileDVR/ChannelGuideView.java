@@ -5,17 +5,17 @@ import java.util.Calendar;
 import java.util.Date;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-public class ChannelGuideView extends LinearLayout
+public class ChannelGuideView extends LinearLayout implements ScrollListener
 {
 	private final float DENSITY;
 
@@ -41,6 +41,8 @@ public class ChannelGuideView extends LinearLayout
 	private final int SHOW_PADDING_RIGHT;
 	private final int SHOW_PADDING_BOTTOM;
 	private final int TIME_WIDTH;
+	private ObservableHorizontalScrollView timeView = null;
+	private ObservableHorizontalScrollView showsView = null;
 	
 	private static final int backgroundRowColor[] = { 0x55cccccc, 0x55444444 };
 
@@ -115,17 +117,43 @@ public class ChannelGuideView extends LinearLayout
 		search.setLayoutParams(new LayoutParams(SEARCH_WIDTH, LayoutParams.WRAP_CONTENT));
 		search.setText("Search");
 		searchAndTime.addView(search);
-
-		TextView timeView = new TextView(getContext());
-		timeView.setLayoutParams(new LayoutParams(TIME_WIDTH, LayoutParams.WRAP_CONTENT));
-		timeView.setText(getTimeString(START_TIME));
-		timeView.setTextSize(CHANNEL_TEXT_UNITS, CHANNEL_TEXT_SIZE);
-		timeView.setGravity(Gravity.CENTER);
-		timeView.setPadding(CHANNEL_PADDING_LEFT, CHANNEL_PADDING_TOP, CHANNEL_PADDING_RIGHT,
-				CHANNEL_PADDING_BOTTOM);
-		searchAndTime.addView(timeView);
+		
+		searchAndTime.addView(makeTimeView());
 
 		return searchAndTime;
+	}
+	
+	private android.view.View makeTimeView()
+	{
+		timeView = new ObservableHorizontalScrollView(getContext());
+		timeView.addListener(this);
+		
+		LinearLayout timeLayoutView = new LinearLayout(getContext());
+		timeLayoutView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
+				LayoutParams.WRAP_CONTENT));
+		timeLayoutView.setOrientation(LinearLayout.HORIZONTAL);
+
+		Date theTime = (Date)START_TIME.clone();
+		Date lastTime = endTime();
+		long halfHour = 30L * 60L * 1000L;
+		while(theTime.compareTo(lastTime) < 0)
+		{
+			TextView timeTextView = new TextView(getContext());
+			timeTextView.setLayoutParams(new LayoutParams(TIME_WIDTH, LayoutParams.WRAP_CONTENT));
+			timeTextView.setText(getTimeString(theTime));
+			timeTextView.setTextSize(CHANNEL_TEXT_UNITS, CHANNEL_TEXT_SIZE);
+			timeTextView.setGravity(Gravity.CENTER);
+			timeTextView.setPadding(CHANNEL_PADDING_LEFT, CHANNEL_PADDING_TOP, CHANNEL_PADDING_RIGHT,
+					CHANNEL_PADDING_BOTTOM);
+			
+			timeLayoutView.addView(timeTextView);
+			
+			theTime.setTime(theTime.getTime() + halfHour);
+		}
+		
+		timeView.addView(timeLayoutView);
+	
+		return timeView;
 	}
 
 	public static String getTimeString(Date theTime)
@@ -217,11 +245,13 @@ public class ChannelGuideView extends LinearLayout
 	 * 
 	 * @return
 	 */
-	private android.view.View makeShowInfoScroller()
+	private ObservableHorizontalScrollView makeShowInfoScroller()
 	{
-		HorizontalScrollView horizontalScroller = new HorizontalScrollView(getContext());
-		horizontalScroller.addView(makeShowInfoHorizontalLayout());
-		return horizontalScroller;
+		showsView = new ObservableHorizontalScrollView(getContext());
+		showsView.addListener(this);
+		
+		showsView.addView(makeShowInfoHorizontalLayout());
+		return showsView;
 	}
 
 	private android.view.View makeShowInfoHorizontalLayout()
@@ -232,8 +262,7 @@ public class ChannelGuideView extends LinearLayout
 		horizontalLayout.setOrientation(LinearLayout.HORIZONTAL);
 
 		Date theTime = (Date) START_TIME.clone();
-		Date lastTime = MainActivity.getListingSource().latest();
-		lastTime.setTime(theTime.getTime() + 2 * 60L * 60L * 1000L); // shorten for faster view building.
+		Date lastTime = endTime();
 		String debugStr;
 		while (theTime.compareTo(lastTime) <= 0)
 		{
@@ -246,6 +275,12 @@ public class ChannelGuideView extends LinearLayout
 		}
 
 		return horizontalLayout;
+	}
+	
+	private Date endTime()
+	{
+		Date result = MainActivity.getListingSource().latest();
+		return result;
 	}
 
 	private android.view.View makeShowInfoForTime(Date theTime)
@@ -310,5 +345,14 @@ public class ChannelGuideView extends LinearLayout
 		}
 
 		return verticalLayout;
+	}
+
+	@Override
+	public void onScrollChanged(View scrollView, int x, int y, int oldx, int oldy)
+	{
+		if (scrollView == timeView)
+			showsView.scrollTo(x,  y);
+		else if (scrollView == showsView)
+			timeView.scrollTo(x, y);
 	}
 }
