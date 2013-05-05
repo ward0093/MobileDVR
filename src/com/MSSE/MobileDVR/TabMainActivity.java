@@ -45,8 +45,8 @@ public class TabMainActivity extends Activity {
 	    actionBar.addTab(actionBar.newTab()
                 .setText(R.string.title_guide)
                 //.setIcon(R.drawable.guide)
-                .setTabListener(new TabListener<MainActivityFragment>(
-                        this, "guide", MainActivityFragment.class)));
+                .setTabListener(new TabListener<ChannelGuideFragment>(
+                        this, "guide", ChannelGuideFragment.class)));
 	    actionBar.addTab(actionBar.newTab()
                 .setText(R.string.title_info)
                 //.setIcon(R.drawable.info)

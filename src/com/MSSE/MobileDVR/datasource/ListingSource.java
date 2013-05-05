@@ -14,7 +14,8 @@ public interface ListingSource
 	public Channel lookupChannel(int number);
 	public Channel lookupChannel(String name);
 	
-	public Date latest(); // can retrieve info from now through latest()
+	public Date getEarliest();
+	public Date getLatest();
 	
 	public ShowInfo[] getShows();
 	

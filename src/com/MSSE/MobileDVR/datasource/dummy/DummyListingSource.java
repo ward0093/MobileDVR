@@ -311,7 +311,13 @@ public class DummyListingSource implements ListingSource
 	}
 	
 	@Override
-	public Date latest()
+	public Date getEarliest()
+	{
+		return dawnOfMan.getTime();
+	}
+	
+	@Override
+	public Date getLatest()
 	{
 		Calendar theLatest = (Calendar)dawnOfMan.clone();
 		theLatest.add(Calendar.MINUTE, maxEndMinute);
