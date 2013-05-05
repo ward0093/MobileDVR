@@ -6,7 +6,7 @@
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
-    <string name="title_activity_tab_main">Home</string>
+    <string name="title_activity_tab_main">My DVR</string>
     <string name="title_guide">Ch. Guide</string>
     <string name="title_info">Info</string>
     <string name="title_myshows">My Shows</string>

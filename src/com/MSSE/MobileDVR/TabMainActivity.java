@@ -1,6 +1,7 @@
 package com.MSSE.MobileDVR;
 
 import com.MSSE.MobileDVR.datamodel.ShowInfo;
+import com.MSSE.MobileDVR.fragments.guide.ChannelGuideFragment;
 
 import android.os.Bundle;
 import android.app.ActionBar;
@@ -149,7 +150,7 @@ public class TabMainActivity extends Activity {
 	            	        1 + 1);
 	            	fragment.setArguments(args);
 	            	FragmentTransaction ft = getFragmentManager().beginTransaction();
-	            	ft.replace(android.R.id.content, fragment);
+	            	ft.replace(android.R.id.content, fragment, "guide");
 	            	ft.addToBackStack(null);
 	            	ft.commit();
 	            }
@@ -230,7 +231,10 @@ public class TabMainActivity extends Activity {
 	        }
 
 	        public void onTabUnselected(Tab tab, FragmentTransaction ft) {
-	            if (mFragment != null) {
+	            Fragment preInitializedFragment = (Fragment) mActivity.getFragmentManager().findFragmentByTag(mTag);
+	            if (preInitializedFragment != null) {
+	                ft.detach(preInitializedFragment); 
+	            } else if (mFragment != null) {
 	                ft.detach(mFragment);
 	            }
 	        }
