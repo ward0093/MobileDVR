@@ -14,9 +14,10 @@ public class ChannelGuideFragment extends Fragment{
 	@Override
 	  public View onCreateView(LayoutInflater inflater, ViewGroup container,
 		        Bundle savedInstanceState) {
-	
 		super.onCreate(savedInstanceState);		
 		ChannelGuideView view = new ChannelGuideView(getActivity());
+		setMenuVisibility(true);
+        setHasOptionsMenu(true);
 		return view;
 	}
 	
