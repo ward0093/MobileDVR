@@ -12,6 +12,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import com.MSSE.MobileDVR.datamodel.ShowTimeSlot;
+import com.MSSE.MobileDVR.fragments.info.ShowDataConfig;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Darin

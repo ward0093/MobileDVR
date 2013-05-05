@@ -11,6 +11,10 @@ import android.widget.*;
 
 import java.util.Date;
 
+import com.MSSE.MobileDVR.datamodel.ScheduledRecording;
+import com.MSSE.MobileDVR.datamodel.ShowTimeSlot;
+import com.MSSE.MobileDVR.fragments.info.ShowDataConfig;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Darin
