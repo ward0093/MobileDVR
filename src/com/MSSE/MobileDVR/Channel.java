@@ -2,20 +2,32 @@ package com.MSSE.MobileDVR;
 
 public class Channel
 {
+    private final long id;
 	private final int number;
 	private final String name;
 	
 	public Channel()
 	{
-		this(0, "");
+		this(-1, 0, "");
 	}
 	
 	public Channel(int number, String name)
 	{
-		this.number = number;
-		this.name = name != null ? name : "";
+        this(-1, number, name);
 	}
-	
+
+    public Channel(long id, int number, String name)
+    {
+        this.id = id;
+        this.number = number;
+        this.name = name != null ? name : "";
+    }
+
+    public long getId()
+    {
+        return id;
+    }
+
 	public int getNumber()
 	{
 		return number;

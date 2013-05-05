@@ -4,7 +4,8 @@ import android.graphics.drawable.Drawable;
 
 public class ShowInfo
 {
-	private String title = "";
+    private long id;
+    private String title = "";
 	private String description = "";
 	private Drawable image = null;
 	
@@ -29,7 +30,15 @@ public class ShowInfo
 		setDescription(description);
 		setImage(image);
 	}
-	
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
 	public String getTitle()
 	{
 		return title;
@@ -45,17 +54,17 @@ public class ShowInfo
 		return image;
 	}
 	
-	private void setTitle(String title)
+	public void setTitle(String title)
 	{
 		this.title = title != null ? title : "";
 	}
 	
-	private void setDescription(String description)
+	public void setDescription(String description)
 	{
 		this.description = description != null ? description : "";
 	}
 	
-	private void setImage(Drawable image)
+	public void setImage(Drawable image)
 	{
 		this.image = image; // no check for null
 	}

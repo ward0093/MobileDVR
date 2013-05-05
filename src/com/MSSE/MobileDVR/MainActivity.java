@@ -2,10 +2,12 @@ package com.MSSE.MobileDVR;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -18,6 +20,9 @@ public class MainActivity extends Activity {
     public static ListingSource getListingSource() {
     	return listingSource;
     }
+    private static ShowInfoDataSource showInfoDataSource;
+    private static ChannelDataSource channelDataSource;
+    private static ShowTimeSlotDataSource showTimeSlotDataSource;
     
     public static final ScheduledRecordingSource scheduledRecordings = new ScheduledRecordingFile();
    // public static final ScheduledRecordingSource scheduledRecordings = new ScheduledRecordingFile();
@@ -31,6 +36,31 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+
+        showInfoDataSource = new ShowInfoDataSource(this);
+        channelDataSource = new ChannelDataSource(this);
+        showTimeSlotDataSource = new ShowTimeSlotDataSource(this);
+        try {
+            showInfoDataSource.open();
+            channelDataSource.open();
+            showTimeSlotDataSource.open();
+        } catch (Exception e) {
+            Log.e("MainActivity -- DataSource Opening", "Failed to open a DataSource", e);
+        }
+
+        // Uncomment these lines to begin storing data in the sqlite database
+
+//        Channel myFirstChannel = channelDataSource.createChannel(1, "TPT1");
+//        Channel mySecondChannel = channelDataSource.createChannel(2, "TPT2");
+//        List<Channel> channelList = channelDataSource.getChannelList();
+//       // mySecondChannel = channelDataSource.getChannelByNumber(myFirstChannel.getNumber());
+//        Log.d("Dumb tag", "myFirstChannel name " + myFirstChannel.getName() + "   mySecondChannel name " + mySecondChannel.getName());
+//        ShowInfo myFirstShow = showInfoDataSource.createShowInfo("Darin's First Test", "First test without an image", null);
+//        ShowInfo mySecondShow = showInfoDataSource.createShowInfo("Darin's 2nd Test", "Second test without an image", null);
+//        List<ShowInfo> fullList = showInfoDataSource.getShowInfoList();
+//        Log.d("My First test", "Did it work?");
+//        ShowTimeSlot firstTimeSlot = showTimeSlotDataSource.createShowTimeSlot(myFirstChannel, myFirstShow, new Date(), 120);
+//        ShowTimeSlot secondTimeSlot = showTimeSlotDataSource.createShowTimeSlot(mySecondChannel, mySecondShow, new Date(), 180);
         
         Button guideButton = (Button)findViewById(R.id.guide_button);
         guideButton.setOnClickListener(new View.OnClickListener() {
@@ -72,5 +102,29 @@ public class MainActivity extends Activity {
                 MainActivity.this.startActivity(intent);
             }
         });
+    }
+
+    public void onResume() {
+        super.onResume();
+        if (!showInfoDataSource.isOpen()) {
+            try {
+                showInfoDataSource.open();
+            } catch (Exception e) {
+                Log.e("MainActivity -- ShowInfoDataSource", "Failed to open ShowInfoDataSource", e);
+            }
+        }
+    }
+
+    public void onPause() {
+        super.onPause();
+        showInfoDataSource.close();
+    }
+
+    public static ChannelDataSource getChannelDB() {
+        return channelDataSource;
+    }
+
+    public static ShowInfoDataSource getShowInfoDB() {
+        return showInfoDataSource;
     }
 }
