@@ -1,5 +1,6 @@
 package com.MSSE.MobileDVR.fragments.guide;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -37,7 +38,6 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener, On
 	private final int CHANNEL_PADDING_TOP;
 	private final int CHANNEL_PADDING_RIGHT;
 	private final int CHANNEL_PADDING_BOTTOM;
-	private final Date START_TIME;
 	private final int DISPLAY_WIDTH;
 	private final int SEARCH_WIDTH;
 	private final int SHOW_INFO_WIDTH;
@@ -99,13 +99,6 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener, On
 		SHOW_PADDING_TOP = DP(4);
 		SHOW_PADDING_BOTTOM = SHOW_PADDING_TOP;
 
-		Calendar theTime = Calendar.getInstance();
-		theTime.set(Calendar.MILLISECOND, 0);
-		theTime.set(Calendar.SECOND, 0);
-		theTime.set(Calendar.MINUTE, 0);
-		theTime.set(Calendar.HOUR_OF_DAY, 0);
-		START_TIME = theTime.getTime();
-
 		construct();
 	}
 
@@ -146,7 +139,7 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener, On
 				LayoutParams.WRAP_CONTENT));
 		timeLayoutView.setOrientation(LinearLayout.HORIZONTAL);
 
-		Date theTime = (Date) START_TIME.clone();
+		Date theTime = (Date)beginTime().clone();
 		Date lastTime = endTime();
 		long halfHour = 30L * 60L * 1000L;
 		while (theTime.compareTo(lastTime) < 0)
@@ -171,7 +164,7 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener, On
 
 	public static String getTimeString(Date theTime)
 	{
-		SimpleDateFormat dateFormatter = new SimpleDateFormat("h:mm a");
+		DateFormat dateFormatter = SimpleDateFormat.getTimeInstance();
 		String result = dateFormatter.format(theTime);
 		return result;
 	}
@@ -275,9 +268,8 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener, On
 				LayoutParams.WRAP_CONTENT));
 		horizontalLayout.setOrientation(LinearLayout.HORIZONTAL);
 
-		Date theTime = (Date) START_TIME.clone();
+		Date theTime = (Date) beginTime().clone();
 		Date lastTime = endTime();
-		String debugStr;
 		while (theTime.compareTo(lastTime) < 0)
 		{
 			Log.d("ChannelGuideView", "makeShowInfoHorizontalLayout at " + getTimeString(theTime));
@@ -290,10 +282,16 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener, On
 
 		return horizontalLayout;
 	}
+	
+	private Date beginTime()
+	{
+		Date result = MainActivity.getListingSource().getEarliest();
+		return result;
+	}
 
 	private Date endTime()
 	{
-		Date result = MainActivity.getListingSource().latest();
+		Date result = MainActivity.getListingSource().getLatest();
 		return result;
 	}
 
@@ -306,7 +304,6 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener, On
 
 		Channel[] channels = MainActivity.getListingSource().getChannels();
 
-		String debugStr;
 		for (int i = 0; i < channels.length; ++i)
 		{
 			LinearLayout infoHolder = new LinearLayout(getContext());
@@ -323,8 +320,6 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener, On
 					theTime);
 			if (showTimeSlot != null)
 			{
-				debugStr = getTimeString(showTimeSlot.getStartTime());
-				debugStr = getTimeString(showTimeSlot.getEndTime());
 				ShowInfo showInfo = showTimeSlot.getShowInfo();
 				if (showInfo != null)
 				{
