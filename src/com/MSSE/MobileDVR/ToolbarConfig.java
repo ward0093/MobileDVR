@@ -17,6 +17,7 @@ import android.widget.TextView;
 /** Use this class to configure the toolbar for an activity.
  *
  */
+@Deprecated
 public class ToolbarConfig {
 
     private Activity _activity;

@@ -22,6 +22,7 @@ import com.MSSE.MobileDVR.fragments.info.ShowDataConfig;
  * Time: 4:43 PM
  * To change this template use File | Settings | File Templates.
  */
+@Deprecated
 public class ShowInfoActivity extends Activity {
     private ShowTimeSlot showTimeSlot;
     private int channelNum;

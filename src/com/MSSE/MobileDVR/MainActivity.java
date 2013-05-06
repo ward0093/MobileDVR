@@ -23,7 +23,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-
+@Deprecated
 public class MainActivity extends Activity {
 	private static final int GUIDE = 1;
     public static final String CHANNEL_ID = "channelNumber";
