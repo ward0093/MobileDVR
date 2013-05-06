@@ -1,5 +1,7 @@
 package com.MSSE.MobileDVR.fragments.more;
 
-public class MoreFragment {
+import android.app.Fragment;
+
+public class MoreFragment extends Fragment {
 
 }

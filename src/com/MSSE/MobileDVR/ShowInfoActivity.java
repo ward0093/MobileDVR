@@ -36,7 +36,7 @@ public class ShowInfoActivity extends Activity {
         channelNum = getIntent().getIntExtra(MainActivity.CHANNEL_ID, -1);
         showDate = (Date) getIntent().getSerializableExtra(MainActivity.TIME_SLOT_DATE);
         showTimeSlot = MainActivity.getListingSource().lookupTimeSlot(MainActivity.getListingSource().lookupChannel(channelNum), showDate);
-        showData = new ShowDataConfig(this);
+        //showData = new ShowDataConfig(getV);
         showData.setAllShowData(showTimeSlot);
         showDescriptionData = (TextView)findViewById(R.id.showInfoDescription);
         ToolbarConfig toolbar = new ToolbarConfig(this, "Show Info");

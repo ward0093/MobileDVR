@@ -75,18 +75,7 @@ public class MainActivity extends Activity {
 //        ShowTimeSlot firstTimeSlot = showTimeSlotDataSource.createShowTimeSlot(myFirstChannel, myFirstShow, new Date(), 120);
 //        ShowTimeSlot secondTimeSlot = showTimeSlotDataSource.createShowTimeSlot(mySecondChannel, mySecondShow, new Date(), 180);
         
-        Button guideButton = (Button)findViewById(R.id.guide_button);
-        guideButton.setOnClickListener(new View.OnClickListener() {
-        	@Override
-			public void onClick(View v) {
-				//Toast.makeText(this, "Edit Button clicked!", Toast.LENGTH_LONG).show();
-				Intent intent = new Intent(MainActivity.this, ChannelGuide.class);
-				//intent.putExtra(CONTACT_ID, storage.newContact().getID());
-				//intent.putExtra("contact", storage.newContact());
-				//intent.putExtra(REPOSITORY, storage);
-				startActivityForResult(intent, GUIDE);
-			}
-        });
+       
         ShowInfo testShow = new ShowInfo("Mythbusters", "Greatest show on Earth");
 
         Button onlyButton = (Button)findViewById(R.id.show_button);

@@ -11,6 +11,9 @@ import android.view.ViewGroup;
 
 public class ChannelGuideFragment extends Fragment{
 	
+    public static final String CHANNEL_ID = "channelNumber";
+    public static final String TIME_SLOT_DATE = "timeSlotDate";
+
 	@Override
 	  public View onCreateView(LayoutInflater inflater, ViewGroup container,
 		        Bundle savedInstanceState) {
