@@ -170,14 +170,14 @@ public class TabMainActivity extends Activity {
 
 	            	//RecordedShow myRecordings[] = myRecordedShows.getRecordedShows();
 
-	            	Fragment fragment = new RecordOptionFragment();
-	            	Bundle args = new Bundle();
-	            	//set you arguments that you need to pass to the RecordOptionFragment
-	            	fragment.setArguments(args);
-	            	FragmentTransaction ft = getFragmentManager().beginTransaction();
-	            	ft.replace(android.R.id.content, fragment, "info");
-	            	ft.addToBackStack(null);
-	            	ft.commit();
+//	            	Fragment fragment = new RecordOptionFragment();
+//	            	Bundle args = new Bundle();
+//	            	//set you arguments that you need to pass to the RecordOptionFragment
+//	            	fragment.setArguments(args);
+//	            	FragmentTransaction ft = getFragmentManager().beginTransaction();
+//	            	ft.replace(android.R.id.content, fragment, "info");
+//	            	ft.addToBackStack(null);
+//	            	ft.commit();
             	
 	            }
 	        });
