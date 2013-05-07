@@ -38,6 +38,7 @@ public class MobileDVRDataBaseHelper extends SQLiteOpenHelper {
         database.execSQL(ShowInfoDataSource.TABLE_CREATE);
         database.execSQL(ChannelDataSource.TABLE_CREATE);
         database.execSQL(ShowTimeSlotDataSource.TABLE_CREATE);
+        database.execSQL(ScheduledRecordingDataSource.TABLE_CREATE);
     }
 
     @Override

@@ -63,16 +63,18 @@ public class RecordOptionFragment extends Fragment {
 				EditText daysToKeep = (EditText)fragmentView.findViewById(R.id.numberDaysRetainData);
 				EditText minBefore = (EditText)fragmentView.findViewById(R.id.minutesBeforeRecordData);
 				EditText minAfter = (EditText)fragmentView.findViewById(R.id.minutesAfterRecordData);
-				ScheduledRecording scheduledRec = TabMainActivity.scheduledRecordings.newScheduledRecording();
-				scheduledRec.setRecurring(recurring.isChecked());
-				scheduledRec.setShowsToKeep(Integer.parseInt(showsToKeep.getText().toString()));
-				scheduledRec.setKeepUntil(showTimeSlot.getStartTime(), Integer.parseInt(daysToKeep.getText().toString()));
-				scheduledRec.setMinutesBefore(Integer.parseInt(minBefore.getText().toString()));
-				scheduledRec.setMinutesAfter(Integer.parseInt(minAfter.getText().toString()));
-				scheduledRec.setOriginalAirtime(showTimeSlot);
-				scheduledRec.setShowInfo(showTimeSlot.getShowInfo());
+				ScheduledRecording tempSchedRec = new ScheduledRecording();
+				tempSchedRec.setRecurring(recurring.isChecked());
+                tempSchedRec.setShowsToKeep(Integer.parseInt(showsToKeep.getText().toString()));
+                tempSchedRec.setKeepUntil(showTimeSlot.getStartTime(), Integer.parseInt(daysToKeep.getText().toString()));
+                tempSchedRec.setMinutesBefore(Integer.parseInt(minBefore.getText().toString()));
+                tempSchedRec.setMinutesAfter(Integer.parseInt(minAfter.getText().toString()));
+                tempSchedRec.setOriginalAirtime(showTimeSlot);
+                tempSchedRec.setShowInfo(showTimeSlot.getShowInfo());
+                TabMainActivity.getSchedRecDB().createScheduledRecording(tempSchedRec);
 
-				Toast toast = new Toast(getActivity());
+
+                Toast toast = new Toast(getActivity());
 				LayoutInflater inflater = getActivity().getLayoutInflater();
 				View layout = inflater.inflate(R.layout.custom_toast, (ViewGroup)fragmentView.findViewById(R.id.custom_toast_root));
 				TextView title = (TextView)layout.findViewById(R.id.title);
