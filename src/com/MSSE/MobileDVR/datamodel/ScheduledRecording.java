@@ -13,13 +13,25 @@ public class ScheduledRecording
 	private Date keepUntil;
 	private ShowInfo showInfo;
 	private ShowTimeSlot originalAirtime;
-    private int id;
+    private long id;
 
-    public ScheduledRecording(int id) {
-        this.id = id;
+    public ScheduledRecording() {
+
     }
 
-    public int getId() {
+    public ScheduledRecording(long id, ShowInfo showInfo, ShowTimeSlot originalAirtime, Date keepUntil, boolean recurring,
+                              int minutesBefore, int minutesAfter, int showsToKeep) {
+        this.id = id;
+        this.showInfo = showInfo;
+        this.originalAirtime = originalAirtime;
+        this.keepUntil = keepUntil;
+        this.recurring = recurring;
+        this.minutesBefore = minutesBefore;
+        this.minutesAfter = minutesAfter;
+        this.showsToKeep = showsToKeep;
+    }
+
+    public long getId() {
         return this.id;
     }
 
@@ -86,7 +98,7 @@ public class ScheduledRecording
         this.originalAirtime = originalAirtime;
     }
 
-    public boolean isRecurring() {
+    public boolean getRecurring() {
         return recurring;
     }
 

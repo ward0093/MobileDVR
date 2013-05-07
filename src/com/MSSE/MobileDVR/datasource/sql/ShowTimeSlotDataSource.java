@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.MSSE.MobileDVR.MainActivity;
+import com.MSSE.MobileDVR.TabMainActivity;
 import com.MSSE.MobileDVR.datamodel.Channel;
 import com.MSSE.MobileDVR.datamodel.ShowInfo;
 import com.MSSE.MobileDVR.datamodel.ShowTimeSlot;
@@ -34,11 +35,11 @@ public class ShowTimeSlotDataSource {
     public static final String SHOWTIMESLOTTABLE = "show_time_slot";
     //private static final String COLUMN_ID = "_id";
     //private static final int IDX_COLUMN_ID = 0;
-    private static final String COLUMN_CHANNEL_ID = "channelId";
+    public static final String COLUMN_CHANNEL_ID = "channelId";
     private static final int IDX_COLUMN_CHANNEL_ID = 0;
     private static final String COLUMN_SHOW_INFO_ID = "showInfoId";
     private static final int IDX_COLUMN_SHOW_INFO_ID = 1;
-    private static final String COLUMN_START_TIME = "startTime";
+    public static final String COLUMN_START_TIME = "startTime";
     private static final int IDX_COLUMN_START_TIME = 2;
     private static final String COLUMN_DURATION = "duration";
     private static final int IDX_COLUMN_DURATION = 3;
@@ -47,11 +48,11 @@ public class ShowTimeSlotDataSource {
     public static final String TABLE_CREATE = "create table " + SHOWTIMESLOTTABLE +
             "(" + COLUMN_CHANNEL_ID + " integer not null, " +
             COLUMN_SHOW_INFO_ID + " integer not null, " +
-            COLUMN_START_TIME + " integer, " +
+            COLUMN_START_TIME + " integer not null, " +
             COLUMN_DURATION + " integer, " +
             " FOREIGN KEY (" + COLUMN_CHANNEL_ID + ") REFERENCES " + ChannelDataSource.CHANNELTABLE + " (" + ChannelDataSource.COLUMN_ID + ")," +
             " FOREIGN KEY (" + COLUMN_SHOW_INFO_ID + ") REFERENCES " + ShowInfoDataSource.SHOWINFOTABLE + " (" + ShowInfoDataSource.COLUMN_ID + ")," +
-            " PRIMARY KEY (" + COLUMN_CHANNEL_ID + ", " + COLUMN_SHOW_INFO_ID + "));";
+            " PRIMARY KEY (" + COLUMN_CHANNEL_ID + ", " + COLUMN_START_TIME + "));";
 
     public ShowTimeSlotDataSource(Context context) {
         dbHelper = MobileDVRDataBaseHelper.getInstance(context);
@@ -90,16 +91,15 @@ public class ShowTimeSlotDataSource {
 
     public void deleteShowInfo(ShowTimeSlot showTimeSlot) {
         long channelId = showTimeSlot.getChannel().getId();
-        long showInfoId = showTimeSlot.getShowInfo().getId();
-        database.delete(SHOWTIMESLOTTABLE, COLUMN_CHANNEL_ID + " = " + channelId + " AND " + COLUMN_SHOW_INFO_ID + " = " + showInfoId, null);
+        Date startTime = showTimeSlot.getStartTime();
+        database.delete(SHOWTIMESLOTTABLE, COLUMN_CHANNEL_ID + " = " + channelId + " AND " + IDX_COLUMN_START_TIME + " = " + startTime.getTime(), null);
     }
 
-    public ShowTimeSlot getShowTimeSlot(Channel channel, ShowInfo showInfo) {
+    public ShowTimeSlot getShowTimeSlot(Channel channel, Date startTime) {
         ShowTimeSlot showTimeSlot;
         long channelId = channel.getId();
-        long showInfoId = showInfo.getId();
         Cursor cursor = database.query(SHOWTIMESLOTTABLE, allColumns,
-                COLUMN_CHANNEL_ID + " = " + channelId + " AND " + COLUMN_SHOW_INFO_ID + " = " + showInfoId,
+                COLUMN_CHANNEL_ID + " = " + channelId + " AND " + COLUMN_START_TIME + " = " + startTime.getTime(),
                 null, null, null, null);
         cursor.moveToFirst();
         if (!cursor.isAfterLast()) {
@@ -109,6 +109,11 @@ public class ShowTimeSlotDataSource {
         }
         cursor.close();
         return showTimeSlot;
+    }
+
+    public ShowTimeSlot getShowTimeSlot(long channelId, Date startTime) {
+        Channel channel = TabMainActivity.getChannelDB().getChannelById(channelId);
+        return getShowTimeSlot(channel, startTime);
     }
 
     public List<ShowTimeSlot> getShowTimeSlotList() {
