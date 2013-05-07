@@ -12,8 +12,9 @@ import com.MSSE.MobileDVR.datasource.RecordedShowSource;
 import com.MSSE.MobileDVR.datasource.ScheduledRecordingSource;
 import com.MSSE.MobileDVR.datasource.dummy.DummyListingSource;
 import com.MSSE.MobileDVR.datasource.dummy.RecordedShowFile;
-import com.MSSE.MobileDVR.datasource.dummy.ScheduledRecordingFile;
+//import com.MSSE.MobileDVR.datasource.dummy.ScheduledRecordingFile;
 import com.MSSE.MobileDVR.datasource.sql.ChannelDataSource;
+import com.MSSE.MobileDVR.datasource.sql.ScheduledRecordingDataSource;
 import com.MSSE.MobileDVR.datasource.sql.ShowInfoDataSource;
 import com.MSSE.MobileDVR.datasource.sql.ShowTimeSlotDataSource;
 
@@ -36,8 +37,9 @@ public class MainActivity extends Activity {
     private static ShowInfoDataSource showInfoDataSource;
     private static ChannelDataSource channelDataSource;
     private static ShowTimeSlotDataSource showTimeSlotDataSource;
+    private static ScheduledRecordingDataSource schedRecDataSource;
     
-    public static final ScheduledRecordingSource scheduledRecordings = new ScheduledRecordingFile();
+//    public static final ScheduledRecordingSource scheduledRecordings = new ScheduledRecordingFile();
    // public static final ScheduledRecordingSource scheduledRecordings = new ScheduledRecordingFile();
 
     public static final RecordedShowSource myRecordedShows = new RecordedShowFile();
@@ -53,10 +55,12 @@ public class MainActivity extends Activity {
         showInfoDataSource = new ShowInfoDataSource(this);
         channelDataSource = new ChannelDataSource(this);
         showTimeSlotDataSource = new ShowTimeSlotDataSource(this);
+        schedRecDataSource = new ScheduledRecordingDataSource(this);
         try {
             showInfoDataSource.open();
             channelDataSource.open();
             showTimeSlotDataSource.open();
+            schedRecDataSource.open();
         } catch (Exception e) {
             Log.e("MainActivity -- DataSource Opening", "Failed to open a DataSource", e);
         }
