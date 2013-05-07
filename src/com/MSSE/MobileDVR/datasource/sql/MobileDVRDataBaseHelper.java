@@ -44,6 +44,9 @@ public class MobileDVRDataBaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + ShowInfoDataSource.SHOWINFOTABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + ChannelDataSource.CHANNELTABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + ShowTimeSlotDataSource.SHOWTIMESLOTTABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + ScheduledRecordingDataSource.SCHEDULEDRECORDINGTABLE);
         onCreate(db);
     }
 }
