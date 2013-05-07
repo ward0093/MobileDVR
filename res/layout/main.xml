@@ -7,25 +7,19 @@
     <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Hello World, MainActivity"
+            android:text="Test View. This will be gone"
     />
     <Button
             android:id="@+id/show_button"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:text="Only Option">
+            android:text="Test Show Info View">
     </Button>
-
-    <Button
-        android:id="@+id/guide_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Guide" />
 
     <Button
             android:id="@+id/recorded_shows_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Recorded Shows Activity" />
+            android:text="Test Recorded Shows View" />
 </LinearLayout>
 

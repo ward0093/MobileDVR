@@ -22,6 +22,7 @@ import com.MSSE.MobileDVR.fragments.info.ShowDataConfig;
  * Time: 4:43 PM
  * To change this template use File | Settings | File Templates.
  */
+@Deprecated
 public class ShowInfoActivity extends Activity {
     private ShowTimeSlot showTimeSlot;
     private int channelNum;
@@ -36,7 +37,7 @@ public class ShowInfoActivity extends Activity {
         channelNum = getIntent().getIntExtra(MainActivity.CHANNEL_ID, -1);
         showDate = (Date) getIntent().getSerializableExtra(MainActivity.TIME_SLOT_DATE);
         showTimeSlot = MainActivity.getListingSource().lookupTimeSlot(MainActivity.getListingSource().lookupChannel(channelNum), showDate);
-        showData = new ShowDataConfig(this);
+        //showData = new ShowDataConfig(getV);
         showData.setAllShowData(showTimeSlot);
         showDescriptionData = (TextView)findViewById(R.id.showInfoDescription);
         ToolbarConfig toolbar = new ToolbarConfig(this, "Show Info");

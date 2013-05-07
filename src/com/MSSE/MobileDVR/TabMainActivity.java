@@ -1,25 +1,31 @@
 package com.MSSE.MobileDVR;
 
-import com.MSSE.MobileDVR.datamodel.ShowInfo;
-import com.MSSE.MobileDVR.fragments.guide.ChannelGuideFragment;
-
-import android.os.Bundle;
 import android.app.ActionBar;
+import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.app.ActionBar.Tab;
-import android.content.Context;
-import android.content.Intent;
-import android.view.Gravity;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import com.MSSE.MobileDVR.datamodel.ShowInfo;
+import com.MSSE.MobileDVR.datamodel.ShowTimeSlot;
+import com.MSSE.MobileDVR.datasource.ListingSource;
+import com.MSSE.MobileDVR.datasource.RecordedShowSource;
+import com.MSSE.MobileDVR.datasource.ScheduledRecordingSource;
+import com.MSSE.MobileDVR.datasource.dummy.DummyListingSource;
+import com.MSSE.MobileDVR.datasource.dummy.RecordedShowFile;
+import com.MSSE.MobileDVR.datasource.dummy.ScheduledRecordingFile;
+import com.MSSE.MobileDVR.fragments.guide.ChannelGuideFragment;
+import com.MSSE.MobileDVR.fragments.info.RecordOptionFragment;
+import com.MSSE.MobileDVR.fragments.info.ShowInfoFragment;
+import com.MSSE.MobileDVR.fragments.more.MoreFragment;
+import com.MSSE.MobileDVR.fragments.recorded.MyShowsFragment;
 
 public class TabMainActivity extends Activity {
 
@@ -29,7 +35,14 @@ public class TabMainActivity extends Activity {
 	*/
 
 	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
+	private static ListingSource listingSource = new DummyListingSource();
+    public static final ScheduledRecordingSource scheduledRecordings = new ScheduledRecordingFile();
+    public static final RecordedShowSource myRecordedShows = new RecordedShowFile();
 	
+	public static ListingSource getListingSource() {
+	  	return listingSource;
+	}
+	 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -50,18 +63,18 @@ public class TabMainActivity extends Activity {
 	    actionBar.addTab(actionBar.newTab()
                 .setText(R.string.title_info)
                 //.setIcon(R.drawable.info)
-                .setTabListener(new TabListener<MainActivityFragment>(
-                        this, "info", MainActivityFragment.class)));
+                .setTabListener(new TabListener<TestFragment>(
+                        this, "info", TestFragment.class)));
 	    actionBar.addTab(actionBar.newTab()
                 .setText(R.string.title_myshows)
                // .setIcon(R.drawable.my_shows)
-                .setTabListener(new TabListener<MainActivityFragment>(
-                        this, "myshows", MainActivityFragment.class)));
+                .setTabListener(new TabListener<MyShowsFragment>(
+                        this, "myshows", MyShowsFragment.class)));
 	    actionBar.addTab(actionBar.newTab()
                 .setText(R.string.title_more)
                 //.setIcon(R.drawable.more)
-                .setTabListener(new TabListener<MainActivityFragment>(
-                        this, "more", MainActivityFragment.class)));		
+                .setTabListener(new TabListener<MoreFragment>(
+                        this, "more", MoreFragment.class)));		
 	    
 	}
 	
@@ -90,67 +103,58 @@ public class TabMainActivity extends Activity {
 	
 	
 
-	  /**
-	   * A dummy fragment representing a section of the app
-	   */
-
-	  public static class DummySectionFragment extends Fragment {
-	    public static final String ARG_SECTION_NUMBER = "placeholder_text";
-	    TextView textView;
-	    @Override
-	    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-	        Bundle savedInstanceState) {
-	      textView = new TextView(getActivity());
-	      textView.setGravity(Gravity.CENTER);
-	      textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
-	      return textView;
-	    }
-	    
-	    
-	    public void onActivityCreated(Bundle savedInstanceState) {
-	        super.onActivityCreated(savedInstanceState);
-	    }
-	   
-
-		  @Override
-		  public void onSaveInstanceState(Bundle outState) {
-		    // Serialize the current tab position.
-		    outState.putCharSequence(ARG_SECTION_NUMBER, textView.getText());
-		  }
-	  }
+//	  /**
+//	   * A dummy fragment representing a section of the app
+//	   */
+//
+//	  public static class DummySectionFragment extends Fragment {
+//	    public static final String ARG_SECTION_NUMBER = "placeholder_text";
+//	    TextView textView;
+//	    @Override
+//	    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+//	        Bundle savedInstanceState) {
+//	      textView = new TextView(getActivity());
+//	      textView.setGravity(Gravity.CENTER);
+//	      textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
+//	      return textView;
+//	    }
+//	    
+//	    
+//	    public void onActivityCreated(Bundle savedInstanceState) {
+//	        super.onActivityCreated(savedInstanceState);
+//	    }
+//	   
+//
+//		  @Override
+//		  public void onSaveInstanceState(Bundle outState) {
+//		    // Serialize the current tab position.
+//		    outState.putCharSequence(ARG_SECTION_NUMBER, textView.getText());
+//		  }
+//	  }
 	  
-	  public static class MainActivityFragment extends Fragment {
+	  public static class TestFragment extends Fragment {
 	  
 	  @Override
 	  public View onCreateView(LayoutInflater inflater, ViewGroup container,
 		        Bundle savedInstanceState) {
         
 	        View view = inflater.inflate(R.layout.main, container, false);
-	        Button guideButton = (Button)view.findViewById(R.id.guide_button);
-	        guideButton.setOnClickListener(new View.OnClickListener() {
-	        	@Override
-				public void onClick(View v) {
-					//Toast.makeText(this, "Edit Button clicked!", Toast.LENGTH_LONG).show();
-					Intent intent = new Intent(getActivity(), ChannelGuide.class);
-					//intent.putExtra(CONTACT_ID, storage.newContact().getID());
-					//intent.putExtra("contact", storage.newContact());
-					//intent.putExtra(REPOSITORY, storage);
-					startActivityForResult(intent, 1);
-				}
-	        });
+	        
 	        ShowInfo testShow = new ShowInfo("Mythbusters", "Greatest show on Earth");
 
 	        Button onlyButton = (Button) view.findViewById(R.id.show_button);
 	        onlyButton.setOnClickListener(new View.OnClickListener() {
 	            @Override
 	            public void onClick(View v) {
-	            	Fragment fragment = new DummySectionFragment();
+	            	ShowInfo showInfos[] = listingSource.getShows();
+	                ShowTimeSlot showTimeSlot[] = listingSource.getTimeSlotsForShow(showInfos[0]);
+ 	            	Fragment fragment = new ShowInfoFragment();
 	            	Bundle args = new Bundle();
-	            	args.putInt(DummySectionFragment.ARG_SECTION_NUMBER,
-	            	        1 + 1);
+	            	args.putInt(ChannelGuideFragment.CHANNEL_ID, showTimeSlot[0].getChannel().getNumber());
+	            	args.putSerializable(ChannelGuideFragment.TIME_SLOT_DATE, showTimeSlot[0].getStartTime());
 	            	fragment.setArguments(args);
 	            	FragmentTransaction ft = getFragmentManager().beginTransaction();
-	            	ft.replace(android.R.id.content, fragment, "guide");
+	            	ft.replace(android.R.id.content, fragment, "info");
 	            	ft.addToBackStack(null);
 	            	ft.commit();
 	            }
@@ -163,12 +167,18 @@ public class TabMainActivity extends Activity {
 	        recordedShows.setOnClickListener(new View.OnClickListener() {
 	            @Override
 	            public void onClick(View v) {
-	                //Toast.makeText(this, "Edit Button clicked!", Toast.LENGTH_LONG).show();
-	                Intent intent = new Intent( getActivity(), RecordedShowsActivity.class);
-	                //intent.putExtra(CONTACT_ID, storage.newContact().getID());
-	                //intent.putExtra("contact", storage.newContact());
-	                //intent.putExtra(REPOSITORY, storage);
-	                getActivity().startActivity(intent);
+
+	            	//RecordedShow myRecordings[] = myRecordedShows.getRecordedShows();
+
+//	            	Fragment fragment = new RecordOptionFragment();
+//	            	Bundle args = new Bundle();
+//	            	//set you arguments that you need to pass to the RecordOptionFragment
+//	            	fragment.setArguments(args);
+//	            	FragmentTransaction ft = getFragmentManager().beginTransaction();
+//	            	ft.replace(android.R.id.content, fragment, "info");
+//	            	ft.addToBackStack(null);
+//	            	ft.commit();
+            	
 	            }
 	        });
 	        return view;

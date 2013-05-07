@@ -1,6 +1,7 @@
 package com.MSSE.MobileDVR.fragments.info;
 
 import android.app.Activity;
+import android.view.View;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -20,9 +21,9 @@ import com.MSSE.MobileDVR.datamodel.ShowTimeSlot;
 public class ShowDataConfig {
     private static final String SHOW_TIME_FORMAT = "h:mm a";
     private static final String SHOW_DATE_FORMAT = "EEE M/d";
-    private Activity _activity;
+    private View _activity;
 
-    public ShowDataConfig(Activity activity) {
+    public ShowDataConfig(View activity) {
         _activity = activity;
         if (!hasShowData()) {
             throw new RuntimeException("Trying to add show data to a layout that doesn't have one!");
