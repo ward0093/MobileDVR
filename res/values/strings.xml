@@ -11,5 +11,6 @@
     <string name="title_info">Info</string>
     <string name="title_myshows">My Shows</string>
     <string name="title_more">More..</string>
+    <string name="search_hint">Please enter a show title or channel number</string>
 
 </resources>
