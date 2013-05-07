@@ -14,7 +14,7 @@ public class RecordedShowsActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recorded_shows);
+        setContentView(R.layout.my_recorded_shows);
 
         Button guideButton = (Button)findViewById(R.id.recorded_shows_button);
         guideButton.setOnClickListener(new View.OnClickListener() {

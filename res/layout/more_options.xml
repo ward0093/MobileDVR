@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:id="@+id/more_options">
+    <LinearLayout android:orientation="vertical"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  style="@style/ShowInfoDetail">
+        <Button
+                android:id="@+id/moreOptionsMyAccountButton"
+                android:text="My Account"
+                style="@style/ShowInfoButton"/>
+        <Button
+                android:id="@+id/moreOptionsServicesButton"
+                android:text="Services"
+                style="@style/ShowInfoButton"/>
+        <Button
+                android:id="@+id/moreOptionsBrowseByCategoryButton"
+                android:text="Browse by Category"
+                style="@style/ShowInfoButton"/>
+        <Button
+                android:id="@+id/moreOptionsAboutThisAppButton"
+                android:text="About this App"
+                style="@style/ShowInfoButton"/>
+        <Button
+                android:id="@+id/moreOptionsMyChannelsButton"
+                android:text="My Channels"
+                style="@style/ShowInfoButton"/>
+    </LinearLayout>
+</LinearLayout>
