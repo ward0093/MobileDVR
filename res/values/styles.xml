@@ -107,6 +107,5 @@
     	<item name="android:actionBarTabBarStyle">@style/MyActionBarTabBarStyle</item>
     	<item name="android:actionBarTabTextStyle">@style/MyActionBarTabTextStyle</item>
 	</style>
-    
 
 </resources>

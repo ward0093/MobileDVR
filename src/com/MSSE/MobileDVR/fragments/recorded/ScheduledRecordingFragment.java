@@ -1,37 +1,40 @@
 package com.MSSE.MobileDVR.fragments.recorded;
 
+
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.app.ListFragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+
 import android.widget.Button;
-import android.widget.TextView;
 import com.MSSE.MobileDVR.R;
-import com.MSSE.MobileDVR.TabMainActivity;
-import com.MSSE.MobileDVR.fragments.guide.ChannelGuideFragment;
-import com.MSSE.MobileDVR.fragments.info.RecordOptionFragment;
-import com.MSSE.MobileDVR.fragments.info.ShowDataConfig;
-
-import java.util.Date;
-
-public class MyShowsFragment extends Fragment{
 
 
+/**
+ * Created with IntelliJ IDEA.
+ * User: dward
+ * Date: 5/6/13
+ * Time: 10:37 PM
+ * To change this template use File | Settings | File Templates.
+ */
+public class ScheduledRecordingFragment extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        View view = inflater.inflate(R.layout.my_shows, container, false);
+        View view = inflater.inflate(R.layout.my_scheduled_recordings, container, false);
+
 
         setMenuVisibility(true);
         setHasOptionsMenu(true);
-
         return view;
     }
+
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -73,6 +76,7 @@ public class MyShowsFragment extends Fragment{
             }
         });
     }
+
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {

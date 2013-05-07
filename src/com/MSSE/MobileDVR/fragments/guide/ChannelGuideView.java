@@ -4,13 +4,18 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-//import com.MSSE.MobileDVR.MainActivity;
 import com.MSSE.MobileDVR.TabMainActivity;
 import com.MSSE.MobileDVR.datamodel.Channel;
 import com.MSSE.MobileDVR.datamodel.ShowInfo;
 import com.MSSE.MobileDVR.datamodel.ShowTimeSlot;
+import com.MSSE.MobileDVR.fragments.info.ShowInfoFragment;
 
+import android.app.ActionBar;
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
+import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
@@ -18,12 +23,15 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-public class ChannelGuideView extends LinearLayout implements ScrollListener, OnTouchListener
+public class ChannelGuideView extends LinearLayout implements ScrollListener, OnTouchListener,
+		OnClickListener
 {
 	private final float DENSITY;
 
@@ -51,6 +59,9 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener, On
 	private ObservableHorizontalScrollView timeView = null;
 	private ObservableHorizontalScrollView showsView = null;
 	private int scrollDeltaX = 0;
+	
+	private static LinearLayout searchAndTime = null;
+	private static ScrollView channelsAndInfoScroller = null;
 
 	private static final int backgroundRowColor[] =
 	{
@@ -71,11 +82,11 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener, On
 		return result;
 	}
 
-	public ChannelGuideView(Context context)
+	public ChannelGuideView(Activity activity)
 	{
-		super(context);
+		super(activity);
 
-		DisplayMetrics display = context.getResources().getDisplayMetrics();
+		DisplayMetrics display = activity.getResources().getDisplayMetrics();
 		DENSITY = display.density;
 
 		DISPLAY_WIDTH = display.widthPixels;
@@ -112,17 +123,21 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener, On
 
 	private android.view.View makeSearchAndTime()
 	{
-		LinearLayout searchAndTime = new LinearLayout(getContext());
-		searchAndTime.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
-				LayoutParams.WRAP_CONTENT));
-		searchAndTime.setOrientation(LinearLayout.HORIZONTAL);
+		if (searchAndTime != null)
+			((ViewGroup)searchAndTime.getParent()).removeView(searchAndTime);
+		else
+		{
+			searchAndTime = new LinearLayout(getContext());
+			searchAndTime.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
+					LayoutParams.WRAP_CONTENT));
+			searchAndTime.setOrientation(LinearLayout.HORIZONTAL);
 
-		Button search = new Button(getContext());
-		search.setLayoutParams(new LayoutParams(SEARCH_WIDTH, LayoutParams.WRAP_CONTENT));
-		search.setText("Search");
-		searchAndTime.addView(search);
+			TextView search = new TextView(getContext());
+			search.setLayoutParams(new LayoutParams(SEARCH_WIDTH, LayoutParams.WRAP_CONTENT));
+			searchAndTime.addView(search);
 
-		searchAndTime.addView(makeTimeView());
+			searchAndTime.addView(makeTimeView());
+		}
 
 		return searchAndTime;
 	}
@@ -138,7 +153,7 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener, On
 				LayoutParams.WRAP_CONTENT));
 		timeLayoutView.setOrientation(LinearLayout.HORIZONTAL);
 
-		Date theTime = (Date)beginTime().clone();
+		Date theTime = (Date) beginTime().clone();
 		Date lastTime = endTime();
 		long halfHour = 30L * 60L * 1000L;
 		while (theTime.compareTo(lastTime) < 0)
@@ -170,9 +185,14 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener, On
 
 	private android.view.View makeChannelsAndInfoScroller()
 	{
-		ScrollView verticalScroller = new ScrollView(getContext());
-		verticalScroller.addView(makeChannelsAndInfo());
-		return verticalScroller;
+		if (channelsAndInfoScroller != null)
+			((ViewGroup)channelsAndInfoScroller.getParent()).removeView(channelsAndInfoScroller);
+		else
+		{
+			channelsAndInfoScroller = new ScrollView(getContext());
+			channelsAndInfoScroller.addView(makeChannelsAndInfo());
+		}
+		return channelsAndInfoScroller;
 	}
 
 	private android.view.View makeChannelsAndInfo()
@@ -281,7 +301,7 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener, On
 
 		return horizontalLayout;
 	}
-	
+
 	private Date beginTime()
 	{
 		Date result = TabMainActivity.getListingSource().getEarliest();
@@ -290,7 +310,23 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener, On
 
 	private Date endTime()
 	{
-		Date result = TabMainActivity.getListingSource().getLatest();
+		long resultMS = TabMainActivity.getListingSource().getLatest().getTime();
+
+		boolean makeResponseFaster = true;
+		if (makeResponseFaster)
+		{
+			long beginMS = beginTime().getTime();
+
+			long duration = 4; // hours
+			duration *= 60; // minutes
+			duration *= 60; // seconds
+			duration *= 1000; // milliseconds
+
+			resultMS = Math.min(beginMS + duration, resultMS);
+		}
+
+		Date result = new Date(resultMS);
+
 		return result;
 	}
 
@@ -315,16 +351,19 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener, On
 			String description = "";
 
 			Channel theChannel = channels[i];
-			ShowTimeSlot showTimeSlot = TabMainActivity.getListingSource().lookupTimeSlot(theChannel,
-					theTime);
+			ShowTimeSlot showTimeSlot = TabMainActivity.getListingSource().lookupTimeSlot(
+					theChannel, theTime);
 			if (showTimeSlot != null)
 			{
+				infoHolder.setTag(showTimeSlot);
 				ShowInfo showInfo = showTimeSlot.getShowInfo();
 				if (showInfo != null)
 				{
 					title = showInfo.getTitle();
 					description = showInfo.getDescription();
 				}
+
+				infoHolder.setOnClickListener(this);
 			}
 
 			TextView titleView = new TextView(getContext());
@@ -349,11 +388,16 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener, On
 		return verticalLayout;
 	}
 
+	private Activity getActivity()
+	{
+		return (Activity) getContext();
+	}
+
 	@Override
 	public void onScrollChanged(View scrollView, int x, int y, int oldx, int oldy)
 	{
 		scrollDeltaX = x - oldx;
-		
+
 		if (scrollView == timeView)
 			showsView.scrollTo(x, y);
 		else if (scrollView == showsView)
@@ -383,7 +427,7 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener, On
 			}
 			x = (x / TIME_WIDTH) * TIME_WIDTH;
 		}
-		
+
 		if (handled)
 		{
 			Log.d("onTouch", "smooth to " + x);
@@ -392,5 +436,27 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener, On
 		}
 
 		return handled;
+	}
+
+	@Override
+	public void onClick(View v)
+	{
+		Object tag = v.getTag();
+		if (tag instanceof ShowTimeSlot)
+		{
+			ShowTimeSlot showTimeSlot = (ShowTimeSlot)tag;
+			
+			int iShowInfo = 1;
+			getActivity().getActionBar().setSelectedNavigationItem(iShowInfo);
+			Fragment fragment = new ShowInfoFragment();
+			Bundle args = new Bundle();
+			args.putInt(ChannelGuideFragment.CHANNEL_ID, showTimeSlot.getChannel().getNumber());
+			args.putSerializable(ChannelGuideFragment.TIME_SLOT_DATE, showTimeSlot.getStartTime());
+			fragment.setArguments(args);
+			FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
+			ft.replace(android.R.id.content, fragment, "info");
+			ft.addToBackStack(null);
+			ft.commit();
+		}
 	}
 }

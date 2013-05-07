@@ -15,7 +15,7 @@ public class RecordedShowFragment extends Fragment {
 			Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
-		View view = inflater.inflate(R.layout.activity_recorded_shows, container, false);
+		View view = inflater.inflate(R.layout.my_recorded_shows, container, false);
 		
 	
 		setMenuVisibility(true);
