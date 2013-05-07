@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.MSSE.MobileDVR.MainActivity;
 import com.MSSE.MobileDVR.TabMainActivity;
 import com.MSSE.MobileDVR.datamodel.Channel;
 import com.MSSE.MobileDVR.datamodel.ShowInfo;
@@ -74,6 +73,19 @@ public class ShowTimeSlotDataSource {
             return (database.isOpen());
     }
 
+    public boolean isEmpty() {
+        boolean isEmpty = false;
+        Cursor cursor = database.rawQuery("SELECT COUNT(*) FROM " + SHOWTIMESLOTTABLE, null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+            if (cursor.getInt(0) == 0) {
+                isEmpty = true;
+            }
+        }
+        cursor.close();
+        return isEmpty;
+    }
+
     public ShowTimeSlot createShowTimeSlot(Channel channel, ShowInfo showInfo, Date startTime, int durationMinutes) {
         ContentValues values = new ContentValues();
         values.put(COLUMN_CHANNEL_ID, channel.getId());
@@ -129,11 +141,46 @@ public class ShowTimeSlotDataSource {
         return showTimeSlotList;
     }
 
+    public ShowTimeSlot[] getTimeSlotsForShow(ShowInfo showInfo) {
+        Cursor cursor = database.query(SHOWTIMESLOTTABLE, allColumns, COLUMN_SHOW_INFO_ID + " = " + showInfo.getId(),
+                null, null, null, COLUMN_CHANNEL_ID + " ASC, " + COLUMN_START_TIME + " ASC");
+        cursor.moveToFirst();
+        List<ShowTimeSlot> showTimeSlotList = new ArrayList<ShowTimeSlot>();
+        while (!cursor.isAfterLast()) {
+            showTimeSlotList.add(cursorToShowTimeSlot(cursor));
+            cursor.moveToNext();
+        }
+        cursor.close();
+        if (!showTimeSlotList.isEmpty()) {
+            ShowTimeSlot[] showTimeSlots = new ShowTimeSlot[showTimeSlotList.size()];
+            showTimeSlotList.toArray(showTimeSlots);
+            return showTimeSlots;
+        } else {
+            return null;
+        }
+    }
+
+    public Date getLatestTime() {
+        Date latestTime = null;
+        Cursor cursor = database.rawQuery("SELECT MAX(" + COLUMN_START_TIME + ") FROM " + SHOWTIMESLOTTABLE, null);
+        cursor.moveToFirst();
+        if (!cursor.isAfterLast()) {
+            Long latestStart = cursor.getLong(0);
+            cursor.close();
+            cursor = database.rawQuery("SELECT MAX(" + COLUMN_DURATION + ") FROM " + SHOWTIMESLOTTABLE + " WHERE " + COLUMN_START_TIME + " = " + latestStart.toString(), null);
+            cursor.moveToFirst();
+            Long latestEnd = latestStart + cursor.getLong(0);
+            latestTime = new Date(latestEnd);
+        }
+        cursor.close();
+        return latestTime;
+    }
+
     private ShowTimeSlot cursorToShowTimeSlot(Cursor cursor) {
         long channelId = cursor.getLong(IDX_COLUMN_CHANNEL_ID);
-        Channel channel = MainActivity.getChannelDB().getChannelById(channelId);
+        Channel channel = TabMainActivity.getChannelDB().getChannelById(channelId);
         long showInfoId = cursor.getLong(IDX_COLUMN_SHOW_INFO_ID);
-        ShowInfo showInfo = MainActivity.getShowInfoDB().getShowInfo(showInfoId);
+        ShowInfo showInfo = TabMainActivity.getShowInfoDB().getShowInfo(showInfoId);
         Date startTime = new Date(cursor.getLong(IDX_COLUMN_START_TIME));
         int durationMinutes = cursor.getInt(IDX_COLUMN_DURATION);
         ShowTimeSlot newShowTimeSlot = new ShowTimeSlot(showInfo, channel, startTime, durationMinutes);

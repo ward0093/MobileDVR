@@ -105,7 +105,7 @@ public class ShowInfoDataSource {
 
     public List<ShowInfo> getShowInfoList() {
         List<ShowInfo> showInfoList = new ArrayList<ShowInfo>();
-        Cursor cursor = database.query(SHOWINFOTABLE, allColumns, null, null, null, null, null);
+        Cursor cursor = database.query(SHOWINFOTABLE, allColumns, null, null, null, null, COLUMN_TITLE + " ASC");
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             ShowInfo showInfo = cursorToShowInfo(cursor);

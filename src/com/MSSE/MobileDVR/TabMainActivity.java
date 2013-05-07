@@ -40,7 +40,8 @@ public class TabMainActivity extends Activity {
 	*/
 
 	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
-	private static ListingSource listingSource = new DummyListingSource();
+    private static ListingSource listingSource;
+	//private static ListingSource listingSource = new DummyListingSource();
     //public static final ScheduledRecordingSource scheduledRecordings = new ScheduledRecordingFile();
     public static final RecordedShowSource myRecordedShows = new RecordedShowFile();
     private static ShowInfoDataSource showInfoDataSource;
@@ -113,6 +114,7 @@ public class TabMainActivity extends Activity {
         } catch (Exception e) {
             Log.e("MainActivity -- DataSource Opening", "Failed to open a DataSource", e);
         }
+        listingSource = new DummyListingSource();
 	}
 	
 	@Override

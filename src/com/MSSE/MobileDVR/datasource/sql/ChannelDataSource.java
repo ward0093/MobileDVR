@@ -100,9 +100,22 @@ public class ChannelDataSource {
         return channel;
     }
 
+    public Channel getChannelByName(String name) {
+        Channel channel;
+        Cursor cursor = database.query(CHANNELTABLE, allColumns, COLUMN_NAME + " = " + name, null, null, null, null);
+        cursor.moveToFirst();
+        if (!cursor.isAfterLast()) {
+            channel = cursorToChannel(cursor);
+        } else {
+            channel = null;
+        }
+        cursor.close();
+        return channel;
+    }
+
     public List<Channel> getChannelList() {
         List<Channel> channelList = new ArrayList<Channel>();
-        Cursor cursor = database.query(CHANNELTABLE, allColumns, null, null, null, null, null);
+        Cursor cursor = database.query(CHANNELTABLE, allColumns, null, null, null, null, COLUMN_NUMBER + " ASC");
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             Channel channel = cursorToChannel(cursor);

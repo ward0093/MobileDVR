@@ -4,7 +4,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.MSSE.MobileDVR.MainActivity;
+//import com.MSSE.MobileDVR.MainActivity;
+import com.MSSE.MobileDVR.TabMainActivity;
 import com.MSSE.MobileDVR.datamodel.Channel;
 import com.MSSE.MobileDVR.datamodel.ShowInfo;
 import com.MSSE.MobileDVR.datamodel.ShowTimeSlot;
@@ -194,7 +195,7 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener, On
 				LayoutParams.WRAP_CONTENT));
 		channelsView.setOrientation(LinearLayout.VERTICAL);
 
-		Channel[] channels = MainActivity.getListingSource().getChannels();
+		Channel[] channels = TabMainActivity.getListingSource().getChannels();
 
 		for (int i = 0; i < channels.length; ++i)
 		{
@@ -283,13 +284,13 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener, On
 	
 	private Date beginTime()
 	{
-		Date result = MainActivity.getListingSource().getEarliest();
+		Date result = TabMainActivity.getListingSource().getEarliest();
 		return result;
 	}
 
 	private Date endTime()
 	{
-		Date result = MainActivity.getListingSource().getLatest();
+		Date result = TabMainActivity.getListingSource().getLatest();
 		return result;
 	}
 
@@ -300,7 +301,7 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener, On
 				LayoutParams.WRAP_CONTENT));
 		verticalLayout.setOrientation(LinearLayout.VERTICAL);
 
-		Channel[] channels = MainActivity.getListingSource().getChannels();
+		Channel[] channels = TabMainActivity.getListingSource().getChannels();
 
 		for (int i = 0; i < channels.length; ++i)
 		{
@@ -314,7 +315,7 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener, On
 			String description = "";
 
 			Channel theChannel = channels[i];
-			ShowTimeSlot showTimeSlot = MainActivity.getListingSource().lookupTimeSlot(theChannel,
+			ShowTimeSlot showTimeSlot = TabMainActivity.getListingSource().lookupTimeSlot(theChannel,
 					theTime);
 			if (showTimeSlot != null)
 			{
