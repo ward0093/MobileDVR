@@ -2,6 +2,7 @@ package com.MSSE.MobileDVR.fragments.info;
 
 import java.util.Date;
 
+import android.app.FragmentTransaction;
 import com.MSSE.MobileDVR.MainActivity;
 import com.MSSE.MobileDVR.R;
 import com.MSSE.MobileDVR.RecordOptionsActivity;
@@ -22,6 +23,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.MSSE.MobileDVR.fragments.recorded.ScheduledRecordingFragment;
 
 public class RecordOptionFragment extends Fragment {
 	private ShowTimeSlot showTimeSlot;
@@ -87,6 +89,19 @@ public class RecordOptionFragment extends Fragment {
 				toast.setDuration(Toast.LENGTH_LONG);
 				toast.setGravity(Gravity.FILL, 0, 0);
 				toast.show();
+
+                Fragment fragment = new ScheduledRecordingFragment();
+                int iMyShows = 2;
+                getActivity().getActionBar().setSelectedNavigationItem(iMyShows);
+//                Bundle args = new Bundle();
+                //set you arguments that you need to pass to the RecordOptionFragment
+//                fragment.setArguments(args);
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                // "info" should be changed to "guide" after final integration
+                ft.replace(android.R.id.content, fragment, "info");
+                ft.addToBackStack(null);
+                ft.commit();
+
 			}
 		});
 		Button cancelButton = (Button)fragmentView.findViewById(R.id.recordOptionsCancelButton);
