@@ -271,12 +271,12 @@ public class TabMainActivity extends Activity {
 	        }
 
 	        public void onTabSelected(Tab tab, FragmentTransaction ft) {
-	            if (mFragment == null) {
+	            //if (mFragment == null) {
 	                mFragment = Fragment.instantiate(mActivity, mClass.getName(), mArgs);
 	                ft.add(android.R.id.content, mFragment, mTag);
-	            } else {
-	                ft.attach(mFragment);
-	            }
+	            //} else {
+	            //    ft.attach(mFragment);
+	            //}
 	        }
 
 	        public void onTabUnselected(Tab tab, FragmentTransaction ft) {
@@ -289,7 +289,18 @@ public class TabMainActivity extends Activity {
 	        }
 
 	        public void onTabReselected(Tab tab, FragmentTransaction ft) {
-	            Toast.makeText(mActivity, "Reselected!", Toast.LENGTH_SHORT).show();
+	        	if (mTag.equals("guide"))
+	        	{
+	        		Fragment preInitializedFragment = (Fragment) mActivity.getFragmentManager().findFragmentByTag(mTag);
+	        		if (preInitializedFragment != null)
+	        		{
+	        			ft.detach(preInitializedFragment);
+	        			Fragment fragment = new ChannelGuideFragment();
+	        			ft.add(android.R.id.content, fragment, mTag);
+	        		}
+	        	}
+	        	else
+	        		Toast.makeText(mActivity, "Reselected!", Toast.LENGTH_SHORT).show();
 	        }
 	    }
 

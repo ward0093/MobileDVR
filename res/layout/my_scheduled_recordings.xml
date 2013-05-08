@@ -6,29 +6,9 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="@drawable/item_background">
-    <include layout="@layout/toolbar"
-             android:layout_weight="0"/>
-    <LinearLayout android:orientation="vertical"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  style="@style/ShowInfoDetail">
-        <TextView
-                android:id="@+id/showInfoShowLabel"
-                android:layout_width="fill_parent"
-                android:layout_height="match_parent"
-                android:text="Show:"
-                />
-        <TextView
-                android:id="@+id/showInfoShowData"
-                android:layout_width="fill_parent"
-                android:layout_height="30dp"
-                android:paddingLeft="5dp"
-                android:text="Show Name"
-                />
-    </LinearLayout>
-    <TextView
-            android:id="@+id/showInfoDescription"
-            style="@style/ShowInfoDescription"
-            android:text="This is the place to write the show's description"
-            />
+    <ListView
+            android:id="@android:id/list"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent" >
+    </ListView>
 </LinearLayout>
