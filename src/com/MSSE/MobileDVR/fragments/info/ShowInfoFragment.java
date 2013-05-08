@@ -55,15 +55,6 @@ public class ShowInfoFragment extends Fragment {
 		showData = new ShowDataConfig(view);
 		showData.setAllShowData(showTimeSlot);
 		showDescriptionData = (TextView)view.findViewById(R.id.showInfoDescription);
-//		ToolbarConfig toolbar = new ToolbarConfig(getActivity(), "Show Info");
-//		Button leftButton = toolbar.getToolbarLeftButton();
-//		leftButton.setText("Back");
-//		leftButton.setOnClickListener(new View.OnClickListener() {
-//			@Override
-//			public void onClick(View view) {
-//				//getActivity().finish();
-//			}
-		//});
 
 		if (showTimeSlot.getShowInfo().getDescription().equals("")) {
 			showDescriptionData.setText("No description for show...");
@@ -78,7 +69,7 @@ public class ShowInfoFragment extends Fragment {
 				
 				Fragment fragment = new RecordOptionFragment();
             	Bundle args = new Bundle();
-            	//set you arguments that you need to pass to the RecordOptionFragment
+            	//set your arguments that you need to pass to the RecordOptionFragment
             	args.putInt(ChannelGuideFragment.CHANNEL_ID, channelNum);
             	args.putSerializable(ChannelGuideFragment.TIME_SLOT_DATE, showDate);
             	fragment.setArguments(args);
@@ -115,7 +106,15 @@ public class ShowInfoFragment extends Fragment {
 		//      ShowInfoActivity.this.startActivity(intent);
 		//            }
 		//        });
-        
+
+        Button watchNowButton = (Button)view.findViewById(R.id.showInfoWatchNowButton);
+        watchNowButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    Toast.makeText(v.getContext(), "Not implemented...Maybe you should go outside and play instead!", Toast.LENGTH_LONG).show();
+            }
+        });
+
     }
 
 	@Override
