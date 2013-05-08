@@ -1,15 +1,26 @@
 package com.MSSE.MobileDVR.fragments.recorded;
 
 import android.app.Fragment;
+import android.app.ListFragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 import com.MSSE.MobileDVR.R;
+import com.MSSE.MobileDVR.TabMainActivity;
+import com.MSSE.MobileDVR.datamodel.RecordedShow;
+import com.MSSE.MobileDVR.datamodel.ScheduledRecording;
 
-public class RecordedShowFragment extends Fragment {
+import java.util.List;
+
+public class RecordedShowFragment extends ListFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -23,11 +34,56 @@ public class RecordedShowFragment extends Fragment {
 		return view;
 	}
 
-	@Override
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);    //To change body of overridden methods use File | Settings | File Templates.
+
+        Bundle arguments = getArguments();
+
+        List<ScheduledRecording> myRecordedShows = TabMainActivity.getSchedRecDB().getScheduledRecordingList();
+        //listAdapter = new ContactAdapter(this, R.layout.list_item, new LinkedList<Contact>());
+        // initialize the list view
+        ListAdapter myAdp = new RecordedShowsAdapter(getActivity(), R.layout.my_recorded_shows_list_item, myRecordedShows);
+
+        setListAdapter(myAdp);
+        ListView lv = getListView();
+        lv.setTextFilterEnabled(true);
+        //setListShown(true);
+
+    }
+
+
+    @Override
 	public void onPrepareOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		super.onPrepareOptionsMenu(menu);
 		menu.clear();
 		getActivity().getMenuInflater().inflate(R.menu.activity_tab_main, menu);
 	}
+
+    /* We need to provide a custom adapter in order to use a custom list item view.
+             */
+    public class RecordedShowsAdapter extends ArrayAdapter<RecordedShow> {
+
+        public RecordedShowsAdapter(Context context, int textViewResourceId, List<RecordedShow> objects) {
+            super(context, textViewResourceId, objects);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+            View item = inflater.inflate(R.layout.my_scheduled_recording_list_item, parent, false);
+
+            RecordedShow rs = getItem(position);
+            if (rs != null ) {
+                ((TextView)item.findViewById(R.id.item_name)).setText(rs.);
+                ((TextView)item.findViewById(R.id.item_title)).setText(rs.getShowInfo().getDescription());
+                ((TextView)item.findViewById(R.id.item_phone)).setText(rs.getOriginalAirtime().toString());
+            }
+
+            item.setTag(rs);
+            return item;
+        }
+    }
 }
