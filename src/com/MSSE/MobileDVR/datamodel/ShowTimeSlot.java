@@ -10,8 +10,9 @@ public class ShowTimeSlot
 	private Date startTime;
 	private ShowInfo showInfo;
 	private int durationMinutes;
+    private String previewUrl;
 	
-	public ShowTimeSlot(ShowInfo showInfo, Channel channel, Date startTime, int durationMinutes)
+	public ShowTimeSlot(ShowInfo showInfo, Channel channel, Date startTime, int durationMinutes, String previewUrl)
 	{
 		if (showInfo == null)
 			throw new IllegalArgumentException("showInfo");
@@ -26,6 +27,7 @@ public class ShowTimeSlot
 		this.channel = channel;
 		this.startTime = startTime;
 		this.durationMinutes = durationMinutes;
+        this.previewUrl = previewUrl;
 	}
 	
 	public ShowInfo getShowInfo()
@@ -56,6 +58,11 @@ public class ShowTimeSlot
 	{
 		return durationMinutes;
 	}
+
+    public String getPreviewUrl()
+    {
+        return previewUrl;
+    }
 	
 	private static int minutes(Date startTime, Date endTime)
 	{
@@ -66,5 +73,4 @@ public class ShowTimeSlot
 			throw new IllegalArgumentException("duration too long");
 		return result;
 	}
-	
 }

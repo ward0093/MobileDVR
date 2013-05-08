@@ -42,13 +42,16 @@ public class ShowTimeSlotDataSource {
     private static final int IDX_COLUMN_START_TIME = 2;
     private static final String COLUMN_DURATION = "duration";
     private static final int IDX_COLUMN_DURATION = 3;
-    private String[] allColumns = { COLUMN_CHANNEL_ID, COLUMN_SHOW_INFO_ID, COLUMN_START_TIME, COLUMN_DURATION };
+    private static final String COLUMN_PREVIEW_URL = "previewUrl";
+    private static final int IDX_COLUMN_PREVIEW_URL = 4;
+    private String[] allColumns = { COLUMN_CHANNEL_ID, COLUMN_SHOW_INFO_ID, COLUMN_START_TIME, COLUMN_DURATION, COLUMN_PREVIEW_URL };
 
     public static final String TABLE_CREATE = "create table " + SHOWTIMESLOTTABLE +
             "(" + COLUMN_CHANNEL_ID + " integer not null, " +
             COLUMN_SHOW_INFO_ID + " integer not null, " +
             COLUMN_START_TIME + " integer not null, " +
             COLUMN_DURATION + " integer, " +
+            COLUMN_PREVIEW_URL + " text, " +
             " FOREIGN KEY (" + COLUMN_CHANNEL_ID + ") REFERENCES " + ChannelDataSource.CHANNELTABLE + " (" + ChannelDataSource.COLUMN_ID + ")," +
             " FOREIGN KEY (" + COLUMN_SHOW_INFO_ID + ") REFERENCES " + ShowInfoDataSource.SHOWINFOTABLE + " (" + ShowInfoDataSource.COLUMN_ID + ")," +
             " PRIMARY KEY (" + COLUMN_CHANNEL_ID + ", " + COLUMN_START_TIME + "));";
@@ -86,12 +89,16 @@ public class ShowTimeSlotDataSource {
         return isEmpty;
     }
 
-    public ShowTimeSlot createShowTimeSlot(Channel channel, ShowInfo showInfo, Date startTime, int durationMinutes) {
+    public ShowTimeSlot createShowTimeSlot(Channel channel, ShowInfo showInfo, Date startTime, int durationMinutes, String previewUrl) {
         ContentValues values = new ContentValues();
         values.put(COLUMN_CHANNEL_ID, channel.getId());
         values.put(COLUMN_SHOW_INFO_ID, showInfo.getId());
         values.put(COLUMN_START_TIME, startTime.getTime());
         values.put(COLUMN_DURATION, durationMinutes);
+        if (previewUrl == null)
+            values.putNull(COLUMN_PREVIEW_URL);
+        else
+            values.put(COLUMN_PREVIEW_URL, previewUrl);
         long insertId = database.insert(SHOWTIMESLOTTABLE, null, values);
         Cursor cursor = database.query(SHOWTIMESLOTTABLE, allColumns, "(" + COLUMN_CHANNEL_ID + " = " + channel.getId() + ") AND (" +
                 COLUMN_SHOW_INFO_ID + " = " + showInfo.getId() + ")", null, null, null, null);
@@ -183,7 +190,8 @@ public class ShowTimeSlotDataSource {
         ShowInfo showInfo = TabMainActivity.getShowInfoDB().getShowInfo(showInfoId);
         Date startTime = new Date(cursor.getLong(IDX_COLUMN_START_TIME));
         int durationMinutes = cursor.getInt(IDX_COLUMN_DURATION);
-        ShowTimeSlot newShowTimeSlot = new ShowTimeSlot(showInfo, channel, startTime, durationMinutes);
+        String previewUrl = cursor.getString(IDX_COLUMN_PREVIEW_URL);
+        ShowTimeSlot newShowTimeSlot = new ShowTimeSlot(showInfo, channel, startTime, durationMinutes, previewUrl);
         return newShowTimeSlot;
     }
 }

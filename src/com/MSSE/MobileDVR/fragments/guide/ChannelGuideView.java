@@ -8,6 +8,7 @@ import com.MSSE.MobileDVR.TabMainActivity;
 import com.MSSE.MobileDVR.datamodel.Channel;
 import com.MSSE.MobileDVR.datamodel.ShowInfo;
 import com.MSSE.MobileDVR.datamodel.ShowTimeSlot;
+import com.MSSE.MobileDVR.datasource.ListingSource;
 import com.MSSE.MobileDVR.fragments.info.ShowInfoFragment;
 
 import android.app.ActionBar;
@@ -24,6 +25,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -78,7 +80,13 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener, On
 	 */
 	private int DP(int dp)
 	{
-		int result = (int) (dp * DENSITY + 0.5);
+		int result = DP(DENSITY, dp);
+		return result;
+	}
+	
+	private static int DP(float density, int dp)
+	{
+		int result = (int)(dp * density + 0.5);
 		return result;
 	}
 
@@ -111,7 +119,7 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener, On
 
 		construct();
 	}
-
+	
 	private void construct()
 	{
 		this.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
@@ -123,9 +131,9 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener, On
 
 	private android.view.View makeSearchAndTime()
 	{
-		if (searchAndTime != null)
-			((ViewGroup)searchAndTime.getParent()).removeView(searchAndTime);
-		else
+//		if (searchAndTime != null)
+//			((ViewGroup)searchAndTime.getParent()).removeView(searchAndTime);
+//		else
 		{
 			searchAndTime = new LinearLayout(getContext());
 			searchAndTime.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
@@ -185,9 +193,9 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener, On
 
 	private android.view.View makeChannelsAndInfoScroller()
 	{
-		if (channelsAndInfoScroller != null)
-			((ViewGroup)channelsAndInfoScroller.getParent()).removeView(channelsAndInfoScroller);
-		else
+//		if (channelsAndInfoScroller != null)
+//			((ViewGroup)channelsAndInfoScroller.getParent()).removeView(channelsAndInfoScroller);
+//		else
 		{
 			channelsAndInfoScroller = new ScrollView(getContext());
 			channelsAndInfoScroller.addView(makeChannelsAndInfo());
@@ -437,6 +445,21 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener, On
 
 		return handled;
 	}
+	
+	private static void launchShowInfo(Activity activity, ShowTimeSlot showTimeSlot)
+	{
+		int iShowInfo = 1;
+		activity.getActionBar().setSelectedNavigationItem(iShowInfo);
+		Fragment fragment = new ShowInfoFragment();
+		Bundle args = new Bundle();
+		args.putInt(ChannelGuideFragment.CHANNEL_ID, showTimeSlot.getChannel().getNumber());
+		args.putSerializable(ChannelGuideFragment.TIME_SLOT_DATE, showTimeSlot.getStartTime());
+		fragment.setArguments(args);
+		FragmentTransaction ft = activity.getFragmentManager().beginTransaction();
+		ft.replace(android.R.id.content, fragment, "info");
+		ft.addToBackStack(null);
+		ft.commit();
+	}
 
 	@Override
 	public void onClick(View v)
@@ -445,18 +468,120 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener, On
 		if (tag instanceof ShowTimeSlot)
 		{
 			ShowTimeSlot showTimeSlot = (ShowTimeSlot)tag;
-			
-			int iShowInfo = 1;
-			getActivity().getActionBar().setSelectedNavigationItem(iShowInfo);
-			Fragment fragment = new ShowInfoFragment();
-			Bundle args = new Bundle();
-			args.putInt(ChannelGuideFragment.CHANNEL_ID, showTimeSlot.getChannel().getNumber());
-			args.putSerializable(ChannelGuideFragment.TIME_SLOT_DATE, showTimeSlot.getStartTime());
-			fragment.setArguments(args);
-			FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
-			ft.replace(android.R.id.content, fragment, "info");
-			ft.addToBackStack(null);
-			ft.commit();
+			launchShowInfo(getActivity(), showTimeSlot);
 		}
+	}
+
+	private static class ShowMatcher
+	{
+		private String lcQuery;
+
+		public ShowMatcher(String query)
+		{
+			lcQuery = query.toLowerCase();
+		}
+
+		public boolean matches(ShowInfo showInfo)
+		{
+			boolean result = false;
+
+			if (showInfo.getTitle().toLowerCase().contains(lcQuery))
+				result = true;
+			else if (showInfo.getDescription().toLowerCase().contains(lcQuery))
+				result = true;
+
+			return result;
+		}
+	}
+	
+	public static View generateQueryResultsView(final Activity activity, String query)
+	{
+		DisplayMetrics display = activity.getResources().getDisplayMetrics();
+		final float DENSITY = display.density;
+		final int DISPLAY_WIDTH = display.widthPixels;
+		final int CHANNEL_NUMBER_WIDTH = DP(DENSITY, 24);
+		final int CHANNEL_NAME_WIDTH = DP(DENSITY, 48);
+		final int TIME_WIDTH = DP(DENSITY, 80);
+		final int TITLE_WIDTH = DISPLAY_WIDTH - TIME_WIDTH - CHANNEL_NAME_WIDTH - CHANNEL_NUMBER_WIDTH;
+		final int ROW_HEIGHT = DP(DENSITY, 40);
+		LinearLayout queryView = null;
+
+		ShowMatcher matcher = new ShowMatcher(query);
+		ListingSource listingSource = TabMainActivity.getListingSource();
+		ShowInfo[] shows = listingSource.getShows();
+		if (shows.length > 0)
+		{
+			queryView = new LinearLayout(activity);
+			queryView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+			queryView.setOrientation(LinearLayout.VERTICAL);
+			int row = 0;
+
+			for (int i = 0; i < shows.length; ++i)
+			{
+				ShowInfo theShow = shows[i];
+				if (matcher.matches(theShow))
+				{
+					ShowTimeSlot[] airings = listingSource.getTimeSlotsForShow(theShow);
+					for (int j = 0; j < airings.length; ++j)
+					{
+						int color = backgroundRowColor[row++ & 1];
+						
+						ShowTimeSlot timeSlot = airings[j];
+						Channel channel = timeSlot.getChannel();
+						LinearLayout infoView = new LinearLayout(activity);
+						infoView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, ROW_HEIGHT));
+						infoView.setOrientation(LinearLayout.HORIZONTAL);
+						
+						TextView channelNumberView = new TextView(activity);
+						channelNumberView.setLayoutParams(new LayoutParams(CHANNEL_NUMBER_WIDTH, ROW_HEIGHT));
+						channelNumberView.setText("" + channel.getNumber());
+						channelNumberView.setGravity(Gravity.CENTER);
+						channelNumberView.setBackgroundColor(color);
+						infoView.addView(channelNumberView);
+						
+						TextView channelNameView = new TextView(activity);
+						channelNameView.setLayoutParams(new LayoutParams(CHANNEL_NAME_WIDTH, ROW_HEIGHT));
+						channelNameView.setText(channel.getName());
+						channelNameView.setGravity(Gravity.CENTER);
+						channelNameView.setBackgroundColor(color);
+						infoView.addView(channelNameView);
+						
+						TextView timeView = new TextView(activity);
+						timeView.setLayoutParams(new LayoutParams(TIME_WIDTH, ROW_HEIGHT));
+						timeView.setText(getTimeString(timeSlot.getStartTime()));
+						timeView.setGravity(Gravity.CENTER);
+						timeView.setBackgroundColor(color);
+						infoView.addView(timeView);
+						
+						TextView titleView = new TextView(activity);
+						titleView.setLayoutParams(new LayoutParams(TITLE_WIDTH, ROW_HEIGHT));
+						titleView.setText(timeSlot.getShowInfo().getTitle());
+						titleView.setGravity(Gravity.CENTER);
+						titleView.setBackgroundColor(color);
+						infoView.addView(titleView);
+						
+						infoView.setTag(timeSlot);
+						infoView.setOnClickListener(new OnClickListener() {
+
+							@Override
+							public void onClick(View v)
+							{
+								Object tag = v.getTag();
+								if (tag instanceof ShowTimeSlot)
+								{
+									ShowTimeSlot showTimeSlot = (ShowTimeSlot)tag;
+									launchShowInfo(activity, showTimeSlot);
+								}
+							}
+							
+						});
+						
+						queryView.addView(infoView);
+					}
+				}
+			}
+		}
+		
+		return queryView;
 	}
 }

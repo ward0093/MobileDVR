@@ -15,11 +15,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class MobileDVRDataBaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "mobileDVR.db";
-    private static final int DATABASE_VERSION = 1;
-
-    public static final String SHOWTIMESLOTTABLE = "showtimeslot";
-    public static final String SCHEDULEDRECTABLE = "scheduledrecording";
-
+    private static final int DATABASE_VERSION = 2;
     private static MobileDVRDataBaseHelper instance = null;
 
     private MobileDVRDataBaseHelper(Context context) {
@@ -39,6 +35,7 @@ public class MobileDVRDataBaseHelper extends SQLiteOpenHelper {
         database.execSQL(ChannelDataSource.TABLE_CREATE);
         database.execSQL(ShowTimeSlotDataSource.TABLE_CREATE);
         database.execSQL(ScheduledRecordingDataSource.TABLE_CREATE);
+        database.execSQL(RecordedShowDataSource.TABLE_CREATE);
     }
 
     @Override
@@ -47,6 +44,7 @@ public class MobileDVRDataBaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + ChannelDataSource.CHANNELTABLE);
         db.execSQL("DROP TABLE IF EXISTS " + ShowTimeSlotDataSource.SHOWTIMESLOTTABLE);
         db.execSQL("DROP TABLE IF EXISTS " + ScheduledRecordingDataSource.SCHEDULEDRECORDINGTABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + RecordedShowDataSource.RECORDEDSHOWTABLE);
         onCreate(db);
     }
 }
