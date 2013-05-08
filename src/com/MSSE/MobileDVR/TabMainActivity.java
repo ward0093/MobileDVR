@@ -22,10 +22,7 @@ import com.MSSE.MobileDVR.datasource.ScheduledRecordingSource;
 import com.MSSE.MobileDVR.datasource.dummy.DummyListingSource;
 import com.MSSE.MobileDVR.datasource.dummy.RecordedShowFile;
 //import com.MSSE.MobileDVR.datasource.dummy.ScheduledRecordingFile;
-import com.MSSE.MobileDVR.datasource.sql.ChannelDataSource;
-import com.MSSE.MobileDVR.datasource.sql.ScheduledRecordingDataSource;
-import com.MSSE.MobileDVR.datasource.sql.ShowInfoDataSource;
-import com.MSSE.MobileDVR.datasource.sql.ShowTimeSlotDataSource;
+import com.MSSE.MobileDVR.datasource.sql.*;
 import com.MSSE.MobileDVR.fragments.guide.ChannelGuideFragment;
 import com.MSSE.MobileDVR.fragments.info.RecordOptionFragment;
 import com.MSSE.MobileDVR.fragments.info.ShowInfoFragment;
@@ -48,6 +45,7 @@ public class TabMainActivity extends Activity {
     private static ChannelDataSource channelDataSource;
     private static ShowTimeSlotDataSource showTimeSlotDataSource;
     private static ScheduledRecordingDataSource schedRecDataSource;
+    private static RecordedShowDataSource recordedShowDataSource;
 	
 	public static ListingSource getListingSource() {
 	  	return listingSource;
@@ -67,6 +65,10 @@ public class TabMainActivity extends Activity {
 
     public static ScheduledRecordingDataSource getSchedRecDB() {
         return schedRecDataSource;
+    }
+
+    public static RecordedShowDataSource getRecordedShowDB() {
+        return recordedShowDataSource;
     }
 	 
 	@Override
@@ -106,11 +108,13 @@ public class TabMainActivity extends Activity {
         channelDataSource = new ChannelDataSource(this);
         showTimeSlotDataSource = new ShowTimeSlotDataSource(this);
         schedRecDataSource = new ScheduledRecordingDataSource(this);
+        recordedShowDataSource = new RecordedShowDataSource(this);
         try {
             showInfoDataSource.open();
             channelDataSource.open();
             showTimeSlotDataSource.open();
             schedRecDataSource.open();
+            recordedShowDataSource.open();
         } catch (Exception e) {
             Log.e("MainActivity -- DataSource Opening", "Failed to open a DataSource", e);
         }

@@ -150,6 +150,24 @@ public class ScheduledRecordingDataSource {
         return schedRecList;
     }
 
+    public boolean updateScheduledRecording(ScheduledRecording updatedSchedRec) {
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_ID, updatedSchedRec.getId());
+        values.put(COLUMN_SHOWINFO_ID, updatedSchedRec.getShowInfo().getId());
+        values.put(COLUMN_CHANNEL_ID, updatedSchedRec.getOriginalAirtime().getChannel().getId());
+        values.put(COLUMN_ORIGSTARTTIME, updatedSchedRec.getOriginalAirtime().getStartTime().getTime());
+        values.put(COLUMN_KEEPUNTIL, updatedSchedRec.getKeepUntil().getTime());
+        values.put(COLUMN_SHOWSTOKEEP, updatedSchedRec.getShowsToKeep());
+        values.put(COLUMN_MINUTESBEFORE, updatedSchedRec.getMinutesBefore());
+        values.put(COLUMN_MINUTESAFTER, updatedSchedRec.getMinutesAfter());
+        values.put(COLUMN_RECURRING, (updatedSchedRec.getRecurring()) ? 1 : 0);
+        int rowsModified = database.update(SCHEDULEDRECORDINGTABLE, values, COLUMN_ID + " = " + Long.toString(updatedSchedRec.getId()), null);
+        if (rowsModified != 1)
+            return false;
+        else
+            return true;
+    }
+
     private ScheduledRecording cursorToScheduledRec(Cursor cursor) {
         long schedRecId = cursor.getLong(IDX_COLUMN_ID);
         long showInfoId = cursor.getLong(IDX_COLUMN_SHOWINFO_ID);
