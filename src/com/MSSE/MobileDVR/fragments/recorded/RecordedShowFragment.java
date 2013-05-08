@@ -40,7 +40,7 @@ public class RecordedShowFragment extends ListFragment {
 
         Bundle arguments = getArguments();
 
-        List<ScheduledRecording> myRecordedShows = TabMainActivity.getSchedRecDB().getScheduledRecordingList();
+        List<RecordedShow> myRecordedShows = TabMainActivity.getRecordedShowDB().getRecordedShowList();
         //listAdapter = new ContactAdapter(this, R.layout.list_item, new LinkedList<Contact>());
         // initialize the list view
         ListAdapter myAdp = new RecordedShowsAdapter(getActivity(), R.layout.my_recorded_shows_list_item, myRecordedShows);
@@ -73,13 +73,14 @@ public class RecordedShowFragment extends ListFragment {
         public View getView(int position, View convertView, ViewGroup parent) {
 
             LayoutInflater inflater = getActivity().getLayoutInflater();
-            View item = inflater.inflate(R.layout.my_scheduled_recording_list_item, parent, false);
+            View item = inflater.inflate(R.layout.my_recorded_shows_list_item, parent, false);
 
             RecordedShow rs = getItem(position);
             if (rs != null ) {
-                ((TextView)item.findViewById(R.id.item_name)).setText(rs.);
-                ((TextView)item.findViewById(R.id.item_title)).setText(rs.getShowInfo().getDescription());
-                ((TextView)item.findViewById(R.id.item_phone)).setText(rs.getOriginalAirtime().toString());
+                ((TextView)item.findViewById(R.id.item_title)).setText(rs.getShowInfo().getTitle());
+                ((TextView)item.findViewById(R.id.item_channel)).setText(rs.getOriginalAirtime().getChannel().getName());
+                ((TextView)item.findViewById(R.id.item_timeofday)).setText(rs.getOriginalAirtime().getStartTime().toString());
+                ((TextView)item.findViewById(R.id.item_theday)).setText(rs.getOriginalAirtime().getStartTime().toString());
             }
 
             item.setTag(rs);
