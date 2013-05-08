@@ -83,7 +83,6 @@ public class RecordOptionFragment extends Fragment {
 				showName.setText("\"" + showTimeSlot.getShowInfo().getTitle() + "\"");
 				TextView actionResult = (TextView)layout.findViewById(R.id.action_result);
 				actionResult.setText("has been scheduled for recording. After the recording is complete, you can playback your recording from the \"My Shows\" tab");
-				//        layout.setBackgroundResource(60);
 				toast.setView(layout);
 				toast.setDuration(Toast.LENGTH_LONG);
 				toast.setGravity(Gravity.FILL, 0, 0);

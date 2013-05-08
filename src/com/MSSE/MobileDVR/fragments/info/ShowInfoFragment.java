@@ -1,9 +1,12 @@
 package com.MSSE.MobileDVR.fragments.info;
 
+import java.net.URI;
 import java.util.Date;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -12,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import android.widget.Toast;
 import com.MSSE.MobileDVR.R;
 import com.MSSE.MobileDVR.TabMainActivity;
 import com.MSSE.MobileDVR.datamodel.ShowTimeSlot;
@@ -19,6 +23,7 @@ import com.MSSE.MobileDVR.fragments.guide.ChannelGuideFragment;
 
 public class ShowInfoFragment extends Fragment {
 
+    public static final String PREVIEW_URL = "PreviewURL";
 	private ShowTimeSlot showTimeSlot;
     private int channelNum;
     private Date showDate;
@@ -85,6 +90,20 @@ public class ShowInfoFragment extends Fragment {
 
 			}
 		});
+
+        Button previewButton = (Button)view.findViewById(R.id.showInfoPreviewButton);
+        previewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if ((showTimeSlot.getPreviewUrl() == null) ||
+                        (showTimeSlot.getPreviewUrl() == "")) {
+                    Toast.makeText(v.getContext(), "No preview data available", Toast.LENGTH_LONG).show();
+                } else {
+                    Uri previewUri = Uri.parse(showTimeSlot.getPreviewUrl());
+                    startActivity(new Intent(Intent.ACTION_VIEW, previewUri));
+                }
+            }
+        });
 		
 //      Button upcomingButton = (Button)findViewById(R.id.showInfoUpcomingButton);
 		//        upcomingButton.setOnClickListener(new View.OnClickListener() {
