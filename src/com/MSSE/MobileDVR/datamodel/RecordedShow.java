@@ -9,4 +9,6 @@ public class RecordedShow
 	private ShowInfo showInfo;
 	private ShowTimeSlot originalAirtime;
 	// some handle to the audio/video data
+
+
 }
