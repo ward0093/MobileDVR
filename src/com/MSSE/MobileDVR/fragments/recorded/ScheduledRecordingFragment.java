@@ -175,7 +175,7 @@ public class ScheduledRecordingFragment extends ListFragment {
         fragment.setArguments(args);
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         // "info" should be changed to "guide" after final integration
-        ft.replace(android.R.id.content, fragment, "info");
+        ft.replace(android.R.id.content, fragment, TabMainActivity.INFO);
         ft.addToBackStack(null);
         ft.commit();
     }
