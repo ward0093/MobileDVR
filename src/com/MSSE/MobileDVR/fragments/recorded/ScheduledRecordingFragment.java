@@ -166,6 +166,7 @@ public class ScheduledRecordingFragment extends ListFragment {
 //        ft.addToBackStack(null);
 //        ft.commit();
 
+        getActivity().getActionBar().setSelectedNavigationItem(TabMainActivity.INFO_INDEX);
         Fragment fragment = new ShowInfoFragment();
         Bundle args = new Bundle();
         args.putInt(ChannelGuideFragment.ADD_OR_EDIT_OPTIONS, ChannelGuideFragment.EDIT_OPTION); //this is a ADD = 0
