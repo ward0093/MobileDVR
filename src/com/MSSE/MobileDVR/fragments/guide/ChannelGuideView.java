@@ -67,7 +67,7 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener, On
 
 	private static final int backgroundRowColor[] =
 	{
-			0x55999999, 0x55444444
+			0x55aaaaaa, 0x55111111
 	};
 
 	/**
