@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="32dp">
+    <TextView
+            android:id="@+id/upcomingDate"
+            android:layout_width="70dp"
+            android:layout_alignParentLeft="true"
+            android:text="Date"
+            style="@style/ListItemStyle"/>
+
+    <TextView
+            android:id="@+id/upcomingStartTime"
+            android:layout_width="90dp"
+            android:layout_marginLeft="38dp"
+            android:layout_toRightOf="@+id/upcomingDate"
+            android:text="Start Time"
+            style="@style/ListItemStyle"/>
+
+    <TextView
+            android:id="@+id/upcomingEndTime"
+            android:layout_width="90dp"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@+id/upcomingStartTime"
+            android:text="End Time"
+            style="@style/ListItemStyle"/>
+
+    <TextView
+            android:id="@+id/upcomingChannel"
+            style="@style/ListItemStyle"
+            android:layout_width="wrap_content"
+            android:layout_alignBaseline="@+id/upcomingEndTime"
+            android:layout_alignBottom="@+id/upcomingEndTime"
+            android:layout_marginLeft="17dp"
+            android:layout_toRightOf="@+id/upcomingEndTime"
+            android:text="Ch#"
+            />
+
+</RelativeLayout>

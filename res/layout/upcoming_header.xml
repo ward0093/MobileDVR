@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+    <LinearLayout android:orientation="vertical"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  style="@style/ShowInfoDetail">
+        <TextView
+                android:id="@+id/upcomingShowNameLabel"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:text="Show:"/>
+        <TextView
+                android:id="@+id/upcomingShowNameData"
+                android:layout_width="fill_parent"
+                android:layout_height="30dp"
+                android:paddingLeft="5dp"
+                android:text="Show Name"/>
+    </LinearLayout>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:orientation="horizontal"
+                    android:background="@color/background_stop" >
+
+        <TextView
+                android:id="@+id/upcomingDateLabel"
+                android:layout_width="70dp"
+                android:layout_alignParentLeft="true"
+                android:text="Date"
+                style="@style/ListHeaderStyle"/>
+
+        <TextView
+                android:id="@+id/upcomingStartTimeLabel"
+                android:layout_width="90dp"
+                android:layout_marginLeft="38dp"
+                android:layout_toRightOf="@+id/upcomingDateLabel"
+                android:text="Start Time"
+                style="@style/ListHeaderStyle"/>
+
+        <TextView
+                android:id="@+id/upcomingEndTimeLabel"
+                android:layout_width="90dp"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@+id/upcomingStartTimeLabel"
+                android:text="End Time"
+                style="@style/ListHeaderStyle"/>
+
+        <TextView
+                android:id="@+id/upcomingChannelLabel"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="17dp"
+                android:layout_toRightOf="@+id/upcomingEndTimeLabel"
+                android:text="Ch#"
+                style="@style/ListHeaderStyle"/>
+
+    </RelativeLayout>
+</LinearLayout>

@@ -70,6 +70,12 @@ public class ShowTimeSlot
         return dateFormatter.format(startTime);
     }
 
+    public String getEndTimeTimeOnly()
+    {
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("h:mm a");
+        return dateFormatter.format(getEndTime());
+    }
+
     public String getStartTimeDayOfWeek()
     {
 //        Calendar calendar = Calendar.getInstance();

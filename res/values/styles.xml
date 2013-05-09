@@ -99,10 +99,26 @@
 	
 	<style name="MyActionBarTabTextStyle">
     	<item name="android:textSize">14dp</item>
-	</style> 
+	</style>
 
+    <style name="ListHeaderStyle">
+        <item name="android:textSize">12dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_margin">4dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textColor">@color/foreground_start</item>
+    </style>
 
-	<style name="MyAppTheme" parent="@android:style/Theme.Holo">
+    <style name="ListItemStyle">
+        <item name="android:textSize">12dp</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_margin">4dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textColor">@color/foreground_start</item>
+    </style>
+
+    <style name="MyAppTheme" parent="@android:style/Theme.Holo">
     	<item name="android:actionBarTabStyle">@style/MyActionBarTabStyle</item>
     	<item name="android:actionBarTabBarStyle">@style/MyActionBarTabBarStyle</item>
     	<item name="android:actionBarTabTextStyle">@style/MyActionBarTabTextStyle</item>

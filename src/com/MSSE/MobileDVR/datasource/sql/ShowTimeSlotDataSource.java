@@ -148,9 +148,9 @@ public class ShowTimeSlotDataSource {
         return showTimeSlotList;
     }
 
-    public ShowTimeSlot[] getTimeSlotsForShow(ShowInfo showInfo) {
-        Cursor cursor = database.query(SHOWTIMESLOTTABLE, allColumns, COLUMN_SHOW_INFO_ID + " = " + showInfo.getId(),
-                null, null, null, COLUMN_CHANNEL_ID + " ASC, " + COLUMN_START_TIME + " ASC");
+    public List<ShowTimeSlot> getTimeSlotsListForShow(long showInfoId) {
+        Cursor cursor = database.query(SHOWTIMESLOTTABLE, allColumns, COLUMN_SHOW_INFO_ID + " = " + showInfoId,
+                null, null, null, COLUMN_START_TIME + " ASC, " + COLUMN_DURATION + " ASC");
         cursor.moveToFirst();
         List<ShowTimeSlot> showTimeSlotList = new ArrayList<ShowTimeSlot>();
         while (!cursor.isAfterLast()) {
@@ -158,6 +158,19 @@ public class ShowTimeSlotDataSource {
             cursor.moveToNext();
         }
         cursor.close();
+        if (!showTimeSlotList.isEmpty()) {
+            return showTimeSlotList;
+        } else {
+            return null;
+        }
+    }
+
+    public List<ShowTimeSlot> getTimeSlotsListForShow(ShowInfo showInfo) {
+        return getTimeSlotsListForShow(showInfo.getId());
+    }
+
+    public ShowTimeSlot[] getTimeSlotsForShow(ShowInfo showInfo) {
+        List<ShowTimeSlot> showTimeSlotList = getTimeSlotsListForShow(showInfo);
         if (!showTimeSlotList.isEmpty()) {
             ShowTimeSlot[] showTimeSlots = new ShowTimeSlot[showTimeSlotList.size()];
             showTimeSlotList.toArray(showTimeSlots);

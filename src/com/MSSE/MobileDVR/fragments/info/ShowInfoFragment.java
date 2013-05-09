@@ -32,6 +32,7 @@ import com.MSSE.MobileDVR.fragments.recorded.ScheduledRecordingFragment;
 public class ShowInfoFragment extends Fragment {
 
     public static final String PREVIEW_URL = "PreviewURL";
+    public static final String SHOWINFOID = "ShowInfoId";
 	private ShowTimeSlot showTimeSlot;
     private int channelNum;
     private Date showDate;
@@ -99,7 +100,7 @@ public class ShowInfoFragment extends Fragment {
             	fragment.setArguments(args);
             	FragmentTransaction ft = getFragmentManager().beginTransaction();
             	// "info" should be changed to "guide" after final integration
-            	ft.replace(android.R.id.content, fragment, "info");
+            	ft.replace(android.R.id.content, fragment, TabMainActivity.INFO);
             	ft.addToBackStack(null);
             	ft.commit();
 
@@ -128,6 +129,7 @@ public class ShowInfoFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (showInfoType == ChannelGuideFragment.EDIT_OPTION) {
+                    /* Upcoming button is the delete button when editing a scheduled recording */
                     AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
                     builder.setMessage("Are you sure you want to delete scheduled recording for \"" + showTimeSlot.getShowInfo().getTitle() + "\"?")
                             .setTitle("Delete scheduled recording?");
@@ -156,10 +158,8 @@ public class ShowInfoFragment extends Fragment {
                             toast.show();
 
                             Fragment fragment = new ScheduledRecordingFragment();
-                            int iMyShows = 2;
                             getActivity().getActionBar().setSelectedNavigationItem(TabMainActivity.MYSHOWS_INDEX);
                             FragmentTransaction ft = getFragmentManager().beginTransaction();
-                            // "info" should be changed to "guide" after final integration
                             ft.replace(android.R.id.content, fragment, TabMainActivity.MYSHOWS);
                             ft.addToBackStack(null);
                             ft.commit();
@@ -173,6 +173,17 @@ public class ShowInfoFragment extends Fragment {
                     });
                     AlertDialog deleteAlert = builder.create();
                     deleteAlert.show();
+                } else {
+                    /* Actually is the Upcoming button */
+                    Fragment fragment = new UpcomingFragment();
+                    Bundle args = new Bundle();
+                    //set your arguments that you need to pass to the UpcomingFragment
+                    args.putLong(SHOWINFOID, showTimeSlot.getShowInfo().getId());
+                    fragment.setArguments(args);
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    ft.replace(android.R.id.content, fragment, TabMainActivity.INFO);
+                    ft.addToBackStack(null);
+                    ft.commit();
                 }
             }
         });
