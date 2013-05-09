@@ -149,7 +149,7 @@ public class ScheduledRecordingFragment extends ListFragment {
         Fragment fragment = new RecordOptionFragment();
         Bundle args = new Bundle();
         //set your arguments that you need to pass to the RecordOptionFragment
-        args.putInt(ChannelGuideFragment.CHANNEL_ID, mySR.getOriginalAirtime().getChannel().getNumber());
+        args.putInt(ChannelGuideFragment.CHANNEL_NUM, mySR.getOriginalAirtime().getChannel().getNumber());
         args.putSerializable(ChannelGuideFragment.TIME_SLOT_DATE, mySR.getOriginalAirtime().getStartTime());
         fragment.setArguments(args);
         FragmentTransaction ft = getFragmentManager().beginTransaction();
