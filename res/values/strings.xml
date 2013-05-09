@@ -25,4 +25,5 @@
      <string name="help_search_title">Search</string>
     <string name="help_search_content">Looking for something specific? Search for a show or movie by title or channel and get results from TV and the web. When you find something that looks interesting, you can schedule a recording — all with the simple press of a button</string>
     <string name="no_show_info">No show info available. Please select a show from channel guide listing.</string>
+    <string name="no_scheduled_recordings">No scheduled recordings available. Please create a scheduled recording from the channel guide first.</string>
 </resources>

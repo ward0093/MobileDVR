@@ -6,11 +6,7 @@ import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.content.Context;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 
 import android.widget.*;
 import com.MSSE.MobileDVR.R;
@@ -35,13 +31,25 @@ import java.util.List;
  */
 public class ScheduledRecordingFragment extends ListFragment {
 
+    List<ScheduledRecording> mySchedule = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        View view = inflater.inflate(R.layout.my_scheduled_recordings, container, false);
+        mySchedule = TabMainActivity.getSchedRecDB().getScheduledRecordingList();
+        View view = null;
+
+//        if (mySchedule.size() == 0){
+//            view = new ListView(getActivity());
+//            TextView v2 = new TextView(getActivity());
+//            v2.setGravity(Gravity.CENTER);
+//            v2.setText(getString(R.string.no_scheduled_recordings));
+//            view.addView(v2);
+//        } else {
+            view = inflater.inflate(R.layout.my_scheduled_recordings, container, false);
+//        }
 
         setMenuVisibility(true);
         setHasOptionsMenu(true);
@@ -60,8 +68,6 @@ public class ScheduledRecordingFragment extends ListFragment {
         View view = getView();
         Bundle arguments = getArguments();
 
-        List<ScheduledRecording> mySchedule = TabMainActivity.getSchedRecDB().getScheduledRecordingList();
-        //listAdapter = new ContactAdapter(this, R.layout.list_item, new LinkedList<Contact>());
         // initialize the list view
         ListAdapter myAdp = new ScheduledRecordingAdapter(getActivity(), R.layout.my_scheduled_recording_list_item, mySchedule);
 

@@ -3,7 +3,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
                 android:orientation="horizontal"
-                android:background="@drawable/item_background" >
+                android:background="@color/background_stop" >
 
     <TextView
         android:id="@+id/scheduled_recording_item_title"
@@ -12,7 +12,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_margin="4dp"
-        android:text="Name"
+        android:text="Title"
         android:textSize="12dp"
         android:textStyle="bold" 
         android:textColor="@color/foreground_start"/>
@@ -25,7 +25,7 @@
         android:layout_margin="4dp"
         android:layout_marginLeft="38dp"
         android:layout_toRightOf="@+id/scheduled_recording_item_title"
-        android:text="Channel"
+        android:text="Ch#"
         android:textSize="12dp" 
         android:textColor="@color/foreground_start"/>
 
@@ -37,7 +37,7 @@
         android:layout_margin="4dp"
         android:layout_marginLeft="15dp"
         android:layout_toRightOf="@+id/scheduled_recording_item_channel"
-        android:text="TimeOfDay"
+        android:text="Time"
         android:textSize="12dp" 
         android:textColor="@color/foreground_start"/>
 
@@ -50,7 +50,7 @@
         android:layout_margin="4dp"
         android:layout_marginLeft="17dp"
         android:layout_toRightOf="@+id/scheduled_recording_item_timeofday"
-        android:text="Channel"
+        android:text="Date"
         android:textSize="12dp" 
         android:textColor="@color/foreground_start"/>
 
