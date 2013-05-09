@@ -448,15 +448,14 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener, On
 	
 	private static void launchShowInfo(Activity activity, ShowTimeSlot showTimeSlot)
 	{
-		int iShowInfo = 1;
-		activity.getActionBar().setSelectedNavigationItem(iShowInfo);
+		activity.getActionBar().setSelectedNavigationItem(TabMainActivity.INFO_INDEX);
 		Fragment fragment = new ShowInfoFragment();
 		Bundle args = new Bundle();
 		args.putInt(ChannelGuideFragment.CHANNEL_ID, showTimeSlot.getChannel().getNumber());
 		args.putSerializable(ChannelGuideFragment.TIME_SLOT_DATE, showTimeSlot.getStartTime());
 		fragment.setArguments(args);
 		FragmentTransaction ft = activity.getFragmentManager().beginTransaction();
-		ft.replace(android.R.id.content, fragment, "info");
+		ft.replace(android.R.id.content, fragment, TabMainActivity.INFO);
 		ft.addToBackStack(null);
 		ft.commit();
 	}

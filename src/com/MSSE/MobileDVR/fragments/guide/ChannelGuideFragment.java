@@ -13,6 +13,7 @@ import android.widget.SearchView.OnQueryTextListener;
 import android.widget.Toast;
 
 import com.MSSE.MobileDVR.R;
+import com.MSSE.MobileDVR.TabMainActivity;
 import com.MSSE.MobileDVR.fragments.help.HelpFragment;
 import com.MSSE.MobileDVR.fragments.help.HelpHelper;
 
@@ -66,7 +67,7 @@ public class ChannelGuideFragment extends Fragment
 		    switch (item.getItemId()) {
 		                 
 		        case R.id.help :
-		        	HelpHelper.displayHelp(item, getActivity(), HelpFragment.class, "guide", null);
+		        	HelpHelper.displayHelp(item, getActivity(), HelpFragment.class, TabMainActivity.GUIDE, null);
 		        	return true;
 		        // Other case statements...
 
@@ -110,7 +111,7 @@ public class ChannelGuideFragment extends Fragment
 				args.putString(ChannelGuideFragment.QUERY, query);
 				fragment.setArguments(args);
 				FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
-				ft.replace(android.R.id.content, fragment, "guide");
+				ft.replace(android.R.id.content, fragment, TabMainActivity.GUIDE);
 				ft.addToBackStack(null);
 				ft.commit();
 
