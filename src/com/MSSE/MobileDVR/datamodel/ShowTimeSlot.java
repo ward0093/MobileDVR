@@ -1,5 +1,6 @@
 package com.MSSE.MobileDVR.datamodel;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -57,24 +58,32 @@ public class ShowTimeSlot
 
     public String getStartTimeTimeOnly()
     {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime( startTime );
-        int hours = calendar.get( Calendar.HOUR_OF_DAY );
-        int minutes = calendar.get( Calendar.MINUTE );
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTime( startTime );
+//        int hours = calendar.get( Calendar.HOUR_OF_DAY );
+//        int minutes = calendar.get( Calendar.MINUTE );
+//
+//        //String myHours = calendar.getDisplayName(Calendar.HOUR_OF_DAY, Calendar.SHORT, Locale.US);
+//        return "" + hours + ":" + minutes;
 
-        //String myHours = calendar.getDisplayName(Calendar.HOUR_OF_DAY, Calendar.SHORT, Locale.US);
-        return "" + hours + ":" + minutes;
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("h:mm a");
+        return dateFormatter.format(startTime);
     }
 
     public String getStartTimeDayOfWeek()
     {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime( startTime );
-        int hours = calendar.get( Calendar.HOUR_OF_DAY );
-        int minutes = calendar.get( Calendar.MINUTE );
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTime( startTime );
+//        int hours = calendar.get( Calendar.HOUR_OF_DAY );
+//        int minutes = calendar.get( Calendar.MINUTE );
+//
+//        String myDay = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.US);
+//        return "" + myDay;
 
-        String myDay = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.US);
-        return "" + myDay;
+        //private static final String SHOW_TIME_FORMAT = "h:mm a";
+        //private static final String SHOW_DATE_FORMAT = "EEE M/d";
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("EEE M/d");
+        return dateFormatter.format(startTime);
     }
 
 	public int getDurationMinutes()
