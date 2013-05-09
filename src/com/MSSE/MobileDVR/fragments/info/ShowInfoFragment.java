@@ -8,6 +8,7 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,9 +38,16 @@ public class ShowInfoFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-
+		View view;
 		super.onCreate(savedInstanceState);
-		View view = inflater.inflate(R.layout.show_details, container, false);
+		 Bundle arguments = getArguments();
+	     if (arguments == null){
+	    	 view = new TextView(getActivity());
+	    	 ((TextView)view).setGravity(Gravity.CENTER);
+	    	 ((TextView)view).setText(getString(R.string.no_show_info));
+	     } else {
+	    	 view = inflater.inflate(R.layout.show_details, container, false); 
+	     }
 	
 		setMenuVisibility(true);
 		setHasOptionsMenu(true);
@@ -51,6 +59,9 @@ public class ShowInfoFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         View view = getView();
         Bundle arguments = getArguments();
+        if (arguments == null){
+        	return;
+        }
 		channelNum = arguments.getInt(ChannelGuideFragment.CHANNEL_ID, -1);
 		showDate = (Date) arguments.getSerializable(ChannelGuideFragment.TIME_SLOT_DATE);
 		
