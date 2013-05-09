@@ -127,9 +127,10 @@ public class ScheduledRecordingFragment extends ListFragment {
 
             ScheduledRecording sr = getItem(position);
             if (sr != null ) {
-                ((TextView)item.findViewById(R.id.item_name)).setText(sr.getShowInfo().getTitle());
-                ((TextView)item.findViewById(R.id.item_title)).setText(sr.getShowInfo().getDescription());
-                ((TextView)item.findViewById(R.id.item_phone)).setText(sr.getOriginalAirtime().toString());
+                ((TextView)item.findViewById(R.id.scheduled_recording_item_title)).setText(sr.getShowInfo().getTitle());
+                ((TextView)item.findViewById(R.id.scheduled_recording_item_channel)).setText(sr.getOriginalAirtime().getChannel().getNumber());
+                ((TextView)item.findViewById(R.id.scheduled_recording_item_timeofday)).setText(sr.getOriginalAirtime().getStartTime().toString());
+                ((TextView)item.findViewById(R.id.scheduled_recording_item_theday)).setText(sr.getOriginalAirtime().getStartTime().toString());
             }
 
             item.setTag(sr);

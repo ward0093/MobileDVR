@@ -5,7 +5,7 @@
                 android:orientation="horizontal"
                 android:background="@drawable/item_background" >
 
-    <TextView android:id="@+id/item_title"
+    <TextView android:id="@+id/scheduled_recording_item_title"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:textSize="14dp"
@@ -13,22 +13,21 @@
               android:textStyle="bold"
               android:text="Name"/>
 
-    <TextView android:id="@+id/item_channel"
+    <TextView android:id="@+id/scheduled_recording_item_channel"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:textSize="14dp"
               android:layout_margin="4dp"
               android:text="Channel"/>
 
-    <TextView android:id="@+id/item_timeofday"
+    <TextView android:id="@+id/scheduled_recording_item_timeofday"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:textSize="14dp"
               android:layout_margin="4dp"
-              android:layout_toLeftOf="@id/item_channel"
               android:text="TimeOfDay"/>
 
-    <TextView android:id="@+id/item_theday"
+    <TextView android:id="@+id/scheduled_recording_item_theday"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:textSize="14dp"
