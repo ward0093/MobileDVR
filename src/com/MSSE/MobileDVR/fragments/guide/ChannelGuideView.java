@@ -17,6 +17,7 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils.TruncateAt;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
@@ -30,6 +31,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.Scroller;
 import android.widget.TextView;
 
 public class ChannelGuideView extends LinearLayout implements ScrollListener, OnTouchListener,
@@ -504,14 +506,15 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener, On
 		final int TIME_WIDTH = DP(DENSITY, 80);
 		final int TITLE_WIDTH = DISPLAY_WIDTH - TIME_WIDTH - CHANNEL_NAME_WIDTH - CHANNEL_NUMBER_WIDTH;
 		final int ROW_HEIGHT = DP(DENSITY, 40);
-		LinearLayout queryView = null;
+		ScrollView result = null;
 
 		ShowMatcher matcher = new ShowMatcher(query);
 		ListingSource listingSource = TabMainActivity.getListingSource();
 		ShowInfo[] shows = listingSource.getShows();
 		if (shows.length > 0)
 		{
-			queryView = new LinearLayout(activity);
+			result = new ScrollView(activity);
+			LinearLayout queryView = new LinearLayout(activity);
 			queryView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 			queryView.setOrientation(LinearLayout.VERTICAL);
 			int row = 0;
@@ -544,6 +547,7 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener, On
 						channelNameView.setText(channel.getName());
 						channelNameView.setGravity(Gravity.CENTER);
 						channelNameView.setBackgroundColor(color);
+						channelNameView.setEllipsize(TruncateAt.END);
 						infoView.addView(channelNameView);
 						
 						TextView timeView = new TextView(activity);
@@ -558,6 +562,8 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener, On
 						titleView.setText(timeSlot.getShowInfo().getTitle());
 						titleView.setGravity(Gravity.CENTER);
 						titleView.setBackgroundColor(color);
+						titleView.setEllipsize(TruncateAt.END);
+						titleView.setSingleLine();
 						infoView.addView(titleView);
 						
 						infoView.setTag(timeSlot);
@@ -580,8 +586,10 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener, On
 					}
 				}
 			}
+			
+			result.addView(queryView);
 		}
 		
-		return queryView;
+		return result;
 	}
 }
