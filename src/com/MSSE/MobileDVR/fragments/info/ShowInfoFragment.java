@@ -34,6 +34,7 @@ public class ShowInfoFragment extends Fragment {
     private Integer channelNumber;
     private ShowDataConfig showData;
     private TextView showDescriptionData;
+    private int showInfoType;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,6 +65,7 @@ public class ShowInfoFragment extends Fragment {
         }
 		channelNum = arguments.getInt(ChannelGuideFragment.CHANNEL_NUM, -1);
 		showDate = (Date) arguments.getSerializable(ChannelGuideFragment.TIME_SLOT_DATE);
+        showInfoType = arguments.getInt(ChannelGuideFragment.ADD_OR_EDIT_OPTIONS, 0);
 		
 		showTimeSlot = TabMainActivity.getListingSource().lookupTimeSlot(TabMainActivity.getListingSource().lookupChannel(channelNum), showDate);
 		showData = new ShowDataConfig(view);
@@ -77,6 +79,9 @@ public class ShowInfoFragment extends Fragment {
 		}
 
 		Button recordButton = (Button)view.findViewById(R.id.showInfoRecordButton);
+        if (showInfoType == ) {
+            recordButton.setText("Edit");
+        }
 		recordButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -86,6 +91,7 @@ public class ShowInfoFragment extends Fragment {
             	//set your arguments that you need to pass to the RecordOptionFragment
             	args.putInt(ChannelGuideFragment.CHANNEL_NUM, channelNum);
             	args.putSerializable(ChannelGuideFragment.TIME_SLOT_DATE, showDate);
+                args.putInt(ChannelGuideFragment.ADD_OR_EDIT_OPTIONS, showInfoType);
             	fragment.setArguments(args);
             	FragmentTransaction ft = getFragmentManager().beginTransaction();
             	// "info" should be changed to "guide" after final integration
@@ -109,8 +115,11 @@ public class ShowInfoFragment extends Fragment {
                 }
             }
         });
-		
-//      Button upcomingButton = (Button)findViewById(R.id.showInfoUpcomingButton);
+
+        Button upcomingButton = (Button)view.findViewById(R.id.showInfoUpcomingButton);
+        if (showInfoType == ) {
+            upcomingButton.setText("Delete");
+        }
 		//        upcomingButton.setOnClickListener(new View.OnClickListener() {
 		//            @Override
 		//            public void onClick(View v) {
