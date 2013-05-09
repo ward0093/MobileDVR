@@ -111,13 +111,13 @@ public class RecordOptionFragment extends Fragment {
 
                 Fragment fragment = new ScheduledRecordingFragment();
                 int iMyShows = 2;
-                getActivity().getActionBar().setSelectedNavigationItem(iMyShows);
+                getActivity().getActionBar().setSelectedNavigationItem(TabMainActivity.MYSHOWS_INDEX);
 //                Bundle args = new Bundle();
                 //set you arguments that you need to pass to the RecordOptionFragment
 //                fragment.setArguments(args);
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 // "info" should be changed to "guide" after final integration
-                ft.replace(android.R.id.content, fragment, "info");
+                ft.replace(android.R.id.content, fragment, TabMainActivity.MYSHOWS);
                 ft.addToBackStack(null);
                 ft.commit();
 

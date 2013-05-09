@@ -120,7 +120,7 @@ public class ScheduledRecordingDataSource {
                 tempSchedRec.getRecurring());
     }
 
-    public void deleteShowInfo(ScheduledRecording schedRec) {
+    public void deleteScheduledRecording(ScheduledRecording schedRec) {
         database.delete(SCHEDULEDRECORDINGTABLE, COLUMN_ID + " = " + schedRec.getId(), null);
     }
 

@@ -3,8 +3,10 @@ package com.MSSE.MobileDVR.fragments.info;
 import java.net.URI;
 import java.util.Date;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,10 +22,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.MSSE.MobileDVR.R;
 import com.MSSE.MobileDVR.TabMainActivity;
+import com.MSSE.MobileDVR.datamodel.ScheduledRecording;
 import com.MSSE.MobileDVR.datamodel.ShowTimeSlot;
 import com.MSSE.MobileDVR.fragments.guide.ChannelGuideFragment;
 import com.MSSE.MobileDVR.fragments.help.HelpFragment;
 import com.MSSE.MobileDVR.fragments.help.HelpHelper;
+import com.MSSE.MobileDVR.fragments.recorded.ScheduledRecordingFragment;
 
 public class ShowInfoFragment extends Fragment {
 
@@ -120,15 +124,58 @@ public class ShowInfoFragment extends Fragment {
         if (showInfoType == ChannelGuideFragment.EDIT_OPTION) {
             upcomingButton.setText("Delete");
         }
-		//        upcomingButton.setOnClickListener(new View.OnClickListener() {
-		//            @Override
-		//            public void onClick(View v) {
-		//                Intent intent = new Intent(ShowInfoActivity.this, UpcomingActivity.class);
-		//                intent.putExtra(MainActivity.CHANNEL_ID, channelNum);
-		//                intent.putExtra(MainActivity.TIME_SLOT_DATE, showDate);
-		//      ShowInfoActivity.this.startActivity(intent);
-		//            }
-		//        });
+        upcomingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (showInfoType == ChannelGuideFragment.EDIT_OPTION) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                    builder.setMessage("Are you sure you want to delete scheduled recording for \"" + showTimeSlot.getShowInfo().getTitle() + "\"?")
+                            .setTitle("Delete scheduled recording?");
+                    builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            ScheduledRecording schedRec = TabMainActivity.getSchedRecDB().getScheduledRecordingByTimeSlot(showTimeSlot);
+                            if (schedRec != null) {
+                                TabMainActivity.getSchedRecDB().deleteScheduledRecording(schedRec);
+                            } else {
+                                Toast.makeText(getView().getContext(), "Could not find scheduled recording...K bye!", Toast.LENGTH_SHORT).show();
+                            }
+
+                            Toast toast = new Toast(getActivity());
+                            LayoutInflater inflater = getActivity().getLayoutInflater();
+                            View layout = inflater.inflate(R.layout.custom_toast, (ViewGroup)getView().findViewById(R.id.custom_toast_root));
+                            TextView title = (TextView)layout.findViewById(R.id.title);
+                            title.setText("Scheduled Recording Successfully Deleted");
+                            TextView showName = (TextView)layout.findViewById(R.id.show_name);
+                            showName.setText("\"" + showTimeSlot.getShowInfo().getTitle() + "\"");
+                            TextView actionResult = (TextView)layout.findViewById(R.id.action_result);
+                            actionResult.setText("has been DELETED from your scheduled recordings");
+                            toast.setView(layout);
+                            toast.setDuration(Toast.LENGTH_LONG);
+                            toast.setGravity(Gravity.FILL, 0, 0);
+                            toast.show();
+
+                            Fragment fragment = new ScheduledRecordingFragment();
+                            int iMyShows = 2;
+                            getActivity().getActionBar().setSelectedNavigationItem(TabMainActivity.MYSHOWS_INDEX);
+                            FragmentTransaction ft = getFragmentManager().beginTransaction();
+                            // "info" should be changed to "guide" after final integration
+                            ft.replace(android.R.id.content, fragment, TabMainActivity.MYSHOWS);
+                            ft.addToBackStack(null);
+                            ft.commit();
+                        }
+                    });
+                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    AlertDialog deleteAlert = builder.create();
+                    deleteAlert.show();
+                }
+            }
+        });
 
         Button watchNowButton = (Button)view.findViewById(R.id.showInfoWatchNowButton);
         watchNowButton.setOnClickListener(new View.OnClickListener() {
