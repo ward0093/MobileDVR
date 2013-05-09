@@ -168,7 +168,7 @@ public class ScheduledRecordingFragment extends ListFragment {
 
         Fragment fragment = new ShowInfoFragment();
         Bundle args = new Bundle();
-        args.putInt(ChannelGuideFragment.ADD_OR_EDIT_OPTIONS, 1); //this is a ADD = 0
+        args.putInt(ChannelGuideFragment.ADD_OR_EDIT_OPTIONS, ChannelGuideFragment.EDIT_OPTION); //this is a ADD = 0
         args.putInt(ChannelGuideFragment.CHANNEL_NUM, mySR.getOriginalAirtime().getChannel().getNumber());
         args.putSerializable(ChannelGuideFragment.TIME_SLOT_DATE, mySR.getOriginalAirtime().getStartTime());
         fragment.setArguments(args);
