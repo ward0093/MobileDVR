@@ -162,11 +162,12 @@ public class ScheduledRecordingFragment extends ListFragment {
 
         Fragment fragment = new ShowInfoFragment();
         Bundle args = new Bundle();
-        args.putInt(ChannelGuideFragment.CHANNEL_ID, mySR.getOriginalAirtime().getChannel().getNumber());
         args.putInt(ChannelGuideFragment.ADD_OR_EDIT_OPTIONS, 1); //this is a ADD = 0
+        args.putInt(ChannelGuideFragment.CHANNEL_NUM, mySR.getOriginalAirtime().getChannel().getNumber());
         args.putSerializable(ChannelGuideFragment.TIME_SLOT_DATE, mySR.getOriginalAirtime().getStartTime());
         fragment.setArguments(args);
         FragmentTransaction ft = getFragmentManager().beginTransaction();
+        // "info" should be changed to "guide" after final integration
         ft.replace(android.R.id.content, fragment, "info");
         ft.addToBackStack(null);
         ft.commit();

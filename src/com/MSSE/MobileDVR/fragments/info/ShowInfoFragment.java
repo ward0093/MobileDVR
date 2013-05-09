@@ -62,7 +62,7 @@ public class ShowInfoFragment extends Fragment {
         if (arguments == null){
         	return;
         }
-		channelNum = arguments.getInt(ChannelGuideFragment.CHANNEL_ID, -1);
+		channelNum = arguments.getInt(ChannelGuideFragment.CHANNEL_NUM, -1);
 		showDate = (Date) arguments.getSerializable(ChannelGuideFragment.TIME_SLOT_DATE);
 		
 		showTimeSlot = TabMainActivity.getListingSource().lookupTimeSlot(TabMainActivity.getListingSource().lookupChannel(channelNum), showDate);
@@ -84,7 +84,7 @@ public class ShowInfoFragment extends Fragment {
 				Fragment fragment = new RecordOptionFragment();
             	Bundle args = new Bundle();
             	//set your arguments that you need to pass to the RecordOptionFragment
-            	args.putInt(ChannelGuideFragment.CHANNEL_ID, channelNum);
+            	args.putInt(ChannelGuideFragment.CHANNEL_NUM, channelNum);
             	args.putSerializable(ChannelGuideFragment.TIME_SLOT_DATE, showDate);
             	fragment.setArguments(args);
             	FragmentTransaction ft = getFragmentManager().beginTransaction();
