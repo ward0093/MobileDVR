@@ -452,7 +452,6 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener, On
 		activity.getActionBar().setSelectedNavigationItem(iShowInfo);
 		Fragment fragment = new ShowInfoFragment();
 		Bundle args = new Bundle();
-		args.putInt(ChannelGuideFragment.CHANNEL_ID, showTimeSlot.getChannel().getNumber());
         args.putInt(ChannelGuideFragment.ADD_OR_EDIT_OPTIONS, 0); //this is a ADD = 0
 		args.putInt(ChannelGuideFragment.CHANNEL_NUM, showTimeSlot.getChannel().getNumber());
 		args.putSerializable(ChannelGuideFragment.TIME_SLOT_DATE, showTimeSlot.getStartTime());
