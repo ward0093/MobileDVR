@@ -19,7 +19,7 @@ import com.MSSE.MobileDVR.fragments.help.HelpHelper;
 public class ChannelGuideFragment extends Fragment
 {
 
-	public static final String CHANNEL_ID = "channelNumber";
+	public static final String CHANNEL_NUM = "channelNumber";
 	public static final String TIME_SLOT_DATE = "timeSlotDate";
 	public static final String QUERY = "query";
 	public static ChannelGuideView channelGuideView = null;
