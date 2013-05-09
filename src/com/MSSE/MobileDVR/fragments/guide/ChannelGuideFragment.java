@@ -23,6 +23,8 @@ public class ChannelGuideFragment extends Fragment
 	public static final String CHANNEL_NUM = "channelNumber";
 	public static final String TIME_SLOT_DATE = "timeSlotDate";
     public static final String ADD_OR_EDIT_OPTIONS = "AddOrEditOption"; //ADD=0, EDIT=1
+    public static final int ADD_OPTION = 0;
+    public static final int EDIT_OPTION = 1;
 	public static final String QUERY = "query";
 	public static ChannelGuideView channelGuideView = null;
 

@@ -137,6 +137,18 @@ public class ScheduledRecordingDataSource {
         return schedRec;
     }
 
+    public ScheduledRecording getScheduledRecordingByTimeSlot(ShowTimeSlot timeSlot) {
+        ScheduledRecording schedRec = null;
+        Cursor cursor = database.query(SCHEDULEDRECORDINGTABLE, allColumns, COLUMN_CHANNEL_ID + " = " +
+                timeSlot.getChannel().getId() + " AND " + COLUMN_ORIGSTARTTIME + " = " + timeSlot.getStartTime().getTime(),
+                null, null, null, null);
+        cursor.moveToFirst();
+        if (!cursor.isAfterLast())
+            schedRec = cursorToScheduledRec(cursor);
+        cursor.close();
+        return schedRec;
+    }
+
     public List<ScheduledRecording> getScheduledRecordingList() {
         List<ScheduledRecording> schedRecList = new ArrayList<ScheduledRecording>();
         Cursor cursor = database.query(SCHEDULEDRECORDINGTABLE, allColumns, null, null, null, null, null);

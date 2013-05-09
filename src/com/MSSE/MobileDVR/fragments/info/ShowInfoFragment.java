@@ -65,7 +65,7 @@ public class ShowInfoFragment extends Fragment {
         }
 		channelNum = arguments.getInt(ChannelGuideFragment.CHANNEL_NUM, -1);
 		showDate = (Date) arguments.getSerializable(ChannelGuideFragment.TIME_SLOT_DATE);
-        showInfoType = arguments.getInt(ChannelGuideFragment.ADD_OR_EDIT_OPTIONS, 0);
+        showInfoType = arguments.getInt(ChannelGuideFragment.ADD_OR_EDIT_OPTIONS, ChannelGuideFragment.ADD_OPTION);
 		
 		showTimeSlot = TabMainActivity.getListingSource().lookupTimeSlot(TabMainActivity.getListingSource().lookupChannel(channelNum), showDate);
 		showData = new ShowDataConfig(view);
@@ -79,7 +79,7 @@ public class ShowInfoFragment extends Fragment {
 		}
 
 		Button recordButton = (Button)view.findViewById(R.id.showInfoRecordButton);
-        if (showInfoType == ) {
+        if (showInfoType == ChannelGuideFragment.EDIT_OPTION) {
             recordButton.setText("Edit");
         }
 		recordButton.setOnClickListener(new View.OnClickListener() {
@@ -117,7 +117,7 @@ public class ShowInfoFragment extends Fragment {
         });
 
         Button upcomingButton = (Button)view.findViewById(R.id.showInfoUpcomingButton);
-        if (showInfoType == ) {
+        if (showInfoType == ChannelGuideFragment.EDIT_OPTION) {
             upcomingButton.setText("Delete");
         }
 		//        upcomingButton.setOnClickListener(new View.OnClickListener() {

@@ -29,10 +29,13 @@ import android.widget.Toast;
 import com.MSSE.MobileDVR.fragments.recorded.ScheduledRecordingFragment;
 
 public class RecordOptionFragment extends Fragment {
+    private final long millsPerDay = 1000L * 60L * 60L * 24L;
 	private ShowTimeSlot showTimeSlot;
 	private int channelNum;
 	private Date showDate;
 	private ShowDataConfig showData;
+    private int showInfoType;
+    private ScheduledRecording tempSchedRec;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,12 +57,20 @@ public class RecordOptionFragment extends Fragment {
         Bundle arguments = getArguments();
 		channelNum = arguments.getInt(ChannelGuideFragment.CHANNEL_NUM, -1);
 		showDate = (Date) arguments.getSerializable(ChannelGuideFragment.TIME_SLOT_DATE);
+        showInfoType = arguments.getInt(ChannelGuideFragment.ADD_OR_EDIT_OPTIONS, ChannelGuideFragment.ADD_OPTION);
 		
 		showTimeSlot = TabMainActivity.getListingSource().lookupTimeSlot(TabMainActivity.getListingSource().lookupChannel(channelNum), showDate);
 		showData = new ShowDataConfig(fragmentView);
 		showData.setAllShowData(showTimeSlot);
+        if (showInfoType == ChannelGuideFragment.EDIT_OPTION) {
+            tempSchedRec = TabMainActivity.getSchedRecDB().getScheduledRecordingByTimeSlot(showTimeSlot);
+            updateRecordingOptions(tempSchedRec);
+        }
+        else
+            tempSchedRec = new ScheduledRecording();
 
-		Button okButton = (Button)fragmentView.findViewById(R.id.recordOptionsOkButton);
+
+        Button okButton = (Button)fragmentView.findViewById(R.id.recordOptionsOkButton);
 		okButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -68,15 +79,20 @@ public class RecordOptionFragment extends Fragment {
 				EditText daysToKeep = (EditText)fragmentView.findViewById(R.id.numberDaysRetainData);
 				EditText minBefore = (EditText)fragmentView.findViewById(R.id.minutesBeforeRecordData);
 				EditText minAfter = (EditText)fragmentView.findViewById(R.id.minutesAfterRecordData);
-				ScheduledRecording tempSchedRec = new ScheduledRecording();
+                if (showInfoType == ChannelGuideFragment.ADD_OPTION) {
+                    tempSchedRec.setOriginalAirtime(showTimeSlot);
+                    tempSchedRec.setShowInfo(showTimeSlot.getShowInfo());
+                }
 				tempSchedRec.setRecurring(recurring.isChecked());
                 tempSchedRec.setShowsToKeep(Integer.parseInt(showsToKeep.getText().toString()));
                 tempSchedRec.setKeepUntil(showTimeSlot.getStartTime(), Integer.parseInt(daysToKeep.getText().toString()));
                 tempSchedRec.setMinutesBefore(Integer.parseInt(minBefore.getText().toString()));
                 tempSchedRec.setMinutesAfter(Integer.parseInt(minAfter.getText().toString()));
-                tempSchedRec.setOriginalAirtime(showTimeSlot);
-                tempSchedRec.setShowInfo(showTimeSlot.getShowInfo());
-                TabMainActivity.getSchedRecDB().createScheduledRecording(tempSchedRec);
+
+                if (showInfoType == ChannelGuideFragment.EDIT_OPTION)
+                    TabMainActivity.getSchedRecDB().updateScheduledRecording(tempSchedRec);
+                else
+                    TabMainActivity.getSchedRecDB().createScheduledRecording(tempSchedRec);
 
 
                 Toast toast = new Toast(getActivity());
@@ -115,16 +131,18 @@ public class RecordOptionFragment extends Fragment {
 			}
 		});
 	}
-	
-	@Override
+
+
+
+    @Override
 	public void onPrepareOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		super.onPrepareOptionsMenu(menu);
 		menu.clear();
 		getActivity().getMenuInflater().inflate(R.menu.activity_tab_main, menu);
 	}
-	
-	 @Override
+
+    @Override
 		public boolean onOptionsItemSelected(MenuItem item) {
 		    switch (item.getItemId()) {
 		                 
@@ -137,4 +155,19 @@ public class RecordOptionFragment extends Fragment {
 		            return super.onOptionsItemSelected(item);
 		    }
 		}
+
+    private void updateRecordingOptions(ScheduledRecording tempSchedRec) {
+        View fragmentView = getView();
+        CheckBox recurring = (CheckBox)fragmentView.findViewById(R.id.recurringShowCheckBox);
+        recurring.setChecked(tempSchedRec.getRecurring());
+        EditText showsToKeep = (EditText)fragmentView.findViewById(R.id.numberShowsRetainData);
+        showsToKeep.setText(Integer.toString(tempSchedRec.getShowsToKeep()));
+        EditText daysToKeep = (EditText)fragmentView.findViewById(R.id.numberDaysRetainData);
+        daysToKeep.setText(Long.toString((tempSchedRec.getKeepUntil().getTime() - tempSchedRec.getOriginalAirtime().getStartTime().getTime()) / millsPerDay));
+        EditText minBefore = (EditText)fragmentView.findViewById(R.id.minutesBeforeRecordData);
+        minBefore.setText(Integer.toString(tempSchedRec.getMinutesBefore()));
+        EditText minAfter = (EditText)fragmentView.findViewById(R.id.minutesAfterRecordData);
+        minAfter.setText(Integer.toString(tempSchedRec.getMinutesAfter()));
+
+    }
 }
