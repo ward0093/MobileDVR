@@ -30,6 +30,14 @@ import com.MSSE.MobileDVR.fragments.more.MoreFragment;
 import com.MSSE.MobileDVR.fragments.recorded.MyShowsFragment;
 
 public class TabMainActivity extends Activity {
+	public static final String GUIDE = "guide";
+	public static final int GUIDE_INDEX = 0;
+	public static final String INFO = "info";
+	public static final int INFO_INDEX = 1;
+	public static final String MYSHOWS = "myshows";
+	public static final int MYSHOWS_INDEX = 2;
+	public static final String MORE = "more";
+	public static final int MORE_INDEX = 3;
 
 	/**
 	* The serialization (saved instance state) Bundle key representing the
@@ -87,22 +95,22 @@ public class TabMainActivity extends Activity {
                 .setText(R.string.title_guide)
                 //.setIcon(R.drawable.guide)
                 .setTabListener(new TabListener<ChannelGuideFragment>(
-                        this, "guide", ChannelGuideFragment.class)));
+                        this, GUIDE, ChannelGuideFragment.class)));
 	    actionBar.addTab(actionBar.newTab()
                 .setText(R.string.title_info)
                 //.setIcon(R.drawable.info)
                 .setTabListener(new TabListener<ShowInfoFragment>(
-                        this, "info", ShowInfoFragment.class)));
+                        this, INFO, ShowInfoFragment.class)));
 	    actionBar.addTab(actionBar.newTab()
                 .setText(R.string.title_myshows)
                // .setIcon(R.drawable.my_shows)
                 .setTabListener(new TabListener<MyShowsFragment>(
-                        this, "myshows", MyShowsFragment.class)));
+                        this, MYSHOWS, MyShowsFragment.class)));
 	    actionBar.addTab(actionBar.newTab()
                 .setText(R.string.title_more)
                 //.setIcon(R.drawable.more)
                 .setTabListener(new TabListener<MoreFragment>(
-                        this, "more", MoreFragment.class)));
+                        this, MORE, MoreFragment.class)));
 
         showInfoDataSource = new ShowInfoDataSource(this);
         channelDataSource = new ChannelDataSource(this);
@@ -184,7 +192,7 @@ public class TabMainActivity extends Activity {
 	        }
 
 	        public void onTabReselected(Tab tab, FragmentTransaction ft) {
-	        	if (mTag.equals("guide"))
+	        	if (mTag.equals(GUIDE))
 	        	{
 	        		Fragment preInitializedFragment = (Fragment) mActivity.getFragmentManager().findFragmentByTag(mTag);
 	        		if (preInitializedFragment != null)

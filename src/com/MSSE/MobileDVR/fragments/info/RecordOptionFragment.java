@@ -52,7 +52,7 @@ public class RecordOptionFragment extends Fragment {
         final View fragmentView = getView();
         
         Bundle arguments = getArguments();
-		channelNum = arguments.getInt(ChannelGuideFragment.CHANNEL_ID, -1);
+		channelNum = arguments.getInt(ChannelGuideFragment.CHANNEL_NUM, -1);
 		showDate = (Date) arguments.getSerializable(ChannelGuideFragment.TIME_SLOT_DATE);
 		
 		showTimeSlot = TabMainActivity.getListingSource().lookupTimeSlot(TabMainActivity.getListingSource().lookupChannel(channelNum), showDate);
