@@ -14,7 +14,8 @@
         android:layout_margin="4dp"
         android:text="Name"
         android:textSize="12dp"
-        android:textStyle="bold" />
+        android:textStyle="bold" 
+        android:textColor="@color/foreground_start"/>
 
     <TextView
         android:id="@+id/scheduled_recording_item_channel"
@@ -25,29 +26,32 @@
         android:layout_marginLeft="38dp"
         android:layout_toRightOf="@+id/scheduled_recording_item_title"
         android:text="Channel"
-        android:textSize="12dp" />
+        android:textSize="12dp" 
+        android:textColor="@color/foreground_start"/>
 
     <TextView
-        android:id="@+id/scheduled_recording_item_theday"
+        android:id="@+id/scheduled_recording_item_timeofday"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_margin="4dp"
         android:layout_marginLeft="15dp"
         android:layout_toRightOf="@+id/scheduled_recording_item_channel"
-        android:text="Channel"
-        android:textSize="12dp" />
+        android:text="TimeOfDay"
+        android:textSize="12dp" 
+        android:textColor="@color/foreground_start"/>
 
     <TextView
-        android:id="@+id/scheduled_recording_item_timeofday"
+        android:id="@+id/scheduled_recording_item_theday"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_alignBaseline="@+id/scheduled_recording_item_theday"
         android:layout_alignBottom="@+id/scheduled_recording_item_theday"
         android:layout_margin="4dp"
         android:layout_marginLeft="17dp"
-        android:layout_toRightOf="@+id/scheduled_recording_item_theday"
-        android:text="TimeOfDay"
-        android:textSize="12dp" />
+        android:layout_toRightOf="@+id/scheduled_recording_item_timeofday"
+        android:text="Channel"
+        android:textSize="12dp" 
+        android:textColor="@color/foreground_start"/>
 
 </RelativeLayout>
