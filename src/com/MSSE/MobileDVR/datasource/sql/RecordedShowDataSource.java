@@ -67,6 +67,15 @@ public class RecordedShowDataSource {
         return (database.isOpen());
     }
 
+    public boolean isEmpty() {
+        Cursor cursor = database.rawQuery("SELECT * FROM " + RECORDEDSHOWTABLE, null);
+        cursor.moveToFirst();
+        if (cursor.getCount() > 0)
+            return false;
+        else
+            return true;
+    }
+
     public RecordedShow createRecordedShow(ShowInfo showInfo, ShowTimeSlot showTimeSlot, Date keepUntil) {
         ContentValues values = new ContentValues();
         values.put(COLUMN_CHANNEL_ID, showTimeSlot.getChannel().getId());
