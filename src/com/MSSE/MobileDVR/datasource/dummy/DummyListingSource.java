@@ -15,6 +15,7 @@ public class DummyListingSource implements ListingSource
 	private int currentMinute = 0;
 	private int maxEndMinute = 0;
 	private Calendar dawnOfMan = null;
+    private int recordedShowOffset = 0;
 	
 	public DummyListingSource()
 	{
@@ -421,6 +422,10 @@ public class DummyListingSource implements ListingSource
 		currentMinute += durationMinutes;
 		if (maxEndMinute < currentMinute)
 			maxEndMinute = currentMinute;
+        if ((recordedShowOffset % 17) == 0) {
+            addRecording(timeSlot);
+        }
+        recordedShowOffset++;
 	}
 
     private void addShow(String title, int durationMinutes)
@@ -428,9 +433,13 @@ public class DummyListingSource implements ListingSource
         addShow(title, durationMinutes, null);
     }
 
-    private void addRecording()
+    private void addRecording(ShowTimeSlot showTimeSlot)
     {
-
+        Date keepUntil = showTimeSlot.getStartTime();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(showTimeSlot.getStartTime());
+        calendar.add(Calendar.DATE, 10);
+        TabMainActivity.getRecordedShowDB().createRecordedShow(showTimeSlot.getShowInfo(), showTimeSlot, calendar.getTime());
     }
 
 	private Calendar makeCalendar(int minuteOfDay)
