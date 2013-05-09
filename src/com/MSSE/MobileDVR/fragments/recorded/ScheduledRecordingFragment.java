@@ -129,8 +129,8 @@ public class ScheduledRecordingFragment extends ListFragment {
             if (sr != null ) {
                 ((TextView)item.findViewById(R.id.scheduled_recording_item_title)).setText(sr.getShowInfo().getTitle());
                 ((TextView)item.findViewById(R.id.scheduled_recording_item_channel)).setText("" + sr.getOriginalAirtime().getChannel().getNumber());
-                ((TextView)item.findViewById(R.id.scheduled_recording_item_timeofday)).setText(sr.getOriginalAirtime().getStartTime().toString());
-                ((TextView)item.findViewById(R.id.scheduled_recording_item_theday)).setText(sr.getOriginalAirtime().getStartTime().toString());
+                ((TextView)item.findViewById(R.id.scheduled_recording_item_timeofday)).setText(sr.getOriginalAirtime().getStartTimeTimeOnly());
+                ((TextView)item.findViewById(R.id.scheduled_recording_item_theday)).setText(sr.getOriginalAirtime().getStartTimeDayOfWeek());
             }
 
             item.setTag(sr);

@@ -2,6 +2,7 @@ package com.MSSE.MobileDVR.datamodel;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class ShowTimeSlot
 {
@@ -56,7 +57,24 @@ public class ShowTimeSlot
 
     public String getStartTimeTimeOnly()
     {
-        return startTime.toString();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime( startTime );
+        int hours = calendar.get( Calendar.HOUR_OF_DAY );
+        int minutes = calendar.get( Calendar.MINUTE );
+
+        //String myHours = calendar.getDisplayName(Calendar.HOUR_OF_DAY, Calendar.SHORT, Locale.US);
+        return "" + hours + ":" + minutes;
+    }
+
+    public String getStartTimeDayOfWeek()
+    {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime( startTime );
+        int hours = calendar.get( Calendar.HOUR_OF_DAY );
+        int minutes = calendar.get( Calendar.MINUTE );
+
+        String myDay = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.US);
+        return "" + myDay;
     }
 
 	public int getDurationMinutes()

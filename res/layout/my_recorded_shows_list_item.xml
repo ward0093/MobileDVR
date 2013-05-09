@@ -5,27 +5,51 @@
                 android:orientation="vertical"
                 android:background="@drawable/item_background" >
 
-    <TextView android:id="@+id/recorded_show_item_name"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:textSize="14dp"
-              android:layout_margin="4dp"
-              android:textStyle="bold"
-              android:text="Name"/>
+    <TextView
+        android:id="@+id/recorded_show_item_title"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignBaseline="@+id/recorded_show_item_title"
+        android:layout_alignBottom="@+id/recorded_show_item_title"
+        android:layout_alignRight="@+id/recorded_show_item_name"
+        android:layout_margin="4dp"
+        android:text="Time"
+        android:textSize="12dp" />
 
-    <TextView android:id="@+id/recorded_show_item_title"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:textSize="14dp"
-              android:textStyle="italic"
-              android:layout_margin="4dp"
-              android:text="Title"/>
+    <TextView
+        android:id="@+id/recorded_show_item_channel"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="4dp"
+        android:layout_marginRight="92dp"
+        android:layout_toLeftOf="@+id/recorded_show_item_time"
+        android:text="Title"
+        android:textSize="12dp"
+        android:textStyle="italic" />
 
-    <TextView android:id="@+id/recorded_show_item_time"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:textSize="14dp"
-              android:layout_margin="4dp"
-              android:text="Time"/>
+    <TextView
+        android:id="@+id/recorded_show_item_timeofday"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignBaseline="@+id/recorded_show_item_time"
+        android:layout_alignBottom="@+id/recorded_show_item_time"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="4dp"
+        android:text="Name"
+        android:textSize="12dp"
+        android:textStyle="bold" />
 
+
+    <TextView
+            android:id="@+id/recorded_show_item_theday"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignBaseline="@+id/recorded_show_item_time"
+            android:layout_alignBottom="@+id/recorded_show_item_time"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="4dp"
+            android:text="Name"
+            android:textSize="12dp"
+            android:textStyle="bold" />
 </RelativeLayout>
