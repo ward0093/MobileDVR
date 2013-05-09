@@ -53,7 +53,12 @@ public class ShowTimeSlot
 		Date result = cal.getTime();
 		return result;
 	}
-	
+
+    public String getStartTimeTimeOnly()
+    {
+        return startTime.toString();
+    }
+
 	public int getDurationMinutes()
 	{
 		return durationMinutes;
@@ -63,7 +68,7 @@ public class ShowTimeSlot
     {
         return previewUrl;
     }
-	
+
 	private static int minutes(Date startTime, Date endTime)
 	{
 		long msec = endTime.getTime() - startTime.getTime();

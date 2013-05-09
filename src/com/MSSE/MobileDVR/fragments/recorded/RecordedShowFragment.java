@@ -57,7 +57,6 @@ public class RecordedShowFragment extends ListFragment {
 
     }
 
-
     @Override
 	public void onPrepareOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -96,10 +95,10 @@ public class RecordedShowFragment extends ListFragment {
 
             RecordedShow rs = getItem(position);
             if (rs != null ) {
-                ((TextView)item.findViewById(R.id.item_title)).setText(rs.getShowInfo().getTitle());
-                ((TextView)item.findViewById(R.id.item_channel)).setText(rs.getOriginalAirtime().getChannel().getName());
-                ((TextView)item.findViewById(R.id.item_timeofday)).setText(rs.getOriginalAirtime().getStartTime().toString());
-                ((TextView)item.findViewById(R.id.item_theday)).setText(rs.getOriginalAirtime().getStartTime().toString());
+                ((TextView)item.findViewById(R.id.recorded_show_item_title)).setText(rs.getShowInfo().getTitle());
+                ((TextView)item.findViewById(R.id.recorded_show_item_name)).setText(rs.getOriginalAirtime().getChannel().getName());
+                ((TextView)item.findViewById(R.id.recorded_show_item_time)).setText(rs.getOriginalAirtime().getStartTime().toString());
+                //((TextView)item.findViewById(R.id.item_theday)).setText(rs.getOriginalAirtime().getStartTime().toString());
             }
 
             item.setTag(rs);
