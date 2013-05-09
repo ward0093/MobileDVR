@@ -144,10 +144,13 @@ public class RecordedShowDataSource {
             cursor.moveToNext();
         }
         cursor.close();
-        if (!recordedShowList.isEmpty())
-            return recordedShowList;
-        else
-            return null;
+//        if (!recordedShowList.isEmpty())
+//            return recordedShowList;
+//        else
+//            return null;
+
+        //even if it is empty, return a Non-Null List
+        return recordedShowList;
     }
 
     public List<RecordedShow> getRecordedShowList() {
