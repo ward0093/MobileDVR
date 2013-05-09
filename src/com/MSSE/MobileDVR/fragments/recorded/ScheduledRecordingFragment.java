@@ -20,6 +20,7 @@ import com.MSSE.MobileDVR.fragments.guide.ChannelGuideFragment;
 import com.MSSE.MobileDVR.fragments.help.HelpFragment;
 import com.MSSE.MobileDVR.fragments.help.HelpHelper;
 import com.MSSE.MobileDVR.fragments.info.RecordOptionFragment;
+import com.MSSE.MobileDVR.fragments.info.ShowInfoFragment;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -146,9 +147,22 @@ public class ScheduledRecordingFragment extends ListFragment {
 
         ScheduledRecording mySR = (ScheduledRecording)l.getItemAtPosition(position);
 
-        Fragment fragment = new RecordOptionFragment();
+//        Fragment fragment = new RecordOptionFragment();
+//        Bundle args = new Bundle();
+//        //set your arguments that you need to pass to the RecordOptionFragment
+//        args.putInt(ChannelGuideFragment.CHANNEL_ID, mySR.getOriginalAirtime().getChannel().getNumber());
+//        args.putInt(ChannelGuideFragment.ADD_OR_EDIT_OPTIONS, 1); //this is a EDIT = 1
+//        args.putSerializable(ChannelGuideFragment.TIME_SLOT_DATE, mySR.getOriginalAirtime().getStartTime());
+//        fragment.setArguments(args);
+//        FragmentTransaction ft = getFragmentManager().beginTransaction();
+//        // "info" should be changed to "guide" after final integration
+//        ft.replace(android.R.id.content, fragment, "info");
+//        ft.addToBackStack(null);
+//        ft.commit();
+
+        Fragment fragment = new ShowInfoFragment();
         Bundle args = new Bundle();
-        //set your arguments that you need to pass to the RecordOptionFragment
+        args.putInt(ChannelGuideFragment.ADD_OR_EDIT_OPTIONS, 1); //this is a ADD = 0
         args.putInt(ChannelGuideFragment.CHANNEL_NUM, mySR.getOriginalAirtime().getChannel().getNumber());
         args.putSerializable(ChannelGuideFragment.TIME_SLOT_DATE, mySR.getOriginalAirtime().getStartTime());
         fragment.setArguments(args);
