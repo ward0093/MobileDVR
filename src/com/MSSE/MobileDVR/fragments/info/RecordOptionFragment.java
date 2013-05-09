@@ -10,12 +10,15 @@ import com.MSSE.MobileDVR.TabMainActivity;
 import com.MSSE.MobileDVR.datamodel.ScheduledRecording;
 import com.MSSE.MobileDVR.datamodel.ShowTimeSlot;
 import com.MSSE.MobileDVR.fragments.guide.ChannelGuideFragment;
+import com.MSSE.MobileDVR.fragments.help.HelpFragment;
+import com.MSSE.MobileDVR.fragments.help.HelpHelper;
 
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -120,4 +123,18 @@ public class RecordOptionFragment extends Fragment {
 		menu.clear();
 		getActivity().getMenuInflater().inflate(R.menu.activity_tab_main, menu);
 	}
+	
+	 @Override
+		public boolean onOptionsItemSelected(MenuItem item) {
+		    switch (item.getItemId()) {
+		                 
+		        case R.id.help :
+		        	HelpHelper.displayHelp(item, getActivity(), HelpFragment.class, "info", null);
+		        	return true;
+		        // Other case statements...
+
+		        default:
+		            return super.onOptionsItemSelected(item);
+		    }
+		}
 }

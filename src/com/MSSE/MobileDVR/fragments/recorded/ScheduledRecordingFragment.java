@@ -8,6 +8,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -15,6 +16,8 @@ import android.widget.*;
 import com.MSSE.MobileDVR.R;
 import com.MSSE.MobileDVR.TabMainActivity;
 import com.MSSE.MobileDVR.datamodel.ScheduledRecording;
+import com.MSSE.MobileDVR.fragments.help.HelpFragment;
+import com.MSSE.MobileDVR.fragments.help.HelpHelper;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -133,4 +136,18 @@ public class ScheduledRecordingFragment extends ListFragment {
             return item;
         }
     }
+    
+	 @Override
+		public boolean onOptionsItemSelected(MenuItem item) {
+		    switch (item.getItemId()) {
+		                 
+		        case R.id.help :
+		        	HelpHelper.displayHelp(item, getActivity(), HelpFragment.class, "myshows", null);
+		        	return true;
+		        // Other case statements...
+
+		        default:
+		            return super.onOptionsItemSelected(item);
+		    }
+		}
 }

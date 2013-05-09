@@ -1,28 +1,20 @@
 package com.MSSE.MobileDVR.fragments.guide;
 
-import java.util.ArrayList;
-
-import com.MSSE.MobileDVR.R;
-import com.MSSE.MobileDVR.TabMainActivity;
-import com.MSSE.MobileDVR.datamodel.Channel;
-import com.MSSE.MobileDVR.datamodel.ShowInfo;
-import com.MSSE.MobileDVR.datamodel.ShowTimeSlot;
-import com.MSSE.MobileDVR.datasource.ListingSource;
-import com.MSSE.MobileDVR.fragments.info.ShowInfoFragment;
-
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import com.MSSE.MobileDVR.R;
+import com.MSSE.MobileDVR.fragments.help.HelpFragment;
+import com.MSSE.MobileDVR.fragments.help.HelpHelper;
 
 public class ChannelGuideFragment extends Fragment
 {
@@ -68,6 +60,20 @@ public class ChannelGuideFragment extends Fragment
 	{
 		super.onResume();
 	}
+	
+	 @Override
+		public boolean onOptionsItemSelected(MenuItem item) {
+		    switch (item.getItemId()) {
+		                 
+		        case R.id.help :
+		        	HelpHelper.displayHelp(item, getActivity(), HelpFragment.class, "guide", null);
+		        	return true;
+		        // Other case statements...
+
+		        default:
+		            return super.onOptionsItemSelected(item);
+		    }
+		}
 
 	@Override
 	public void onPrepareOptionsMenu(Menu menu)
@@ -88,8 +94,8 @@ public class ChannelGuideFragment extends Fragment
 			@Override
 			public void onClick(View v)
 			{
-				Toast toast = Toast.makeText(getActivity(), ((SearchView) v).getQuery().toString(), Toast.LENGTH_SHORT);
-				toast.show();
+				//Toast toast = Toast.makeText(getActivity(), ((SearchView) v).getQuery().toString(), Toast.LENGTH_SHORT);
+				//toast.show();
 			}
 		});
 

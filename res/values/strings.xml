@@ -12,5 +12,17 @@
     <string name="title_myshows">My Shows</string>
     <string name="title_more">More..</string>
     <string name="search_hint">Please enter a show title or channel number</string>
+    <string name="help_guide_title">Ch. Guide</string>
+    <string name="help_guide_content">Find what is on in an instant by channel, date and time without interrupting the show you are watching. From here you can schedule a recording, add shows to your recordings, or start playing a show if it is currently on.</string>
+     <string name="help_info_title">Info</string>
+    <string name="help_info_content">Call up information about a show in seconds and see all relevant details at a glance in Info. From here, you can schedule, explore the cast and crew, and see preview of the show.</string>
+     <string name="help_myshows_title">MyShows</string>
+    <string name="help_myshows_content">Check in on what you have got waiting in your own personal entertainment lineup in My Shows</string>
+    
+     <string name="help_more_title">More..</string>
+    <string name="help_more_content">Manage your account and advance setting options</string>
+    
+     <string name="help_search_title">Search</string>
+    <string name="help_search_content">Looking for something specific? Search for a show or movie by title or channel and get results from TV and the web. When you find something that looks interesting, you can schedule a recording — all with the simple press of a button</string>
 
 </resources>

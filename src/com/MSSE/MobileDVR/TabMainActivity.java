@@ -91,8 +91,8 @@ public class TabMainActivity extends Activity {
 	    actionBar.addTab(actionBar.newTab()
                 .setText(R.string.title_info)
                 //.setIcon(R.drawable.info)
-                .setTabListener(new TabListener<TestFragment>(
-                        this, "info", TestFragment.class)));
+                .setTabListener(new TabListener<ShowInfoFragment>(
+                        this, "info", ShowInfoFragment.class)));
 	    actionBar.addTab(actionBar.newTab()
                 .setText(R.string.title_myshows)
                // .setIcon(R.drawable.my_shows)
@@ -136,115 +136,6 @@ public class TabMainActivity extends Activity {
 	        .getSelectedNavigationIndex());
 	  }
 
-//	@Override
-//	public boolean onCreateOptionsMenu(Menu menu) {
-//		// Inflate the menu; this adds items to the action bar if it is present.
-//		//getMenuInflater().inflate(R.menu.activity_tab_main, menu);
-//
-//		//return true;
-//	}
-	
-	
-
-//	  /**
-//	   * A dummy fragment representing a section of the app
-//	   */
-//
-//	  public static class DummySectionFragment extends Fragment {
-//	    public static final String ARG_SECTION_NUMBER = "placeholder_text";
-//	    TextView textView;
-//	    @Override
-//	    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//	        Bundle savedInstanceState) {
-//	      textView = new TextView(getActivity());
-//	      textView.setGravity(Gravity.CENTER);
-//	      textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
-//	      return textView;
-//	    }
-//	    
-//	    
-//	    public void onActivityCreated(Bundle savedInstanceState) {
-//	        super.onActivityCreated(savedInstanceState);
-//	    }
-//	   
-//
-//		  @Override
-//		  public void onSaveInstanceState(Bundle outState) {
-//		    // Serialize the current tab position.
-//		    outState.putCharSequence(ARG_SECTION_NUMBER, textView.getText());
-//		  }
-//	  }
-	  
-	  public static class TestFragment extends Fragment {
-	  
-	  @Override
-	  public View onCreateView(LayoutInflater inflater, ViewGroup container,
-		        Bundle savedInstanceState) {
-        
-	        View view = inflater.inflate(R.layout.main, container, false);
-	        
-	        ShowInfo testShow = new ShowInfo("Mythbusters", "Greatest show on Earth");
-
-	        Button onlyButton = (Button) view.findViewById(R.id.show_button);
-	        onlyButton.setOnClickListener(new View.OnClickListener() {
-	            @Override
-	            public void onClick(View v) {
-	            	ShowInfo showInfos[] = listingSource.getShows();
-	                ShowTimeSlot showTimeSlot[] = listingSource.getTimeSlotsForShow(showInfos[0]);
- 	            	Fragment fragment = new ShowInfoFragment();
-	            	Bundle args = new Bundle();
-	            	args.putInt(ChannelGuideFragment.CHANNEL_ID, showTimeSlot[0].getChannel().getNumber());
-	            	args.putSerializable(ChannelGuideFragment.TIME_SLOT_DATE, showTimeSlot[0].getStartTime());
-	            	fragment.setArguments(args);
-	            	FragmentTransaction ft = getFragmentManager().beginTransaction();
-	            	ft.replace(android.R.id.content, fragment, "info");
-	            	ft.addToBackStack(null);
-	            	ft.commit();
-	            }
-	        });
-	        
-	        setMenuVisibility(true);
-	        setHasOptionsMenu(true);
-
-	        Button recordedShows = (Button) view.findViewById(R.id.recorded_shows_button);
-	        recordedShows.setOnClickListener(new View.OnClickListener() {
-	            @Override
-	            public void onClick(View v) {
-
-	            	//RecordedShow myRecordings[] = myRecordedShows.getRecordedShows();
-
-//	            	Fragment fragment = new RecordOptionFragment();
-//	            	Bundle args = new Bundle();
-//	            	//set you arguments that you need to pass to the RecordOptionFragment
-//	            	fragment.setArguments(args);
-//	            	FragmentTransaction ft = getFragmentManager().beginTransaction();
-//	            	ft.replace(android.R.id.content, fragment, "info");
-//	            	ft.addToBackStack(null);
-//	            	ft.commit();
-            	
-	            }
-	        });
-	        return view;
-	    }
-	  
-	  @Override
-		public void onPrepareOptionsMenu(Menu menu) {
-			// Inflate the menu; this adds items to the action bar if it is present.
-		  super.onPrepareOptionsMenu(menu);
-		  menu.clear();
-		  getActivity().getMenuInflater().inflate(R.menu.activity_tab_main, menu);
-		 }
-	  
-	  
-//	  @Override
-//		public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//			// Inflate the menu; this adds items to the action bar if it is present.
-//		  super.onCreateOptionsMenu(menu,inflater);
-//		  menu.clear();
-//		  inflater.inflate(R.menu.activity_tab_main, menu);
-//		 }
-  }
-	  
 	  
 	  public static class TabListener<T extends Fragment> implements ActionBar.TabListener {
 	        private final Activity mActivity;
@@ -303,8 +194,8 @@ public class TabMainActivity extends Activity {
 	        			ft.add(android.R.id.content, fragment, mTag);
 	        		}
 	        	}
-	        	else
-	        		Toast.makeText(mActivity, "Reselected!", Toast.LENGTH_SHORT).show();
+	        	//else
+	        		//Toast.makeText(mActivity, "Reselected!", Toast.LENGTH_SHORT).show();
 	        }
 	    }
 
