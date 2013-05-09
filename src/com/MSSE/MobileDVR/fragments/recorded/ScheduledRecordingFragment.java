@@ -39,7 +39,7 @@ public class ScheduledRecordingFragment extends ListFragment {
 
         super.onCreate(savedInstanceState);
         mySchedule = TabMainActivity.getSchedRecDB().getScheduledRecordingList();
-        ListView view = null;
+        View view = null;
 
 //        if (mySchedule.size() == 0){
 //            view = new ListView(getActivity());
@@ -48,9 +48,8 @@ public class ScheduledRecordingFragment extends ListFragment {
 //            v2.setText(getString(R.string.no_scheduled_recordings));
 //            view.addView(v2);
 //        } else {
-            view = (ListView)inflater.inflate(R.layout.my_scheduled_recordings, container, false);
+            view = inflater.inflate(R.layout.my_scheduled_recordings, container, false);
 //        }
-
 
         setMenuVisibility(true);
         setHasOptionsMenu(true);
@@ -68,11 +67,6 @@ public class ScheduledRecordingFragment extends ListFragment {
         super.onActivityCreated(savedInstanceState);
         View view = getView();
         Bundle arguments = getArguments();
-
-
-        ListPopupWindow lpw = new ListPopupWindow(getActivity());
-
-        lpw.show();
 
         // initialize the list view
         ListAdapter myAdp = new ScheduledRecordingAdapter(getActivity(), R.layout.my_scheduled_recording_list_item, mySchedule);
