@@ -62,11 +62,21 @@ public class RecordOptionFragment extends Fragment {
 		showTimeSlot = TabMainActivity.getListingSource().lookupTimeSlot(TabMainActivity.getListingSource().lookupChannel(channelNum), showDate);
 		showData = new ShowDataConfig(fragmentView);
 		showData.setAllShowData(showTimeSlot);
-        if (showInfoType == ChannelGuideFragment.EDIT_OPTION) {
-            tempSchedRec = TabMainActivity.getSchedRecDB().getScheduledRecordingByTimeSlot(showTimeSlot);
+
+        tempSchedRec = TabMainActivity.getSchedRecDB().getScheduledRecordingByTimeSlot(showTimeSlot);
+        if (tempSchedRec != null) {
             updateRecordingOptions(tempSchedRec);
+            /* If the timeslot was selected from the channel guide and a scheduled recording already exists,
+               make the user edit the existing scheduled recording.
+             */
+            if (showInfoType == ChannelGuideFragment.ADD_OPTION) {
+                Toast.makeText(fragmentView.getContext(), "Recording already scheduled for this timeslot.  Editing existing scheduled recording.",
+                        Toast.LENGTH_LONG).show();
+                showInfoType = ChannelGuideFragment.EDIT_OPTION;
+            }
         }
         else
+            /* There was not scheduled recording in existance for this show */
             tempSchedRec = new ScheduledRecording();
 
 
@@ -94,7 +104,7 @@ public class RecordOptionFragment extends Fragment {
                 else
                     TabMainActivity.getSchedRecDB().createScheduledRecording(tempSchedRec);
 
-
+                /* Display success message in a toast */
                 Toast toast = new Toast(getActivity());
 				LayoutInflater inflater = getActivity().getLayoutInflater();
 				View layout = inflater.inflate(R.layout.custom_toast, (ViewGroup)fragmentView.findViewById(R.id.custom_toast_root));
@@ -109,14 +119,10 @@ public class RecordOptionFragment extends Fragment {
 				toast.setGravity(Gravity.FILL, 0, 0);
 				toast.show();
 
+                /* Move to the Scheduled Recording fragment */
                 Fragment fragment = new ScheduledRecordingFragment();
-                int iMyShows = 2;
                 getActivity().getActionBar().setSelectedNavigationItem(TabMainActivity.MYSHOWS_INDEX);
-//                Bundle args = new Bundle();
-                //set you arguments that you need to pass to the RecordOptionFragment
-//                fragment.setArguments(args);
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
-                // "info" should be changed to "guide" after final integration
                 ft.replace(android.R.id.content, fragment, TabMainActivity.MYSHOWS);
                 ft.addToBackStack(null);
                 ft.commit();
