@@ -448,8 +448,7 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener, On
 	
 	private static void launchShowInfo(Activity activity, ShowTimeSlot showTimeSlot)
 	{
-		int iShowInfo = 1;
-		activity.getActionBar().setSelectedNavigationItem(iShowInfo);
+		activity.getActionBar().setSelectedNavigationItem(TabMainActivity.INFO_INDEX);
 		Fragment fragment = new ShowInfoFragment();
 		Bundle args = new Bundle();
         args.putInt(ChannelGuideFragment.ADD_OR_EDIT_OPTIONS, 0); //this is a ADD = 0
@@ -457,7 +456,7 @@ public class ChannelGuideView extends LinearLayout implements ScrollListener, On
 		args.putSerializable(ChannelGuideFragment.TIME_SLOT_DATE, showTimeSlot.getStartTime());
 		fragment.setArguments(args);
 		FragmentTransaction ft = activity.getFragmentManager().beginTransaction();
-		ft.replace(android.R.id.content, fragment, "info");
+		ft.replace(android.R.id.content, fragment, TabMainActivity.INFO);
 		ft.addToBackStack(null);
 		ft.commit();
 	}

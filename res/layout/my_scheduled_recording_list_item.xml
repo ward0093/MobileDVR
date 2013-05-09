@@ -7,7 +7,7 @@
 
     <TextView
         android:id="@+id/scheduled_recording_item_title"
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
@@ -19,7 +19,7 @@
 
     <TextView
         android:id="@+id/scheduled_recording_item_channel"
-        android:layout_width="wrap_content"
+        android:layout_width="30dp"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_margin="4dp"
@@ -31,7 +31,7 @@
 
     <TextView
         android:id="@+id/scheduled_recording_item_timeofday"
-        android:layout_width="wrap_content"
+        android:layout_width="75dp"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_margin="4dp"

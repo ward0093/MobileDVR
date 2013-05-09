@@ -22,10 +22,14 @@
                 <LinearLayout android:orientation="horizontal"
                               android:layout_width="match_parent"
                               android:layout_height="wrap_content">
-                    <CheckBox android:id="@+id/recurringShowCheckBox"
-                              android:layout_width="wrap_content"
-                              android:layout_height="wrap_content"
-                              android:color="#000"/>
+
+                  <CheckBox
+                        android:id="@+id/recurringShowCheckBox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/foreground_start"
+                        android:color="#000" />
+
                     <TextView android:id="@+id/recurringShowLabel"
                               android:layout_width="wrap_content"
                               android:layout_height="wrap_content"
