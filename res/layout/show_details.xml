@@ -19,7 +19,7 @@
     <TextView
             android:id="@+id/showInfoDescription"
             android:layout_width="match_parent"
-            android_layout_height="wrap_content"
+            android:layout_height="wrap_content"
             style="@style/ShowInfoDescription"
             android:text="This is the place to write the show's description"
             />

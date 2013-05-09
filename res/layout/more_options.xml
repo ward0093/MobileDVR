@@ -2,32 +2,43 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
-              android:layout_width="fill_parent"
-              android:layout_height="wrap_content"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@drawable/item_background"
               android:id="@+id/more_options">
-    <LinearLayout android:orientation="vertical"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  style="@style/ShowInfoDetail">
+
+    <LinearLayout
+        style="@style/ShowInfoDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:background="#0000"
+        android:orientation="vertical" >
+
         <Button
-                android:id="@+id/moreOptionsMyAccountButton"
-                android:text="My Account"
-                style="@style/ShowInfoButton"/>
+            android:id="@+id/moreOptionsMyAccountButton"
+            style="@style/ShowInfoButton"
+            android:text="My Account" />
+
         <Button
-                android:id="@+id/moreOptionsServicesButton"
-                android:text="Services"
-                style="@style/ShowInfoButton"/>
+            android:id="@+id/moreOptionsServicesButton"
+            style="@style/ShowInfoButton"
+            android:text="Services" />
+
         <Button
-                android:id="@+id/moreOptionsBrowseByCategoryButton"
-                android:text="Browse by Category"
-                style="@style/ShowInfoButton"/>
+            android:id="@+id/moreOptionsBrowseByCategoryButton"
+            style="@style/ShowInfoButton"
+            android:text="Browse by Category" />
+
         <Button
-                android:id="@+id/moreOptionsAboutThisAppButton"
-                android:text="About this App"
-                style="@style/ShowInfoButton"/>
+            android:id="@+id/moreOptionsAboutThisAppButton"
+            style="@style/ShowInfoButton"
+            android:text="About this App" />
+
         <Button
-                android:id="@+id/moreOptionsMyChannelsButton"
-                android:text="My Channels"
-                style="@style/ShowInfoButton"/>
+            android:id="@+id/moreOptionsMyChannelsButton"
+            style="@style/ShowInfoButton"
+            android:text="My Channels" />
     </LinearLayout>
+
 </LinearLayout>
