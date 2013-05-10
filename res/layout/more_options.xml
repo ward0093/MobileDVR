@@ -1,43 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@drawable/item_background"
-              android:id="@+id/more_options">
+    android:id="@+id/more_options"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/item_background"
+    android:orientation="vertical" >
 
     <LinearLayout
         style="@style/ShowInfoDetail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_margin="@dimen/activity_horizontal_margin"
         android:background="#0000"
+        android:gravity="center"
         android:orientation="vertical" >
 
         <Button
             android:id="@+id/moreOptionsMyAccountButton"
             style="@style/ShowInfoButton"
+            android:layout_width="164dp"
             android:text="My Account" />
 
         <Button
             android:id="@+id/moreOptionsServicesButton"
             style="@style/ShowInfoButton"
+            android:layout_width="165dp"
             android:text="Services" />
 
         <Button
             android:id="@+id/moreOptionsBrowseByCategoryButton"
             style="@style/ShowInfoButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Browse by Category" />
 
         <Button
             android:id="@+id/moreOptionsAboutThisAppButton"
             style="@style/ShowInfoButton"
+            android:layout_width="166dp"
+            android:layout_height="wrap_content"
             android:text="About this App" />
 
         <Button
             android:id="@+id/moreOptionsMyChannelsButton"
             style="@style/ShowInfoButton"
+            android:layout_width="164dp"
             android:text="My Channels" />
     </LinearLayout>
 
