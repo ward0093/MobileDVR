@@ -3,6 +3,7 @@ package com.MSSE.MobileDVR.fragments.info;
 import java.util.Date;
 
 import android.app.FragmentTransaction;
+import android.view.inputmethod.InputMethodManager;
 import com.MSSE.MobileDVR.MainActivity;
 import com.MSSE.MobileDVR.R;
 import com.MSSE.MobileDVR.RecordOptionsActivity;
@@ -30,6 +31,7 @@ import com.MSSE.MobileDVR.fragments.recorded.ScheduledRecordingFragment;
 
 public class RecordOptionFragment extends Fragment {
     private final long millsPerDay = 1000L * 60L * 60L * 24L;
+    private final int VALUENOTENTERED = -1;
 	private ShowTimeSlot showTimeSlot;
 	private int channelNum;
 	private Date showDate;
@@ -70,13 +72,13 @@ public class RecordOptionFragment extends Fragment {
                make the user edit the existing scheduled recording.
              */
             if (showInfoType == ChannelGuideFragment.ADD_OPTION) {
-                Toast.makeText(fragmentView.getContext(), "Recording already scheduled for this timeslot.  Editing existing scheduled recording.",
+                Toast.makeText(fragmentView.getContext(), "Recording already scheduled for this show time slot.  Editing existing scheduled recording.",
                         Toast.LENGTH_LONG).show();
                 showInfoType = ChannelGuideFragment.EDIT_OPTION;
             }
         }
         else
-            /* There was not scheduled recording in existance for this show */
+            /* There was no scheduled recording in existance for this show */
             tempSchedRec = new ScheduledRecording();
 
 
@@ -85,24 +87,33 @@ public class RecordOptionFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				CheckBox recurring = (CheckBox)fragmentView.findViewById(R.id.recurringShowCheckBox);
-				EditText showsToKeep = (EditText)fragmentView.findViewById(R.id.numberShowsRetainData);
-				EditText daysToKeep = (EditText)fragmentView.findViewById(R.id.numberDaysRetainData);
-				EditText minBefore = (EditText)fragmentView.findViewById(R.id.minutesBeforeRecordData);
-				EditText minAfter = (EditText)fragmentView.findViewById(R.id.minutesAfterRecordData);
+				EditText showsToKeepEditText = (EditText)fragmentView.findViewById(R.id.numberShowsRetainData);
+                int showsToKeep = getEditTextInt(showsToKeepEditText);
+				EditText daysToKeepEditText = (EditText)fragmentView.findViewById(R.id.numberDaysRetainData);
+                int daysToKeep = getEditTextInt(daysToKeepEditText);
+
+				EditText minBeforeEditText = (EditText)fragmentView.findViewById(R.id.minutesBeforeRecordData);
+                int minBefore = getEditTextInt(minBeforeEditText);
+				EditText minAfterEditText = (EditText)fragmentView.findViewById(R.id.minutesAfterRecordData);
+                int minAfter = getEditTextInt(minAfterEditText);
                 if (showInfoType == ChannelGuideFragment.ADD_OPTION) {
                     tempSchedRec.setOriginalAirtime(showTimeSlot);
                     tempSchedRec.setShowInfo(showTimeSlot.getShowInfo());
                 }
 				tempSchedRec.setRecurring(recurring.isChecked());
-                tempSchedRec.setShowsToKeep(Integer.parseInt(showsToKeep.getText().toString()));
-                tempSchedRec.setKeepUntil(showTimeSlot.getStartTime(), Integer.parseInt(daysToKeep.getText().toString()));
-                tempSchedRec.setMinutesBefore(Integer.parseInt(minBefore.getText().toString()));
-                tempSchedRec.setMinutesAfter(Integer.parseInt(minAfter.getText().toString()));
+                tempSchedRec.setShowsToKeep(showsToKeep);
+                tempSchedRec.setKeepUntil(showTimeSlot.getStartTime(), daysToKeep);
+                tempSchedRec.setMinutesBefore(minBefore);
+                tempSchedRec.setMinutesAfter(minAfter);
 
                 if (showInfoType == ChannelGuideFragment.EDIT_OPTION)
                     TabMainActivity.getSchedRecDB().updateScheduledRecording(tempSchedRec);
                 else
                     TabMainActivity.getSchedRecDB().createScheduledRecording(tempSchedRec);
+
+                /* Close the keyboard */
+                InputMethodManager imm = (InputMethodManager)fragmentView.getContext().getSystemService(fragmentView.getContext().INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(fragmentView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
                 /* Display success message in a toast */
                 Toast toast = new Toast(getActivity());
@@ -166,14 +177,41 @@ public class RecordOptionFragment extends Fragment {
         View fragmentView = getView();
         CheckBox recurring = (CheckBox)fragmentView.findViewById(R.id.recurringShowCheckBox);
         recurring.setChecked(tempSchedRec.getRecurring());
+
         EditText showsToKeep = (EditText)fragmentView.findViewById(R.id.numberShowsRetainData);
-        showsToKeep.setText(Integer.toString(tempSchedRec.getShowsToKeep()));
+        if (tempSchedRec.getShowsToKeep() == VALUENOTENTERED)
+            showsToKeep.setText("");
+        else
+            showsToKeep.setText(Integer.toString(tempSchedRec.getShowsToKeep()));
+
         EditText daysToKeep = (EditText)fragmentView.findViewById(R.id.numberDaysRetainData);
-        daysToKeep.setText(Long.toString((tempSchedRec.getKeepUntil().getTime() - tempSchedRec.getOriginalAirtime().getStartTime().getTime()) / millsPerDay));
+        if (tempSchedRec.getKeepUntil() == null)
+            daysToKeep.setText("");
+        else
+            daysToKeep.setText(Long.toString((tempSchedRec.getKeepUntil().getTime() - tempSchedRec.getOriginalAirtime().getStartTime().getTime()) / millsPerDay));
+
         EditText minBefore = (EditText)fragmentView.findViewById(R.id.minutesBeforeRecordData);
-        minBefore.setText(Integer.toString(tempSchedRec.getMinutesBefore()));
+        if (tempSchedRec.getMinutesBefore() == VALUENOTENTERED)
+            minBefore.setText("");
+        else
+            minBefore.setText(Integer.toString(tempSchedRec.getMinutesBefore()));
+
         EditText minAfter = (EditText)fragmentView.findViewById(R.id.minutesAfterRecordData);
-        minAfter.setText(Integer.toString(tempSchedRec.getMinutesAfter()));
+        if (tempSchedRec.getMinutesAfter() == VALUENOTENTERED)
+            minAfter.setText("");
+        else
+            minAfter.setText(Integer.toString(tempSchedRec.getMinutesAfter()));
 
     }
+
+    public int getEditTextInt(EditText editText) {
+        int result;
+        if (editText.getText().toString().trim().length() > 0) {
+            result = Integer.parseInt(editText.getText().toString());
+        } else {
+            result = VALUENOTENTERED;
+        }
+        return result;
+    }
+
 }

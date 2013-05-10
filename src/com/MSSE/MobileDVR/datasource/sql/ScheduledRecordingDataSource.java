@@ -101,7 +101,11 @@ public class ScheduledRecordingDataSource {
         values.put(COLUMN_SHOWINFO_ID, showInfo.getId());
         values.put(COLUMN_CHANNEL_ID, showTimeSlot.getChannel().getId());
         values.put(COLUMN_ORIGSTARTTIME, showTimeSlot.getStartTime().getTime());
-        values.put(COLUMN_KEEPUNTIL, keepUntil.getTime());
+        if (keepUntil == null) {
+            values.putNull(COLUMN_KEEPUNTIL);
+        } else {
+            values.put(COLUMN_KEEPUNTIL, keepUntil.getTime());
+        }
         values.put(COLUMN_SHOWSTOKEEP, showsToKeep);
         values.put(COLUMN_MINUTESBEFORE, minutesBefore);
         values.put(COLUMN_MINUTESAFTER, minutesAfter);
@@ -168,7 +172,11 @@ public class ScheduledRecordingDataSource {
         values.put(COLUMN_SHOWINFO_ID, updatedSchedRec.getShowInfo().getId());
         values.put(COLUMN_CHANNEL_ID, updatedSchedRec.getOriginalAirtime().getChannel().getId());
         values.put(COLUMN_ORIGSTARTTIME, updatedSchedRec.getOriginalAirtime().getStartTime().getTime());
-        values.put(COLUMN_KEEPUNTIL, updatedSchedRec.getKeepUntil().getTime());
+        if (updatedSchedRec.getKeepUntil() == null) {
+            values.putNull(COLUMN_KEEPUNTIL);
+        } else {
+            values.put(COLUMN_KEEPUNTIL, updatedSchedRec.getKeepUntil().getTime());
+        }
         values.put(COLUMN_SHOWSTOKEEP, updatedSchedRec.getShowsToKeep());
         values.put(COLUMN_MINUTESBEFORE, updatedSchedRec.getMinutesBefore());
         values.put(COLUMN_MINUTESAFTER, updatedSchedRec.getMinutesAfter());
@@ -187,7 +195,11 @@ public class ScheduledRecordingDataSource {
         long channelId = cursor.getLong(IDX_COLUMN_CHANNEL_ID);
         Date startTime = new Date(cursor.getLong(IDX_COLUMN_ORIGSTARTTIME));
         ShowTimeSlot showTimeSlot = TabMainActivity.getShowTimeSlotDB().getShowTimeSlot(channelId, startTime);
-        Date keepUntil = new Date(cursor.getLong(IDX_COLUMN_KEEPUNTIL));
+        Date keepUntil;
+        if (cursor.isNull(IDX_COLUMN_KEEPUNTIL))
+            keepUntil = null;
+        else
+            keepUntil = new Date(cursor.getLong(IDX_COLUMN_KEEPUNTIL));
         int showsToKeep = cursor.getInt(IDX_COLUMN_SHOWSTOKEEP);
         int minutesBefore = cursor.getInt(IDX_COLUMN_MINUTESBEFORE);
         int minutesAfter = cursor.getInt(IDX_COLUMN_MINUTESAFTER);
