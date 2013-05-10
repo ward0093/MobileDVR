@@ -15,7 +15,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class MobileDVRDataBaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "mobileDVR.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     private static MobileDVRDataBaseHelper instance = null;
 
     private MobileDVRDataBaseHelper(Context context) {

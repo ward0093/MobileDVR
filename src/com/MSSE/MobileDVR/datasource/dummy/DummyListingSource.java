@@ -51,37 +51,44 @@ public class DummyListingSource implements ListingSource
             addShow("Tribute to Bacharach and David", 60);
             addShow("Live From Lincoln Center", 2*60+30);
             addShow("Great Romances of 20th Century", 30);
-            addShow("mn original", 30);
+            ShowInfo mnOrig = newShow("mn original");
+            addShow(mnOrig, 30);
             addShow("Rudy Maxa's World", 30);
             addShow("Call the midwife", 60);
             addShow("Masterpiece Classic", 60);
             addShow("The Bletchley Circle", 60);
-            addShow("mn original", 30);
+            addShow(mnOrig, 30);
             addShow("Independent Lens", 90);
             assert currentMinute == minute(24, 0);
 
             // This is 24 hours for channel 3
             currentChannel = newChannel(3, "CNN");
             currentMinute = minute(1, 0);
-            addShow("Anderson Cooper Special Report", 60, "http://www.youtube.com/watch?v=9OKgUdQF-Fg");
+            ShowInfo andersonCoop = newShow("Anderson Cooper Special Report");
+            addShow(andersonCoop, 60, "http://www.youtube.com/watch?v=9OKgUdQF-Fg");
             addShow("WH Correspondents' Dinner", 120, "http://www.youtube.com/watch?v=qppLxlZ5kOs");
-            addShow("Anderson Cooper Special Report", 60, "http://www.youtube.com/watch?v=9OKgUdQF-Fg");
+            addShow(andersonCoop, 60, "http://www.youtube.com/watch?v=9OKgUdQF-Fg");
             addShow("Weekend Early Start", 90, "http://www.youtube.com/watch?v=pp03f4OX7KI");
-            addShow("Sunday Morning", 30);
-            addShow("Sunday Morning", 60);
-            addShow("State of the Union/Crowley", 60);
-            addShow("Fareed Zakaria GPS", 60);
+            ShowInfo sundayMorning = newShow("Sunday Morning");
+            addShow(sundayMorning, 30);
+            addShow(sundayMorning, 60);
+            ShowInfo sou = newShow("State of the Union/Crowley");
+            addShow(sou, 60);
+            ShowInfo fzGPS = newShow("Fareed Zakaria GPS");
+            addShow(fzGPS, 60);
             addShow("Reliable Sources", 60);
-            addShow("State of the Union/Crowley", 60);
-            addShow("Fareed Zakaria GPS", 60);
-            addShow("CNN Newsroom", 60);
-            addShow("CNN Newsroom", 60);
-            addShow("CNN Newsroom", 120);
-            addShow("CNN Newsroom", 120);
-            addShow("Anthony Bourdain Parts Unknown", 60);
-            addShow("Anderson Cooper Special Report", 60);
-            addShow("Anthony Bourdain Parts Unknown", 60);
-            addShow("Anthony Bourdain Parts Unknown", 60);
+            addShow(sou, 60);
+            addShow(fzGPS, 60);
+            ShowInfo cnnNR = newShow("CNN Newsroom");
+            addShow(cnnNR, 60);
+            addShow(cnnNR, 60);
+            addShow(cnnNR, 120);
+            addShow(cnnNR, 120);
+            ShowInfo anthonyBourdPU = newShow("Anthony Bourdain Parts Unknown");
+            addShow(anthonyBourdPU, 60);
+            addShow(andersonCoop, 60);
+            addShow(anthonyBourdPU, 60);
+            addShow(anthonyBourdPU, 60);
             assert currentMinute == minute(24, 0);
 
             // This is for channel 4
@@ -121,22 +128,25 @@ public class DummyListingSource implements ListingSource
             // Channel 6
             currentChannel = newChannel(6, "MCN");
             currentMinute = 0;
-            addShow("MCN Presents", 30, "http://www.youtube.com/watch?v=yR9puu3vXBA");
-            addShow("MCN Presents", 30, "http://www.youtube.com/watch?v=yR9puu3vXBA");
-            addShow("Talk of the Twin Cities", 30, "http://www.youtube.com/watch?v=CLM9WJhjOws");
-            addShow("MCN Presents", 30, "http://www.youtube.com/watch?v=yR9puu3vXBA");
-            addShow("MCN Presents", 30, "http://www.youtube.com/watch?v=yR9puu3vXBA");
-            addShow("MCN Presents", 30, "http://www.youtube.com/watch?v=yR9puu3vXBA");
-            addShow("MCN Presents", 30, "http://www.youtube.com/watch?v=yR9puu3vXBA");
-            addShow("MCN Presents", 30, "http://www.youtube.com/watch?v=yR9puu3vXBA");
-            addShow("MCN Presents", 30, "http://www.youtube.com/watch?v=yR9puu3vXBA");
-            addShow("MCN Presents", 30);
-            addShow("MCN Presents", 30);
-            addShow("MCN Presents", 30);
-            addShow("MCN Presents", 30);
-            addShow("MCN Presents", 30);
-            addShow("MCN Presents", 30);
-            addShow("Talk of the Twin Cities", 30);
+            ShowInfo mcn = newShow("MCN Presents");
+            addShow(mcn, 30, "http://www.youtube.com/watch?v=yR9puu3vXBA");
+            addShow(mcn, 30, "http://www.youtube.com/watch?v=yR9puu3vXBA");
+            ShowInfo tottc = newShow("Talk of the Twin Cities");
+            addShow(tottc, 30, "http://www.youtube.com/watch?v=CLM9WJhjOws");
+            addShow(mcn, 30, "http://www.youtube.com/watch?v=yR9puu3vXBA");
+            addShow(mcn, 30, "http://www.youtube.com/watch?v=yR9puu3vXBA");
+            addShow(mcn, 30, "http://www.youtube.com/watch?v=yR9puu3vXBA");
+            addShow(mcn, 30, "http://www.youtube.com/watch?v=yR9puu3vXBA");
+            addShow(mcn, 30, "http://www.youtube.com/watch?v=yR9puu3vXBA");
+            addShow(mcn, 30, "http://www.youtube.com/watch?v=yR9puu3vXBA");
+            addShow(mcn, 30);
+            addShow(mcn, 30);
+            addShow(mcn, 30);
+            addShow(mcn, 30);
+            addShow(mcn, 30);
+            addShow(mcn, 30);
+
+            addShow(tottc, 30);
             addShow("Around Town", 30);
             addShow("MCN Presents", 30);
             addShow("It's a Woman's World", 30);
@@ -148,22 +158,27 @@ public class DummyListingSource implements ListingSource
             currentChannel = newChannel(7, "TBS");
             currentMinute = minute(1, 0);
             addShow("Evan Almighty", 120, "http://www.youtube.com/watch?v=3E-C9PipmaA");
-            addShow("Married...With Children", 30, "http://www.youtube.com/watch?v=3E-C9PipmaA");
-            addShow("Married...With Children", 30, "http://www.youtube.com/watch?v=3E-C9PipmaA");
-            addShow("Married...With Children", 30, "http://www.youtube.com/watch?v=3E-C9PipmaA");
-            addShow("Married...With Children", 30, "http://www.youtube.com/watch?v=3E-C9PipmaA");
-            addShow("Married...With Children", 30, "http://www.youtube.com/watch?v=3E-C9PipmaA");
-            addShow("Married...With Children", 30, "http://www.youtube.com/watch?v=3E-C9PipmaA");
-            addShow("My Name is Earl", 30);
-            addShow("My Name is Earl", 30);
-            addShow("The Fresh Prince of Bel-Air", 30);
-            addShow("The Fresh Prince of Bel-Air", 30);
-            addShow("Tyler Perry's House of Payne", 30);
-            addShow("Tyler Perry's House of Payne", 30);
-            addShow("The Fresh Prince of Bel-Air", 30);
-            addShow("The Fresh Prince of Bel-Air", 30);
-            addShow("Rules of Engagement", 30);
-            addShow("Rules of Engagement", 30);
+            ShowInfo marriedWC = newShow("Married...With Children");
+            addShow(marriedWC, 30, "http://www.youtube.com/watch?v=3E-C9PipmaA");
+            addShow(marriedWC, 30, "http://www.youtube.com/watch?v=3E-C9PipmaA");
+            addShow(marriedWC, 30, "http://www.youtube.com/watch?v=3E-C9PipmaA");
+            addShow(marriedWC, 30, "http://www.youtube.com/watch?v=3E-C9PipmaA");
+            addShow(marriedWC, 30, "http://www.youtube.com/watch?v=3E-C9PipmaA");
+            addShow(marriedWC, 30, "http://www.youtube.com/watch?v=3E-C9PipmaA");
+            ShowInfo myNameIsEarl = newShow("My Name is Earl");
+            addShow(myNameIsEarl, 30);
+            addShow(myNameIsEarl, 30);
+            ShowInfo freshPrince = newShow("The Fresh Prince of Bel-Air");
+            addShow(freshPrince, 30);
+            addShow(freshPrince, 30);
+            ShowInfo tylerPerryHOP = newShow("Tyler Perry's House of Payne");
+            addShow(tylerPerryHOP, 30);
+            addShow(tylerPerryHOP, 30);
+            addShow(freshPrince, 30);
+            addShow(freshPrince, 30);
+            ShowInfo rulesOfEng = newShow("Rules of Engagement");
+            addShow(rulesOfEng, 30);
+            addShow(rulesOfEng, 30);
             addShow("According to Jim", 30);
             addShow("Everybody Loves Raymond", 30);
             assert currentMinute == minute(12, 0);
@@ -171,15 +186,16 @@ public class DummyListingSource implements ListingSource
             // Channel 8
             currentChannel = newChannel(8, "CW");
             currentMinute = 0;
-            addShow("Minnesota Marketplace", 30);
-            addShow("Minnesota Marketplace", 30);
+            ShowInfo mnMarket = newShow("Minnesota Marketplace");
+            addShow(mnMarket, 30);
+            addShow(mnMarket, 30);
             addShow("Ring of Honor Wrestling", 60, "http://www.youtube.com/watch?v=HoS8HdSRQGk&");
             addShow("Hollyscoop", 30, "http://www.youtube.com/watch?v=UUcBRiXkSg0");
             addShow("Beautiful Homes", 30, "http://www.youtube.com/watch?v=gXV8nbYhYn0");
             addShow("Better", 60);
-            addShow("Minnesota Marketplace", 30);
+            addShow(mnMarket, 30);
             addShow("Right Side With Armstrong Williams", 30);
-            addShow("Minnesota Marketplace", 30);
+            addShow(mnMarket, 30);
             addShow("Out of Zion", 30);
             addShow("Joseph Prince", 30);
             addShow("Joyce Meyer Ministries: Enjoying Everyday Life", 30);
@@ -196,12 +212,14 @@ public class DummyListingSource implements ListingSource
             // Channel 9
             currentChannel = newChannel(9, "FOX");
             currentMinute = 0;
-            addShow("TMZ", 60, "http://www.youtube.com/watch?v=9KlQewWpi8s");
-            addShow("Paid Programming", 30);
-            addShow("Paid Programming", 30);
+            ShowInfo tmz = newShow("TMZ");
+            addShow(tmz, 60, "http://www.youtube.com/watch?v=9KlQewWpi8s");
+            ShowInfo paidProg = newShow("Paid Programming");
+            addShow(paidProg, 30);
+            addShow(paidProg, 30);
             addShow("Fox ad 9", 60);
-            addShow("Paid Programming", 30);
-            addShow("TMZ", 30, "http://www.youtube.com/watch?v=9KlQewWpi8s");
+            addShow(paidProg, 30);
+            addShow(tmz, 30, "http://www.youtube.com/watch?v=9KlQewWpi8s");
             addShow("Access Hollywood", 30);
             addShow("Fox 9 Morning News at 4:30 AM", 30);
             addShow("Fox 9 Morning News at 5:00 AM", 60);
@@ -210,52 +228,61 @@ public class DummyListingSource implements ListingSource
             addShow("Fox 9 Morning News at 8:00 AM", 60);
             addShow("Fox News: Morning Buzz", 60);
             addShow("Anderson Live", 60);
-            addShow("The Wendy Williams Show", 60);
+            ShowInfo wendyWilliams = newShow("The Wendy Williams Show");
+            addShow(wendyWilliams, 60);
             assert currentMinute == minute(12, 0);
 
             // Channel 10
             currentChannel = newChannel(10, "myTV");
             currentMinute = 0;
-            addShow("Whacked Out Sports", 30, "http://www.youtube.com/watch?v=2YH1tx1mZRE");
-            addShow("Whacked Out Sports", 30, "http://www.youtube.com/watch?v=2YH1tx1mZRE");
-            addShow("Paid Programming", 30);
-            addShow("Original Sprinkle Diet", 30);
-            addShow("Original Sprinkle Diet", 30);
-            addShow("Cops", 30, "http://www.youtube.com/watch?v=6cjNUrlj9Ok");
-            addShow("Paid Programming", 30);
-            addShow("Cops", 30);
-            addShow("Paid Programming", 30);
-            addShow("Paid Programming", 30);
-            addShow("Paid Programming", 30);
-            addShow("Paid Programming", 30);
-            addShow("Paid Programming", 30);
-            addShow("Paid Programming", 30);
+            ShowInfo whackedOS = newShow("Whacked Out Sports");
+            addShow(whackedOS, 30, "http://www.youtube.com/watch?v=2YH1tx1mZRE");
+            addShow(whackedOS, 30, "http://www.youtube.com/watch?v=2YH1tx1mZRE");
+            addShow(paidProg, 30);
+            ShowInfo sprinkleDiet = newShow("Original Sprinkle Diet");
+            addShow(sprinkleDiet, 30);
+            addShow(sprinkleDiet, 30);
+            ShowInfo cops = newShow("Cops");
+            addShow(cops, 30, "http://www.youtube.com/watch?v=6cjNUrlj9Ok");
+            addShow(paidProg, 30);
+            addShow(cops, 30);
+            addShow(paidProg, 30);
+            addShow(paidProg, 30);
+            addShow(paidProg, 30);
+            addShow(paidProg, 30);
+            addShow(paidProg, 30);
+            addShow(paidProg, 30);
             addShow("10 Minute Workout", 30);
-            addShow("The Wendy Williams Show", 60);
+            addShow(wendyWilliams, 60);
             addShow("The Ricki Lake Show", 60);
             addShow("The Trisha Goddard Show", 60);
-            addShow("Divorce Court", 30);
-            addShow("Divorce Court", 30);
-            addShow("Judge Judy", 30);
-            addShow("Judge Judy", 30);
-            addShow("Judge Joe Brown", 30);
-            addShow("Judge Joe Brown", 30);
+            ShowInfo divorceCourt = newShow("Divorce Court");
+            addShow(divorceCourt, 30);
+            addShow(divorceCourt, 30);
+            ShowInfo judgeJudy = newShow("Judge Judy");
+            addShow(judgeJudy, 30);
+            addShow(judgeJudy, 30);
+            ShowInfo judgeJoeBrown = newShow("Judge Joe Brown");
+            addShow(judgeJoeBrown, 30);
+            addShow(judgeJoeBrown, 30);
 
             // Channel 11
             currentChannel = newChannel(11, "NBC");
             currentMinute = 5;
-            addShow("Paid Programming", 60);
-            addShow("Paid Programming", 30);
+            addShow(paidProg, 60);
+            addShow(paidProg, 30);
             addShow("KARE 11 News at 10", 30, "http://www.youtube.com/watch?v=PAdcSs_ILVA");
             addShow("Dateline NBC", 60, "http://www.youtube.com/watch?v=aGptggF2mf8");
             addShow("Meet the Press", 60, "http://www.youtube.com/watch?v=gs43RR7IiNU");
             addShow("American Athlete", 25);
             addShow("Early Today", 30);
-            addShow("KARE 11 News Sunrise", 30);
-            addShow("KARE 11 News Sunrise", 60);
-            addShow("KARE 11 News Sunrise", 60);
-            addShow("Today", 180);
-            addShow("Today", 60);
+            ShowInfo kare11NewsSunrise = newShow("KARE 11 News Sunrise");
+            addShow(kare11NewsSunrise, 30);
+            addShow(kare11NewsSunrise, 60);
+            addShow(kare11NewsSunrise, 60);
+            ShowInfo today = newShow("Today");
+            addShow(today, 180);
+            addShow(today, 60);
             addShow("KARE 11 News at 11", 30);
             addShow("Jeopardy!", 30);
             assert currentMinute == minute(12, 0);
@@ -428,9 +455,39 @@ public class DummyListingSource implements ListingSource
         recordedShowOffset++;
 	}
 
+    private ShowInfo newShow(String title)
+    {
+        //ShowInfo showInfo = new ShowInfo(title, "No description for " + title);
+        ShowInfo showInfo = TabMainActivity.getShowInfoDB().createShowInfo(title, "No description for " + title, null);
+        Calendar start = makeCalendar(currentMinute);
+        return showInfo;
+    }
+
+    private void addShow(ShowInfo showInfo, int durationMinutes, String previewUrl)
+    {
+        Calendar start = makeCalendar(currentMinute);
+        //ShowTimeSlot timeSlot = new ShowTimeSlot(showInfo, currentChannel, start.getTime(), durationMinutes);
+        ShowTimeSlot timeSlot = TabMainActivity.getShowTimeSlotDB().createShowTimeSlot(currentChannel, showInfo, start.getTime(), durationMinutes, previewUrl);
+        ArrayList<ShowTimeSlot> timeSlots = channelMap.get(currentChannel);
+        timeSlots.add(timeSlot);
+
+        currentMinute += durationMinutes;
+        if (maxEndMinute < currentMinute)
+            maxEndMinute = currentMinute;
+        if ((recordedShowOffset % 17) == 0) {
+            addRecording(timeSlot);
+        }
+        recordedShowOffset++;
+    }
+
     private void addShow(String title, int durationMinutes)
     {
         addShow(title, durationMinutes, null);
+    }
+
+    private void addShow(ShowInfo showInfo, int durationMinutes)
+    {
+        addShow(showInfo, durationMinutes, null);
     }
 
     private void addRecording(ShowTimeSlot showTimeSlot)
