@@ -24,9 +24,9 @@
             android:text="This is the place to write the show's description"
             />
     <LinearLayout android:orientation="horizontal"
-                  android:layout_width="match_parent"
+                  android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:layout_marginLeft="30dp">
+                  android:layout_gravity="center_horizontal">
         <Button
                 android:id="@+id/showInfoPreviewButton"
                 android:text="Preview"
@@ -39,9 +39,9 @@
                 style="@style/ShowInfoButton"/>
     </LinearLayout>
     <LinearLayout android:orientation="horizontal"
-                  android:layout_width="match_parent"
+                  android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:layout_marginLeft="30dp">
+                  android:layout_gravity="center_horizontal">
         <Button
                 android:id="@+id/showInfoWatchNowButton"
                 android:layout_height="wrap_content"

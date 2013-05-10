@@ -25,7 +25,8 @@
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content">
         <LinearLayout android:orientation="vertical"
-                      android:layout_width="99dp"
+                      android:layout_width="0dp"
+                      android:layout_weight="1"
                       android:layout_height="wrap_content"
                       style="@style/ShowInfoDetail">
             <TextView
@@ -41,7 +42,8 @@
                     android:text="###"/>
         </LinearLayout>
         <LinearLayout android:orientation="vertical"
-                      android:layout_width="110dp"
+                      android:layout_width="0dp"
+                      android:layout_weight="1"
                       android:layout_height="wrap_content"
                       style="@style/ShowInfoDetail">
             <TextView
@@ -57,7 +59,8 @@
                     android:text="1X:XX *M"/>
         </LinearLayout>
         <LinearLayout android:orientation="vertical"
-                      android:layout_width="110dp"
+                      android:layout_width="0dp"
+                      android:layout_weight="1"
                       android:layout_height="wrap_content"
                       style="@style/ShowInfoDetail">
             <TextView
