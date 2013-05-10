@@ -124,7 +124,7 @@ public class TabMainActivity extends Activity {
             schedRecDataSource.open();
             recordedShowDataSource.open();
         } catch (Exception e) {
-            Log.e("MainActivity -- DataSource Opening", "Failed to open a DataSource", e);
+            Log.e("TabMainActivity -- DataSource Opening", "Failed to open a DataSource", e);
         }
         listingSource = new DummyListingSource();
 	}

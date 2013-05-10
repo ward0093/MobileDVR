@@ -4,9 +4,7 @@ import java.util.Date;
 
 import android.app.FragmentTransaction;
 import android.view.inputmethod.InputMethodManager;
-import com.MSSE.MobileDVR.MainActivity;
 import com.MSSE.MobileDVR.R;
-import com.MSSE.MobileDVR.RecordOptionsActivity;
 import com.MSSE.MobileDVR.TabMainActivity;
 import com.MSSE.MobileDVR.datamodel.ScheduledRecording;
 import com.MSSE.MobileDVR.datamodel.ShowTimeSlot;
